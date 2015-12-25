@@ -1,0 +1,6 @@
+/vaadin-autocompletetextfield-demo/src/main/webapp/VAADIN/widgetsets/
+target
+target-grunt
+*.scss.cache
+.DS_Store
+Thumbs.db
