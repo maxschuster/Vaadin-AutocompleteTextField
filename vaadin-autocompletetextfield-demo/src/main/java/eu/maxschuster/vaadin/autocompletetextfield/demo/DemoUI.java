@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package eu.maxschuster.vaadin.autocompletetextfield.demo;
 
 import com.vaadin.annotations.PreserveOnRefresh;
@@ -29,8 +28,9 @@ import com.vaadin.ui.UI;
 import eu.maxschuster.vaadin.autocompletetextfield.AutocompleteQuery;
 import eu.maxschuster.vaadin.autocompletetextfield.AutocompleteSuggestion;
 import eu.maxschuster.vaadin.autocompletetextfield.AutocompleteTextField;
-import eu.maxschuster.vaadin.autocompletetextfield.provider.ArraySuggestionProvider;
+import eu.maxschuster.vaadin.autocompletetextfield.provider.CollectionSuggestionProvider;
 import eu.maxschuster.vaadin.autocompletetextfield.provider.MatchMode;
+import java.util.Arrays;
 import java.util.Collection;
 
 @Theme("demo")
@@ -48,15 +48,24 @@ public class DemoUI extends UI {
 
     @Override
     protected void init(VaadinRequest request) {
-        
-        final ArraySuggestionProvider languageProvider
-                = new ArraySuggestionProvider(
-                        ProgrammingLanguages.ARRAY, MatchMode.CONTAINS, true);
+
+        final CollectionSuggestionProvider languageProvider
+                = new CollectionSuggestionProvider(Arrays.asList(
+                        ProgrammingLanguages.ARRAY), MatchMode.CONTAINS, true) {
+            @Override
+            public Collection<AutocompleteSuggestion> querySuggestions(AutocompleteQuery query) {
+                System.out.println("Term: " + query.getTerm());
+                return super.querySuggestions(query);
+            }
+                            
+        };
 
         final WikipediaSuggestionProvider wikipediaSuggestionProvider
                 = new WikipediaSuggestionProvider() {
             @Override
             public Collection<AutocompleteSuggestion> querySuggestions(AutocompleteQuery query) {
+                
+                System.out.println("Term: " + query.getTerm());
                 Collection<AutocompleteSuggestion> suggestions = super.querySuggestions(query);
                 suggestions.stream().forEach((suggestion) -> {
                     suggestion.addStyleName("item-class1 item-class2");
@@ -78,11 +87,13 @@ public class DemoUI extends UI {
         });
         atf.addMenuStyleName("menu-class1 menu-class2");
 
-        final AutocompleteTextField languageAutocompleteTextField
-                = layout.languageField;
-        languageAutocompleteTextField.setSuggestionProvider(languageProvider);
-        languageAutocompleteTextField.setMinChars(1);
-        languageAutocompleteTextField.setSuggestionLimit(4);
+        final AutocompleteTextField langAcTF = layout.languageField;
+        langAcTF.setSuggestionProvider(languageProvider);
+        langAcTF.setMinChars(1);
+        langAcTF.setSuggestionLimit(4);
+        langAcTF.setCache(false);
+        //langAcTF.addTextChangeListener(e -> {});
+        
 
         setContent(layout);
 

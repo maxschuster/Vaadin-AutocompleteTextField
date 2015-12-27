@@ -80,7 +80,10 @@ function eu_maxschuster_vaadin_autocompletetextfield_AutocompleteTextFieldExtens
 
     this.onSelect = function (event, value, item) {
         // Fake keydown to force a text change event
-        self.triggerEvent(self.textField, "keydown");
+        setTimeout(function(){
+            self.triggerEvent(self.textField, "keydown");
+        }, 20);
+        
     };
 
     this.onStateChange = function () {

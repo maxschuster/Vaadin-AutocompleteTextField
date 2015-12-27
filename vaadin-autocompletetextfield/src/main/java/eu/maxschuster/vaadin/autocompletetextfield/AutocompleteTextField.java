@@ -26,6 +26,7 @@ import com.vaadin.ui.TextField;
  * <a href="https://goodies.pixabay.com/javascript/auto-complete/demo.html">
  * autoComplete</a> originally developed by
  * <a href="https://pixabay.com/users/Simon/">Simon Steinberger</a>
+ * </p>
  *
  * @author Max Schuster
  * @see AutocompleteTextFieldExtension
@@ -141,8 +142,10 @@ public class AutocompleteTextField extends TextField {
      * <p>
      * If the active {@link AutocompleteSuggestionProvider} returns more
      * suggestions than allowed, the excess suggestions will be ignored!
+     * </p>
      * <p>
-     * If limit &lt;= 0 the suggestions won't be limited.
+     * If {@code limit <= 0} the suggestions won't be limited.
+     * </p>
      *
      * @return Maximum number of suggestions.
      */
@@ -155,8 +158,10 @@ public class AutocompleteTextField extends TextField {
      * <p>
      * If the active {@link AutocompleteSuggestionProvider} returns more
      * suggestions than allowed, the excess suggestions will be ignored!
+     * </p>
      * <p>
      * If limit &lt;= 0 the suggestions won't be limited.
+     * </p>
      *
      * @param suggestionLimit Maximum number of suggestions.
      */
@@ -168,6 +173,7 @@ public class AutocompleteTextField extends TextField {
      * Checks whether items are rendered as HTML.
      * <p>
      * The default is false, i.e. to render that caption as plain text.
+     * </p>
      *
      * @return true if the captions are rendered as HTML, false if rendered as
      * plain text.
@@ -182,8 +188,10 @@ public class AutocompleteTextField extends TextField {
      * If set to true, the items are rendered in the browser as HTML and the
      * developer is responsible for ensuring no harmful HTML is used. If set to
      * false, the caption is rendered in the browser as plain text.
+     * </p>
      * <p>
      * The default is false, i.e. to render that caption as plain text.
+     * </p>
      *
      * @param itemAsHtml true if the items are rendered as HTML, false if
      * rendered as plain text.
@@ -252,14 +260,38 @@ public class AutocompleteTextField extends TextField {
         extension.setCache(cache);
     }
 
+    /**
+     * Gets all user-defined CSS style names of the dropdown menu container. If
+     * the component has multiple style names defined, the return string is a
+     * space-separated list of style names.
+     *
+     * @return The style name or a space-separated list of user-defined style
+     * names of the dropdown menu container.
+     */
     public String getMenuStyleName() {
         return extension.getMenuStyleName();
     }
 
+    /**
+     * Adds one or more style names to the dropdown menu container. Multiple
+     * styles can be specified as a space-separated list of style names. The
+     * style name will be rendered as a HTML class name, which can be used in a
+     * CSS definition.
+     *
+     * @param styleName The new style to be added to the dropdown menu
+     * container.
+     */
     public void addMenuStyleName(String styleName) {
         extension.addMenuStyleName(styleName);
     }
 
+    /**
+     * Removes one or more style names from the dropdown menu container.
+     * Multiple styles can be specified as a space-separated list of style
+     * names.
+     *
+     * @param styleName The style name or style names to be removed.
+     */
     public void removeMenuStyleName(String styleName) {
         extension.removeMenuStyleName(styleName);
     }

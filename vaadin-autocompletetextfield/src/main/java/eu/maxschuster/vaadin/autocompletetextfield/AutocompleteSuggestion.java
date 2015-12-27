@@ -24,64 +24,178 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 /**
+ * A suggestion of the {@link AutocompleteTextFieldExtension}.
+ * <p>
+ * Is can contain the following informations:
+ * <ul>
+ * <li>{@code value} - The actual value of the suggestion</li>
+ * <li>{@code description} - An optional description</li>
+ * <li>{@code icon} - An optional icon {@link Resource}</li>
+ * <li>{@code styleNames} - An optional list of style names</li>
+ * </ul>
+ * <p>
+ * <strong>
+ * Because {@code value} contains the actual value of this suggestion, the
+ * methods {@link #hashCode()} and {@link #equals(java.lang.Object)} only take
+ * the {@code value} property into account!
+ * </strong>
  *
  * @author Max Schuster
+ * @see AutocompleteSuggestionProvider
+ * @see AutocompleteTextFieldExtension
  */
-public class AutocompleteSuggestion implements Serializable {
-    
-    private static final long serialVersionUID = 1L;
-    
-    private String value;
-    
-    private String description;
-    
-    private Resource icon;
-    
-    private List<String> styleNames; 
+public final class AutocompleteSuggestion implements Serializable {
 
-    public AutocompleteSuggestion(String value) {
-        this(value, null, null);
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * The actual value of the suggestion.
+     */
+    private String value;
+
+    /**
+     * Optional description of the suggestion.
+     */
+    private String description;
+
+    /**
+     * Optional icon of the suggestion.
+     */
+    private Resource icon;
+
+    /**
+     * Optional style names of the suggestion.
+     */
+    private List<String> styleNames;
+
+    /**
+     * Creates a new {@link AutocompleteSuggestion} with the given
+     * {@code value}.
+     *
+     * @param value The actual {@code value} of the suggestion.
+     * @throws NullPointerException If {@code value} is {@code null}.
+     */
+    public AutocompleteSuggestion(String value) throws NullPointerException {
+        this(value, null);
     }
 
-    public AutocompleteSuggestion(String value, String description) {
+    /**
+     * Creates a new {@link AutocompleteSuggestion} with the given {@code value}
+     * and {@code description}.
+     *
+     * @param value The actual {@code value} of the suggestion.
+     * @param description The description {@link String} or {@code null}.
+     * @throws NullPointerException If {@code value} is {@code null}.
+     */
+    public AutocompleteSuggestion(String value, String description) throws NullPointerException {
         this(value, description, null);
     }
 
-    public AutocompleteSuggestion(String value, String description, Resource icon) {
+    /**
+     * Creates a new {@link AutocompleteSuggestion} with the given
+     * {@code value}, {@code description} and {@code icon}.
+     *
+     * @param value The actual {@code value} of the suggestion.
+     * @param description The description {@link String} or {@code null}.
+     * @param icon The icon {@link Resource} or {@code null}.
+     * @throws NullPointerException If {@code value} is {@code null}.
+     */
+    public AutocompleteSuggestion(String value, String description, Resource icon) throws NullPointerException {
+        validateValue(value);
         this.value = value;
         this.description = description;
         this.icon = icon;
     }
 
+    /**
+     * Validates the given {@code value}.
+     *
+     * @param value The actual {@code value} of the suggestion.
+     * @throws NullPointerException If {@code value} is {@code null}.
+     */
+    private void validateValue(String value) throws NullPointerException {
+        if (value == null) {
+            throw new NullPointerException("value mustn't be null!");
+        }
+    }
+
+    /**
+     * Gets the actual {@code value} of the suggestion.
+     *
+     * @return The actual {@code value} of the suggestion.
+     */
     public String getValue() {
         return value;
     }
 
-    public void setValue(String value) {
+    /**
+     * Sets the actual value of the suggestion.
+     * <p>
+     * A {@code null value} is not allowed!
+     * </p>
+     *
+     * @param value The value of the suggestion.
+     * @throws NullPointerException If {@code value} is {@code null}.
+     */
+    public void setValue(String value) throws NullPointerException {
+        validateValue(value);
         this.value = value;
     }
 
+    /**
+     * Gets the description.
+     *
+     * @return The description {@link String} or {@code null}.
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Sets the description.
+     *
+     * @param description The description {@link String} or {@code null}.
+     */
     public void setDescription(String description) {
         this.description = description;
     }
 
+    /**
+     * Gets the icon.
+     *
+     * @return The icon {@link Resource} or {@code null}.
+     */
     public Resource getIcon() {
         return icon;
     }
 
+    /**
+     * Sets the icon.
+     *
+     * @param icon The icon {@link Resource} or {@code null}.
+     */
     public void setIcon(Resource icon) {
         this.icon = icon;
     }
-    
+
+    /**
+     * Gets the style names as unmodifiable {@link List}.
+     *
+     * @return The style names as unmodifiable {@link List} or {@code null}.
+     */
     public List<String> getStyleNames() {
-        return styleNames != null ?
-                Collections.unmodifiableList(styleNames) : null;
+        return styleNames != null
+                ? Collections.unmodifiableList(styleNames) : null;
     }
 
+    /**
+     * Gets all user-defined CSS style names of the suggestion. If the component
+     * has multiple style names defined, the return string is a space-separated
+     * list of style names.
+     *
+     * @return The style name or a space-separated list of user-defined style
+     * names of the suggestion.
+     */
     public String getStyleName() {
         String styleName = "";
         if (styleNames != null || !styleNames.isEmpty()) {
@@ -95,7 +209,14 @@ public class AutocompleteSuggestion implements Serializable {
         }
         return styleName;
     }
-    
+
+    /**
+     * Adds one or more style names to the suggestion. Multiple styles can be
+     * specified as a space-separated list of style names. The style name will
+     * be rendered as a HTML class name, which can be used in a CSS definition.
+     *
+     * @param styleName The new style to be added to the suggestion.
+     */
     public void addStyleName(String styleName) {
         if (styleName == null || styleName.isEmpty()) {
             return;
@@ -112,7 +233,13 @@ public class AutocompleteSuggestion implements Serializable {
         }
         styleNames.add(styleName);
     }
-    
+
+    /**
+     * Removes one or more style names from the suggestion. Multiple styles can
+     * be specified as a space-separated list of style names.
+     *
+     * @param styleName The style name or style names to be removed.
+     */
     public void removeStyleName(String styleName) {
         if (styleName == null || styleName.isEmpty() || styleNames == null) {
             return;
@@ -129,8 +256,8 @@ public class AutocompleteSuggestion implements Serializable {
 
     @Override
     public String toString() {
-        return "AutocompleteSuggestion{" + "value=" + value + ", description=" +
-                description + '}';
+        return "AutocompleteSuggestion{" + "value=" + value + ", description="
+                + description + '}';
     }
 
     @Override
@@ -155,5 +282,5 @@ public class AutocompleteSuggestion implements Serializable {
         }
         return true;
     }
-    
+
 }

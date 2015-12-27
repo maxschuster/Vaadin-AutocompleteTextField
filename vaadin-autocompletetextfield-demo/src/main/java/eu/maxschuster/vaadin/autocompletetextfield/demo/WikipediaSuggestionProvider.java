@@ -67,6 +67,7 @@ public class WikipediaSuggestionProvider implements AutocompleteSuggestionProvid
                 String description = addDescription ? 
                         row.getString("snippet").replaceAll("<.*?>", "") : null;
                 Resource icon = addIcon ? wikipediaIcon : null;
+                
                 suggestions.add(new AutocompleteSuggestion(value, description, icon));
             }
             return suggestions;

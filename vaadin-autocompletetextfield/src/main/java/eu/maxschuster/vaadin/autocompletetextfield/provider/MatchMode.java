@@ -15,13 +15,24 @@
  */
 package eu.maxschuster.vaadin.autocompletetextfield.provider;
 
+import eu.maxschuster.vaadin.autocompletetextfield.AutocompleteSuggestionProvider;
+
 /**
+ * Common match modes that can be used in {@link AutocompleteSuggestionProvider}
+ * implementations.
  *
  * @author Max Schuster
+ * @see AutocompleteSuggestionProvider
  */
 public enum MatchMode {
-    
+
+    /**
+     * Should match if the value begins with the search string.
+     */
     BEGINS,
+    /**
+     * Should match if the value contains the search string.
+     */
     CONTAINS
-    
+
 }

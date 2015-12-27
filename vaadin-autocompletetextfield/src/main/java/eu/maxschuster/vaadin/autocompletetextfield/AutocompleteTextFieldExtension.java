@@ -26,7 +26,6 @@ import com.vaadin.ui.JavaScriptFunction;
 import elemental.json.Json;
 import elemental.json.JsonArray;
 import elemental.json.JsonObject;
-import elemental.json.JsonString;
 import elemental.json.JsonValue;
 import eu.maxschuster.vaadin.autocompletetextfield.shared.AutocompleteTextFieldExtensionState;
 import java.util.ArrayList;
@@ -43,11 +42,12 @@ import java.util.logging.Logger;
  * Extends an {@link AbstractTextField} with autocomplete (aka word completion)
  * functionality.
  * <p>
- * Uses a modified version of 
+ * Uses a modified version of
  * <a href="https://goodies.pixabay.com/javascript/auto-complete/demo.html">
  * autoComplete</a> originally developed by
  * <a href="https://pixabay.com/users/Simon/">Simon Steinberger</a>
- * 
+ * </p>
+ *
  * @author Max Schuster
  * @see <a href="https://github.com/Pixabay/JavaScript-autoComplete">
  * https://github.com/Pixabay/JavaScript-autoComplete</a>
@@ -114,7 +114,7 @@ public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension 
      * Adds all {@link JavaScriptFunction}s
      */
     private void addFunctions() {
-        
+
         /*
          * Receives a search term from the client-side, executes the query and
          * sends the results to the JavaScript method "setSuggestions".
@@ -160,6 +160,7 @@ public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension 
      * <p>
      * Returns a {@link Set} of {@link AutocompleteSuggestion}s with a
      * predictable iteration order.
+     * </p>
      *
      * @param query The Query.
      * @return Result {@link Set} of {@link AutocompleteSuggestion}s with a
@@ -200,8 +201,8 @@ public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension 
 
     /**
      * Converts the given {@link AutocompleteSuggestion} into a
-     * {@link JsonValue} representation
-     * because {@link JsonCodec} can't handle it itself.
+     * {@link JsonValue} representation because {@link JsonCodec} can't handle
+     * it itself.
      *
      * @param suggestions Suggestions.
      * @return {@link JsonValue} representation.
@@ -280,8 +281,10 @@ public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension 
      * <p>
      * If the active {@link AutocompleteSuggestionProvider} returns more
      * suggestions than allowed, the excess suggestions will be ignored!
+     * </p>
      * <p>
-     * If limit &lt;= 0 the suggestions won't be limited.
+     * If {@code limit <= 0} the suggestions won't be limited.
+     * </p>
      *
      * @return Maximum number of suggestions.
      */
@@ -294,8 +297,10 @@ public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension 
      * <p>
      * If the active {@link AutocompleteSuggestionProvider} returns more
      * suggestions than allowed, the excess suggestions will be ignored!
+     * </p>
      * <p>
      * If limit &lt;= 0 the suggestions won't be limited.
+     * </p>
      *
      * @param suggestionLimit Maximum number of suggestions.
      */
@@ -307,6 +312,7 @@ public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension 
      * Checks whether items are rendered as HTML.
      * <p>
      * The default is false, i.e. to render that caption as plain text.
+     * </p>
      *
      * @return true if the captions are rendered as HTML, false if rendered as
      * plain text.
@@ -321,8 +327,10 @@ public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension 
      * If set to true, the items are rendered in the browser as HTML and the
      * developer is responsible for ensuring no harmful HTML is used. If set to
      * false, the caption is rendered in the browser as plain text.
+     * </p>
      * <p>
      * The default is false, i.e. to render that caption as plain text.
+     * </p>
      *
      * @param itemAsHtml true if the items are rendered as HTML, false if
      * rendered as plain text.
@@ -390,7 +398,15 @@ public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension 
     public void setCache(boolean cache) {
         getState().cache = cache;
     }
-    
+
+    /**
+     * Gets all user-defined CSS style names of the dropdown menu container. If
+     * the component has multiple style names defined, the return string is a
+     * space-separated list of style names.
+     *
+     * @return The style name or a space-separated list of user-defined style
+     * names of the dropdown menu container.
+     */
     public String getMenuStyleName() {
         List<String> styleNames = getState(false).menuStyleNames;
         String styleName = "";
@@ -405,7 +421,16 @@ public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension 
         }
         return styleName;
     }
-    
+
+    /**
+     * Adds one or more style names to the dropdown menu container. Multiple
+     * styles can be specified as a space-separated list of style names. The
+     * style name will be rendered as a HTML class name, which can be used in a
+     * CSS definition.
+     *
+     * @param styleName The new style to be added to the dropdown menu
+     * container.
+     */
     public void addMenuStyleName(String styleName) {
         List<String> styleNames = getState().menuStyleNames;
         if (styleName == null || styleName.isEmpty()) {
@@ -424,7 +449,14 @@ public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension 
         }
         styleNames.add(styleName);
     }
-    
+
+    /**
+     * Removes one or more style names from the dropdown menu container.
+     * Multiple styles can be specified as a space-separated list of style
+     * names.
+     *
+     * @param styleName The style name or style names to be removed.
+     */
     public void removeMenuStyleName(String styleName) {
         List<String> styleNames = getState().menuStyleNames;
         if (styleName == null || styleName.isEmpty() || styleNames == null) {

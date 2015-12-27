@@ -18,23 +18,48 @@ package eu.maxschuster.vaadin.autocompletetextfield;
 import java.io.Serializable;
 
 /**
- *
+ * A search query created by {@link AutocompleteTextFieldExtension} and passed
+ * to a {@link AutocompleteSuggestionProvider}.
+ * 
  * @author Max Schuster
  */
-public class AutocompleteQuery implements Serializable {
-    
+public final class AutocompleteQuery implements Serializable {
+
     private static final long serialVersionUID = 1L;
-    
+
+    /**
+     * The extension that has created this query.
+     */
     private final AutocompleteTextFieldExtension extension;
-    
+
+    /**
+     * The search term.
+     */
     private final String term;
-    
+
+    /**
+     * The search result limit. If <code>limit &lt;= 0</code> the query has no
+     * limit.
+     */
     private final int limit;
-    
+
+    /**
+     * Creates a new query for the given search term.
+     *
+     * @param extension The extension that has created this query.
+     * @param term The search term.
+     */
     public AutocompleteQuery(AutocompleteTextFieldExtension extension, String term) {
         this(extension, term, 0);
     }
 
+    /**
+     * Creates a new query for the given search term with a result limit.
+     *
+     * @param extension The extension that has created this query.
+     * @param term The search term.
+     * @param limit Max result limit.
+     */
     public AutocompleteQuery(AutocompleteTextFieldExtension extension, String term, int limit) {
         if (extension == null) {
             throw new NullPointerException("The extension is null!");
@@ -46,16 +71,42 @@ public class AutocompleteQuery implements Serializable {
         this.limit = limit;
     }
 
+    /**
+     * Gets the extension that has created this query.
+     *
+     * @return The extension that has created this query.
+     */
     public AutocompleteTextFieldExtension getExtension() {
         return extension;
     }
 
+    /**
+     * Gets the search term.
+     *
+     * @return The search term.
+     */
     public String getTerm() {
         return term;
     }
 
+    /**
+     * Gets the search result limit. If <code>limit &lt;= 0</code> the query has
+     * no limit.
+     *
+     * @return The search result limit. If <code>limit &lt;= 0</code> the query
+     * has no limit.
+     */
     public int getLimit() {
         return limit;
+    }
+
+    /**
+     * Checks if this query has a limit.
+     *
+     * @return {@code true} if this query has a limit.
+     */
+    public boolean hasLimit() {
+        return limit > 0;
     }
 
     @Override
@@ -91,5 +142,5 @@ public class AutocompleteQuery implements Serializable {
         }
         return true;
     }
-    
+
 }

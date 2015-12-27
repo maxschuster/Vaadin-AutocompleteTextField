@@ -16,11 +16,15 @@
 package eu.maxschuster.vaadin.autocompletetextfield.shared;
 
 import com.vaadin.shared.JavaScriptExtensionState;
+import com.vaadin.shared.communication.SharedState;
+import eu.maxschuster.vaadin.autocompletetextfield.AutocompleteTextFieldExtension;
 import java.util.List;
 
 /**
+ * {@link SharedState} of the {@link AutocompleteTextFieldExtension}.
  *
  * @author Max Schuster
+ * @see AutocompleteTextFieldExtension
  */
 public class AutocompleteTextFieldExtensionState extends JavaScriptExtensionState {
 
