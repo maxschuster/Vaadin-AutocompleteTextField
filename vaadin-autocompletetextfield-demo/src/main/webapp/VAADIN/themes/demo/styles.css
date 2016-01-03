@@ -12794,18 +12794,41 @@ div.v-layout.v-horizontal.v-widget {
 	overflow: hidden;
 }
 
-.demo .demoContentLayout {
-	background-color: #d1d1cf;
-	background-image: url(images/radial-gradient.png);
-	background-size: 90%;
-	background-position: center center;
-	background-repeat: no-repeat;
+.demo .page-responsive {
+	margin: 0 auto;
+	display: block;
 }
 
-.demo div.Vaadin-AutoCompleteField {
-	color: #40b527;
-	font-size: 50pt;
-	font-weight: bold;
-	text-shadow: 0px 3px 0px #13370c, 0px 14px 10px rgba(0, 0, 0, 0.15), 0px 24px 2px rgba(0, 0, 0, 0.1), 0px 34px 30px rgba(0, 0, 0, 0.1);
-	text-align: center;
+.demo .page-responsive[width-range~="0-600px"] {
+	width: auto;
+}
+
+.demo .page-responsive[width-range~="0-610px"] {
+	margin: 0 10px;
+}
+
+.demo .page-responsive[width-range~="600px-"] {
+	width: 600px;
+}
+
+.demo .title-wrapper {
+	background-color: #00b4f0;
+}
+
+.demo .v-label.title {
+	color: #fff;
+	padding-top: 2.4em;
+	padding-bottom: 0.3em;
+	font-size: 2.1em;
+	white-space: normal;
+}
+
+.demo .v-label.sub-title {
+	font-size: 1.3em;
+	margin: 0.5em auto;
+	white-space: normal;
+}
+
+.demo .content {
+	margin-top: 2em;
 }

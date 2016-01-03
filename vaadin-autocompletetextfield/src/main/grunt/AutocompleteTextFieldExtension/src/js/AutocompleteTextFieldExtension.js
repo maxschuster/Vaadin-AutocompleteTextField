@@ -23,7 +23,7 @@ function eu_maxschuster_vaadin_autocompletetextfield_AutocompleteTextFieldExtens
 
     /* jshint validthis:true */
     "use strict";
-    
+
     var self = this;
 
     this.init = function () {
@@ -48,14 +48,14 @@ function eu_maxschuster_vaadin_autocompletetextfield_AutocompleteTextFieldExtens
         var autoComplete = new window.autoComplete(config);
         return autoComplete;
     };
-    
+
     this.findPopupContainer = function () {
         return document.querySelector('.v-overlay-container');
     };
-    
+
     this.getConfig = function (state) {
         var menuClass = this.isArray(state.menuStyleNames) ?
-            state.menuStyleNames.join(" ") : "";
+                state.menuStyleNames.join(" ") : "";
         return {
             selector: this.textField,
             source: this.source,
@@ -68,7 +68,7 @@ function eu_maxschuster_vaadin_autocompletetextfield_AutocompleteTextFieldExtens
             popupContainer: this.popupContainer
         };
     };
-    
+
     this.compareConfig = function (oldConfig, newConfig) {
         for (var key in oldConfig) {
             if (oldConfig[key] !== newConfig[key]) {
@@ -79,11 +79,9 @@ function eu_maxschuster_vaadin_autocompletetextfield_AutocompleteTextFieldExtens
     };
 
     this.onSelect = function (event, value, item) {
+        var textField = self.textField;
         // Fake keydown to force a text change event
-        setTimeout(function(){
-            self.triggerEvent(self.textField, "keydown");
-        }, 20);
-        
+        self.triggerEvent(textField, "keydown");
     };
 
     this.onStateChange = function () {
@@ -91,7 +89,6 @@ function eu_maxschuster_vaadin_autocompletetextfield_AutocompleteTextFieldExtens
                 oldConfig = this.currentConfig,
                 newConfig = this.getConfig(state),
                 autoComplete = this.autoComplete;
-        
         if (!this.compareConfig(oldConfig, newConfig)) {
             if (typeof autoComplete === "object") {
                 autoComplete.destroy();
@@ -103,8 +100,8 @@ function eu_maxschuster_vaadin_autocompletetextfield_AutocompleteTextFieldExtens
     this.onUnregister = function () {
         this.autoComplete.destroy();
     };
-    
-    this.getResourceUrl = function(resourceKey) {
+
+    this.getResourceUrl = function (resourceKey) {
         var resources = this.getState().resources;
         if (typeof resources[resourceKey] !== "object") {
             return null;
@@ -115,9 +112,10 @@ function eu_maxschuster_vaadin_autocompletetextfield_AutocompleteTextFieldExtens
     };
 
     this.setSuggestions = function (responseId, suggestions) {
-        if (typeof this.pendingResponses[responseId] === "function") {
-            this.pendingResponses[responseId](suggestions);
-            delete this.pendingResponses[responseId];
+        var pendingResponses = this.pendingResponses;
+        if (typeof pendingResponses[responseId] === "function") {
+            pendingResponses[responseId](suggestions);
+            delete pendingResponses[responseId];
         }
     };
 
@@ -185,9 +183,10 @@ function eu_maxschuster_vaadin_autocompletetextfield_AutocompleteTextFieldExtens
             element.fireEvent("on" + event);
         }
     };
-    
+
     this.source = function (term, response) {
         var responseId = ++self.lastResponseId;
+        response.term = term;
         self.serverQuerySuggestions(responseId, term);
         self.pendingResponses[responseId] = response;
     };
@@ -201,7 +200,7 @@ function eu_maxschuster_vaadin_autocompletetextfield_AutocompleteTextFieldExtens
                 itemClass = 'autocomplete-suggestion',
                 classes = [itemClass],
                 styleNames = item.styleNames;
-                
+
         if (escape) {
             value = valueEscaped;
             description = self.escapeHtml(description);
@@ -214,7 +213,7 @@ function eu_maxschuster_vaadin_autocompletetextfield_AutocompleteTextFieldExtens
         if (icon) {
             classes.push('has-icon');
         }
-        
+
         //  Add the item styles
         if (self.isArray(styleNames)) {
             classes.push.apply(classes, styleNames);
@@ -224,17 +223,17 @@ function eu_maxschuster_vaadin_autocompletetextfield_AutocompleteTextFieldExtens
         rendered += '<div class="' + itemClass + '-content">';
         if (icon) {
             var iconSrc = self.getResourceUrl(icon);
-            rendered += '<div class="' + itemClass + '-icon">' + 
+            rendered += '<div class="' + itemClass + '-icon">' +
                     '<img src="' + iconSrc + '" alt="' + valueEscaped + '" />' +
                     '</div>';
         }
         rendered += '<div class="' + itemClass + '-text">';
-        rendered += '<div class="' + itemClass + '-value"><span>' + 
-                value + 
+        rendered += '<div class="' + itemClass + '-value"><span>' +
+                value +
                 '</span></div>';
         if (description) {
-            rendered += '<div class="' + itemClass + '-description"><span>' + 
-                    description + 
+            rendered += '<div class="' + itemClass + '-description"><span>' +
+                    description +
                     '</span></div>';
         }
         rendered += '</div>'; // itemClass + '-value'
@@ -243,7 +242,7 @@ function eu_maxschuster_vaadin_autocompletetextfield_AutocompleteTextFieldExtens
 
         return rendered;
     };
-    
+
     /**
      * Checks if the given object is an array.
      * @param {Object} object

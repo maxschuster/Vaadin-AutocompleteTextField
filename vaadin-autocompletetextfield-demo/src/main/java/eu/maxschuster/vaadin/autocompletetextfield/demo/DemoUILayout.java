@@ -16,8 +16,7 @@
 package eu.maxschuster.vaadin.autocompletetextfield.demo;
 
 import com.vaadin.annotations.DesignRoot;
-import com.vaadin.ui.TabSheet;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.declarative.Design;
 import eu.maxschuster.vaadin.autocompletetextfield.AutocompleteTextField;
 
@@ -26,11 +25,9 @@ import eu.maxschuster.vaadin.autocompletetextfield.AutocompleteTextField;
  * @author Max Schuster
  */
 @DesignRoot
-class DemoUILayout extends VerticalLayout {
+class DemoUILayout extends CssLayout {
     
-    AutocompleteTextField wikipediaField;
     AutocompleteTextField languageField;
-    TabSheet tabSheet;
     
     DemoUILayout() {
         Design.read(this);

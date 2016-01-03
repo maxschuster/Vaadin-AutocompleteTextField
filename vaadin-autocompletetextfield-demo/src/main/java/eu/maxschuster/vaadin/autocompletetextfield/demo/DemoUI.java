@@ -21,22 +21,20 @@ import javax.servlet.annotation.WebServlet;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.annotations.Viewport;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
-import eu.maxschuster.vaadin.autocompletetextfield.AutocompleteQuery;
-import eu.maxschuster.vaadin.autocompletetextfield.AutocompleteSuggestion;
 import eu.maxschuster.vaadin.autocompletetextfield.AutocompleteTextField;
 import eu.maxschuster.vaadin.autocompletetextfield.provider.CollectionSuggestionProvider;
 import eu.maxschuster.vaadin.autocompletetextfield.provider.MatchMode;
 import java.util.Arrays;
-import java.util.Collection;
 
 @Theme("demo")
 @Title("AutocompleteTextField Add-on Demo")
 @SuppressWarnings("serial")
 @PreserveOnRefresh
+@Viewport(value = "width=device-width, initial-scale=1.0, user-scalable=no")
 public class DemoUI extends UI {
 
     @WebServlet(value = "/*", asyncSupported = true)
@@ -51,49 +49,12 @@ public class DemoUI extends UI {
 
         final CollectionSuggestionProvider languageProvider
                 = new CollectionSuggestionProvider(Arrays.asList(
-                        ProgrammingLanguages.ARRAY), MatchMode.CONTAINS, true) {
-            @Override
-            public Collection<AutocompleteSuggestion> querySuggestions(AutocompleteQuery query) {
-                System.out.println("Term: " + query.getTerm());
-                return super.querySuggestions(query);
-            }
-                            
-        };
+                        ProgrammingLanguages.ARRAY), MatchMode.CONTAINS, true);
 
-        final WikipediaSuggestionProvider wikipediaSuggestionProvider
-                = new WikipediaSuggestionProvider() {
-            @Override
-            public Collection<AutocompleteSuggestion> querySuggestions(AutocompleteQuery query) {
-                
-                System.out.println("Term: " + query.getTerm());
-                Collection<AutocompleteSuggestion> suggestions = super.querySuggestions(query);
-                suggestions.stream().forEach((suggestion) -> {
-                    suggestion.addStyleName("item-class1 item-class2");
-                });
-                return suggestions;
-            }
-
-        };
-        wikipediaSuggestionProvider.setAddDescription(true);
-        wikipediaSuggestionProvider.setAddIcon(true);
-
-        final AutocompleteTextField atf = layout.wikipediaField;
-        atf.setSuggestionLimit(5);
-        atf.setItemAsHtml(true);
-        atf.setDelay(500);
-        atf.setSuggestionProvider(wikipediaSuggestionProvider);
-        atf.addTextChangeListener(event -> {
-            Notification.show("Text changed to:\n" + event.getText(), Notification.Type.TRAY_NOTIFICATION);
-        });
-        atf.addMenuStyleName("menu-class1 menu-class2");
-
-        final AutocompleteTextField langAcTF = layout.languageField;
-        langAcTF.setSuggestionProvider(languageProvider);
-        langAcTF.setMinChars(1);
-        langAcTF.setSuggestionLimit(4);
-        langAcTF.setCache(false);
-        //langAcTF.addTextChangeListener(e -> {});
-        
+        final AutocompleteTextField languageField = layout.languageField;
+        languageField.setSuggestionProvider(languageProvider);
+        languageField.setMinChars(1);
+        languageField.setSuggestionLimit(5);
 
         setContent(layout);
 

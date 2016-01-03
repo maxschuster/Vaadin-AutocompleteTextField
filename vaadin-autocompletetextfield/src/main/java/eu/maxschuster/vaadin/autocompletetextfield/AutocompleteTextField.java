@@ -42,7 +42,8 @@ public class AutocompleteTextField extends TextField {
     /**
      * The {@link Extension} providing the autocomplete functionality
      */
-    private final AutocompleteTextFieldExtension extension;
+    private final AutocompleteTextFieldExtension extension
+            = new AutocompleteTextFieldExtension(this);
 
     /**
      * Constructs an empty {@link AutocompleteTextField} with no caption and
@@ -50,7 +51,6 @@ public class AutocompleteTextField extends TextField {
      */
     public AutocompleteTextField() {
         super();
-        this.extension = extend();
     }
 
     /**
@@ -61,24 +61,22 @@ public class AutocompleteTextField extends TextField {
      */
     public AutocompleteTextField(String caption) {
         super(caption);
-        this.extension = extend();
     }
 
     /**
      * Constructs a new {@link AutocompleteTextField} that's bound to the
-     * specified {@link Property}, has no caption and autocomplete (aka word 
+     * specified {@link Property}, has no caption and autocomplete (aka word
      * completion) functionality.
      *
      * @param dataSource The {@link Property} to be edited with this editor.
      */
     public AutocompleteTextField(Property<?> dataSource) {
         super(dataSource);
-        this.extension = extend();
     }
 
     /**
      * Constructs a new {@link AutocompleteTextField} that's bound to the
-     * specified {@link Property}, has the given caption {@link String} and 
+     * specified {@link Property}, has the given caption {@link String} and
      * autocomplete (aka word completion) functionality.
      *
      * @param caption The caption {@link String} for the editor.
@@ -86,14 +84,13 @@ public class AutocompleteTextField extends TextField {
      */
     public AutocompleteTextField(String caption, Property<?> dataSource) {
         super(caption, dataSource);
-        this.extension = extend();
     }
 
     /**
-     * Constructs a new {@link AutocompleteTextField} with the given caption, 
-     * initial text contents and autocomplete (aka word completion) 
-     * functionality. The editor constructed this way will not be bound
-     * to a {@link Property} unless
+     * Constructs a new {@link AutocompleteTextField} with the given caption,
+     * initial text contents and autocomplete (aka word completion)
+     * functionality. The editor constructed this way will not be bound to a
+     * {@link Property} unless
      * {@link com.vaadin.data.Property.Viewer#setPropertyDataSource(Property)}
      * is called to bind it.
      *
@@ -102,22 +99,19 @@ public class AutocompleteTextField extends TextField {
      */
     public AutocompleteTextField(String caption, String value) {
         super(caption, value);
-        this.extension = extend();
     }
 
     /**
-     * Extends this {@link AutocompleteTextField} with
-     * {@link AutocompleteTextFieldExtension}
-     * @return The {@link AutocompleteTextFieldExtension} instance.
+     * Gets the {@link AutocompleteTextFieldExtension} of this
+     * {@link TextField}.
+     *
+     * @return The {@link AutocompleteTextFieldExtension} of this
+     * {@link TextField}.
      */
-    private AutocompleteTextFieldExtension extend() {
-        return new AutocompleteTextFieldExtension(this);
-    }
-
     public AutocompleteTextFieldExtension getExtension() {
         return extension;
     }
-    
+
     /**
      * Gets the active {@link AutocompleteSuggestionProvider}.
      *

@@ -17,12 +17,14 @@ package eu.maxschuster.vaadin.autocompletetextfield;
 
 import com.vaadin.annotations.JavaScript;
 import com.vaadin.annotations.StyleSheet;
+import com.vaadin.event.FieldEvents;
 import com.vaadin.server.AbstractJavaScriptExtension;
 import com.vaadin.server.ClientConnector;
 import com.vaadin.server.JsonCodec;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.AbstractTextField;
 import com.vaadin.ui.JavaScriptFunction;
+import com.vaadin.ui.TextField;
 import elemental.json.Json;
 import elemental.json.JsonArray;
 import elemental.json.JsonObject;
@@ -65,6 +67,44 @@ public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension 
     private static final long serialVersionUID = 1L;
 
     /**
+     * A dummy {@link FieldEvents.TextChangeListener} to prevent the
+     * {@link TextField} from reseting to an old value on the client-side.
+     */
+    private final FieldEvents.TextChangeListener textChangeListener
+            = new FieldEvents.TextChangeListener() {
+        @Override
+        public void textChange(FieldEvents.TextChangeEvent event) {
+
+        }
+    };
+
+    /**
+     * Receives a search term from the client-side, executes the query and sends
+     * the results to the JavaScript method "setSuggestions".
+     * <p>
+     * <b>Parameters:</b>
+     * <ul>
+     * <li>{@link JsonValue} {@code requestId} - Request id to send back to the
+     * client-side.</li>
+     * <li>{@link String} {@code term} - The search term.</li>
+     * </ul>
+     */
+    private final JavaScriptFunction querySuggestions = new JavaScriptFunction() {
+
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        public void call(JsonArray arguments) {
+            JsonValue requestId = arguments.get(0);
+            String term = arguments.getString(1);
+            Set<AutocompleteSuggestion> suggestions = querySuggestions(term);
+            JsonValue suggestionsAsJson = suggestionsToJson(suggestions);
+            callFunction("setSuggestions", requestId, suggestionsAsJson);
+        }
+
+    };
+
+    /**
      * The max amount of suggestions send to the client-side
      */
     private int suggestionLimit = 0;
@@ -73,16 +113,45 @@ public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension 
      * The suggestion provider queried for suggesions
      */
     protected AutocompleteSuggestionProvider suggestionProvider = null;
+    
+    /**
+     * Construct a new {@link AutocompleteTextFieldExtension}.
+     */
+    public AutocompleteTextFieldExtension() {
+        init(null);
+    }
 
     /**
      * Construct a new {@link AutocompleteTextFieldExtension} and extends the
      * given {@link AbstractTextField}.
-     *
-     * @param textField {@link AbstractTextField} to extend
+     * 
+     * @param target The textfield to extend.
      */
-    public AutocompleteTextFieldExtension(AbstractTextField textField) {
-        super(textField);
+    public AutocompleteTextFieldExtension(AbstractTextField target) {
+        init(target);
+    }
+    
+    /**
+     * Init stuff
+     * 
+     * @param target The textfield to extend.
+     */
+    private void init(AbstractTextField target) {
         addFunctions();
+        if (target != null) {
+            extend(target);
+        }
+    }
+
+    /**
+     * Extends the given textfield.
+     * 
+     * @param target The textfield to extend.
+     */
+    public void extend(AbstractTextField target) {
+        super.extend(target);
+        // Add the dummy listener
+        target.addTextChangeListener(textChangeListener);
     }
 
     @Override
@@ -114,28 +183,7 @@ public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension 
      * Adds all {@link JavaScriptFunction}s
      */
     private void addFunctions() {
-
-        /*
-         * Receives a search term from the client-side, executes the query and
-         * sends the results to the JavaScript method "setSuggestions".
-         * 
-         * @param requestId {JsonValue} Request id to send back to the client-side
-         * @param term {String} The search term
-         */
-        addFunction("serverQuerySuggestions", new JavaScriptFunction() {
-
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void call(JsonArray arguments) {
-                JsonValue requestId = arguments.get(0);
-                String term = arguments.getString(1);
-                Set<AutocompleteSuggestion> suggestions = querySuggestions(term);
-                JsonValue suggestionsAsJson = suggestionsToJson(suggestions);
-                callFunction("setSuggestions", requestId, suggestionsAsJson);
-            }
-
-        });
+        addFunction("serverQuerySuggestions", querySuggestions);
     }
 
     /**
@@ -150,7 +198,8 @@ public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension 
      * predictable iteration order.
      */
     protected Set<AutocompleteSuggestion> querySuggestions(String term) {
-        AutocompleteQuery autocompleteQuery = new AutocompleteQuery(this, term, suggestionLimit);
+        AutocompleteQuery autocompleteQuery
+                = new AutocompleteQuery(this, term, suggestionLimit);
         return querySuggestions(autocompleteQuery);
     }
 
