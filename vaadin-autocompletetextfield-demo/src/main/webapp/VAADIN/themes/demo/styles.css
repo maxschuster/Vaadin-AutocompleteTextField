@@ -12794,28 +12794,42 @@ div.v-layout.v-horizontal.v-widget {
 	overflow: hidden;
 }
 
+.demo .demo-ui-layout {
+	margin-bottom: 4em;
+}
+
+.demo .demo-ui-layout[width-range~="0-600px"] .page-responsive {
+	width: auto !important;
+}
+
+.demo .demo-ui-layout[width-range~="0-610px"] .page-responsive {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.demo .demo-ui-layout[width-range~="600px-"] .page-responsive {
+	width: 600px !important;
+}
+
+.demo .demo-ui-layout[width-range~="0-400px"] .option-button-bar {
+	width: 100% !important;
+}
+
+.demo .demo-ui-layout[width-range~="0-400px"] .option-button-bar .v-button {
+	width: 100%;
+}
+
 .demo .page-responsive {
-	margin: 0 auto;
+	margin-left: auto;
+	margin-right: auto;
 	display: block;
-}
-
-.demo .page-responsive[width-range~="0-600px"] {
-	width: auto;
-}
-
-.demo .page-responsive[width-range~="0-610px"] {
-	margin: 0 10px;
-}
-
-.demo .page-responsive[width-range~="600px-"] {
-	width: 600px;
 }
 
 .demo .title-wrapper {
 	background-color: #00b4f0;
 }
 
-.demo .v-label.title {
+.demo .title {
 	color: #fff;
 	padding-top: 2.4em;
 	padding-bottom: 0.3em;
@@ -12823,7 +12837,7 @@ div.v-layout.v-horizontal.v-widget {
 	white-space: normal;
 }
 
-.demo .v-label.sub-title {
+.demo .sub-title {
 	font-size: 1.3em;
 	margin: 0.5em auto;
 	white-space: normal;
@@ -12831,4 +12845,12 @@ div.v-layout.v-horizontal.v-widget {
 
 .demo .content {
 	margin-top: 2em;
+}
+
+.demo .options {
+	margin-top: 2em;
+}
+
+.demo .option-button-bar {
+	width: auto !important;
 }

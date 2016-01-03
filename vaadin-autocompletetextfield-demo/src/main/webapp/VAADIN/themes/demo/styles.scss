@@ -5,52 +5,80 @@
 
     // Include valo theme styles in your theme
     @include valo;
-
-    .page-responsive {
-        margin: 0 auto;
-        display: block;
+    
+    .demo-ui-layout {
+        margin-bottom: 4em;
         
         &[width-range~="0-600px"] {
-            width: auto;
+            .page-responsive {
+                width: auto !important;
+            }
         }
         
         &[width-range~="0-610px"] {
-            margin: 0 10px;
+            .page-responsive {
+                margin: {
+                    left: 10px;
+                    right: 10px;
+                }
+            }
         }
         
         &[width-range~="600px-"] {
-            width: 600px;
+            .page-responsive {
+                width: 600px !important;
+            }
         }
+        
+        &[width-range~="0-400px"] {
+            .option-button-bar {
+                width: 100% !important;
+                
+                .v-button {
+                    width: 100%;
+                }
+            }
+        }
+    }
+
+    .page-responsive {
+        margin: {
+            left: auto;
+            right: auto;
+        }
+        display: block;
     }
     
     .title-wrapper {
         background-color: #00b4f0;
     }
     
-    .v-label {
-        
-        &.title {
-            color: #fff;
-            padding: {
-                top: 2.4em;
-                bottom: .3em
-            }
-            font-size: 2.1em;
-            white-space: normal;
+    .title {
+        color: #fff;
+        padding: {
+            top: 2.4em;
+            bottom: .3em
         }
-    
-        &.sub-title {
-            font-size: 1.3em;
-            margin: .5em auto;
-            white-space: normal;
-        }
-        
+        font-size: 2.1em;
+        white-space: normal;
+    }
+
+    .sub-title {
+        font-size: 1.3em;
+        margin: .5em auto;
+        white-space: normal;
     }
     
     .content {
-        margin: {
-            top: 2em;
-        }
+        margin-top: 2em;
+    }
+    
+    .options {
+        margin-top: 2em;
+    }
+    
+    .option-button-bar {
+        width: auto !important;
     }
     
 }

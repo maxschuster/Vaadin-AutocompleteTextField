@@ -152,8 +152,7 @@
                         **/WEB-INF/lib/ant-*.jar,
                         **/WEB-INF/classes/gwt-unitCache/**,
                         **/WEB-INF/classes/themes/**,
-                        **/WEB-INF/classes/widgetsets/**,
-                        **/WEB-INF/lib/vaadin-themes-*.jar
+                        **/WEB-INF/classes/widgetsets/**
                     </packagingExcludes>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
