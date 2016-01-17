@@ -1,0 +1,12 @@
+@import "../reindeer/reindeer.scss";
+@import "../shared/shared.scss";
+
+// Prefix all selectors in your theme with .demo
+.reindeer-demo {
+
+    // Include valo theme styles in your theme
+    @include reindeer;
+    
+    @include shared;
+    
+}

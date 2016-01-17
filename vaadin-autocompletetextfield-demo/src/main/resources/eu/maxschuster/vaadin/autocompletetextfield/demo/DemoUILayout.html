@@ -28,23 +28,40 @@ limitations under the License.
             </v-label>
         </v-css-layout>
         <v-label style-name="sub-title page-responsive" width-full>
-            A vaadin TextField with word completion based on a modified version
+            A Vaadin TextField with word completion based on a
+            <a href="https://github.com/maxschuster/JavaScript-autoComplete">modified&nbsp;version</a>
             of Pixabay's
-            <a href="https://goodies.pixabay.com/javascript/auto-complete/demo.html" target="_blank">autoComplete</a>
+            <a href="https://goodies.pixabay.com/javascript/auto-complete/demo.html">autoComplete</a>
             javascript library.
         </v-label>
         <v-css-layout style-name="content page-responsive" width-full>
-            <actf-autocomplete-text-field _id="languageField" width-full
-                    caption="Component Demo:"
-                    style-name="demo-field"
-                    input-prompt="Search programming languages..." />
-            <v-panel caption="Options:" style-name="options" width-full>
+            <v-panel caption="Component Demo" width-full>
+                <v-vertical-layout width-full margin>
+                    <actf-autocomplete-text-field _id="languageField" width-full
+                                                  caption="Programming language:"
+                                                  style-name="demo-field"
+                                                  input-prompt="Search programming languages..." />
+                </v-vertical-layout>
+            </v-panel>
+            <v-panel caption="Demo Options" style-name="options" width-full>
                 <v-vertical-layout spacing margin width-full>
                     <v-form-layout margin="false" width-full>
-                        <v-text-field _id="delay" caption="Delay:" width-full />
-                        <v-text-field _id="minChars" caption="Min chars:" width-full />
-                        <v-text-field _id="suggestionLimit" caption="Suggestion limit:" width-full />
-                        <v-text-field _id="inputPrompt" caption="Input prompt:" width-full />
+                        <v-native-select _id="theme" caption="Theme:" null-selection-allowed="false" width-full />
+                        <v-check-box _id="visible" caption="Visible (Test detach/attach)" />
+                        <v-check-box _id="enabled" caption="Enabled" />
+                        <v-check-box _id="addDescription" caption="Add description" />
+                        <v-native-select _id="addIcon" caption="Add icons:" null-selection-allowed="false" width-full />
+                    </v-form-layout>
+                </v-vertical-layout>
+            </v-panel>
+            <v-panel caption="Add-on Options" style-name="options" width-full>
+                <v-vertical-layout spacing margin width-full>
+                    <v-form-layout margin="false" width-full>
+                        <v-text-field _id="delay" caption="Delay:" null-representation="" width-full required />
+                        <v-text-field _id="minChars" caption="Min chars:" null-representation="" width-full required />
+                        <v-text-field _id="suggestionLimit" caption="Suggestion limit:" null-representation="" width-full required />
+                        <v-text-field _id="inputPrompt" caption="Input prompt:" null-representation="" width-full required />
+                        <v-native-select _id="scrollBehavior" caption="Scroll behavior:" null-selection-allowed="false" width-full />
                         <v-check-box _id="cache" caption="Cache enabled" />
                     </v-form-layout>
                     <v-horizontal-layout style-name="option-button-bar" width-full spacing>
@@ -57,6 +74,25 @@ limitations under the License.
                     </v-horizontal-layout>
                 </v-vertical-layout>
             </v-panel>
+            <v-vertical-layout width-full margin spacing>
+                <v-label style-name="h1">
+                    Links
+                </v-label>
+                <v-link href="https://goodies.pixabay.com/javascript/auto-complete/demo.html"
+                        caption="https://goodies.pixabay.com/javascript/auto-complete/demo.html" :center :middle />
+                <v-link href="https://github.com/maxschuster/Vaadin-AutocompleteTextField"
+                        caption="https://github.com/maxschuster/Vaadin-AutocompleteTextField" :center :middle />
+                <v-link href="https://github.com/maxschuster/JavaScript-autoComplete"
+                        caption="https://github.com/maxschuster/JavaScript-autoComplete" :center :middle />
+            </v-vertical-layout>
+            <v-vertical-layout width-full margin>
+                <v-label width-auto :center :middle>
+                    &copy; 2016 Max Schuster
+                </v-label>
+            </v-vertical-layout>
+            <v-label height="1000px">
+                * Bottom padding to test scrolling behavior
+            </label>
         </v-css-layout>
     </v-css-layout>
 </body>

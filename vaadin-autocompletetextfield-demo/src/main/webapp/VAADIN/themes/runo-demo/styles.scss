@@ -1,0 +1,12 @@
+@import "../runo/runo.scss";
+@import "../shared/shared.scss";
+
+// Prefix all selectors in your theme with .demo
+.runo-demo {
+
+    // Include valo theme styles in your theme
+    @include runo;
+    
+    @include shared;
+    
+}

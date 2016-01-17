@@ -30,6 +30,7 @@ import elemental.json.JsonArray;
 import elemental.json.JsonObject;
 import elemental.json.JsonValue;
 import eu.maxschuster.vaadin.autocompletetextfield.shared.AutocompleteTextFieldExtensionState;
+import eu.maxschuster.vaadin.autocompletetextfield.shared.ScrollBehavior;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -48,6 +49,9 @@ import java.util.logging.Logger;
  * <a href="https://goodies.pixabay.com/javascript/auto-complete/demo.html">
  * autoComplete</a> originally developed by
  * <a href="https://pixabay.com/users/Simon/">Simon Steinberger</a>
+ * </p>
+ * <p>
+ * {@code autoComplete} is released under the MIT License.
  * </p>
  *
  * @author Max Schuster
@@ -113,7 +117,7 @@ public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension 
      * The suggestion provider queried for suggesions
      */
     protected AutocompleteSuggestionProvider suggestionProvider = null;
-    
+
     /**
      * Construct a new {@link AutocompleteTextFieldExtension}.
      */
@@ -124,16 +128,16 @@ public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension 
     /**
      * Construct a new {@link AutocompleteTextFieldExtension} and extends the
      * given {@link AbstractTextField}.
-     * 
+     *
      * @param target The textfield to extend.
      */
     public AutocompleteTextFieldExtension(AbstractTextField target) {
         init(target);
     }
-    
+
     /**
      * Init stuff
-     * 
+     *
      * @param target The textfield to extend.
      */
     private void init(AbstractTextField target) {
@@ -145,7 +149,7 @@ public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension 
 
     /**
      * Extends the given textfield.
-     * 
+     *
      * @param target The textfield to extend.
      */
     public void extend(AbstractTextField target) {
@@ -272,7 +276,7 @@ public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension 
             object.put("description", description != null
                     ? Json.create(description) : Json.createNull());
             if (icon != null) {
-                String key = "icon" + i;
+                String key = "icon-" + i;
                 setResource(key, icon);
                 object.put("icon", key);
             } else {
@@ -519,6 +523,26 @@ public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension 
         } else {
             styleNames.remove(styleName);
         }
+    }
+
+    /**
+     * Gets the {@link ScrollBehavior} that is used when the user scrolls the
+     * page while the suggestion box is open.
+     *
+     * @return The {@link ScrollBehavior}.
+     */
+    public ScrollBehavior getScrollBehavior() {
+        return getState(false).scrollBehavior;
+    }
+
+    /**
+     * Sets the {@link ScrollBehavior} that is used when the user scrolls the
+     * page while the suggestion box is open.
+     * 
+     * @param scrollBehavior The {@link ScrollBehavior}.
+     */
+    public void setScrollBehavior(ScrollBehavior scrollBehavior) {
+        getState().scrollBehavior = scrollBehavior;
     }
 
 }

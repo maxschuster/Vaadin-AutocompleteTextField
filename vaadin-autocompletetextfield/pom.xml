@@ -5,7 +5,7 @@
     <groupId>eu.maxschuster</groupId>
     <artifactId>vaadin-autocompletetextfield</artifactId>
     <packaging>bundle</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0-alpha-1</version>
     
     <name>AutocompleteTextField</name>
     <description>AutocompleteTextField adds word completion to the Vaadin TextField.</description>
@@ -49,7 +49,7 @@
         <url>https://github.com/maxschuster/Vaadin-AutocompleteTextField.git</url>
         <connection>scm:git:https://github.com/maxschuster/Vaadin-AutocompleteTextField.git</connection>
         <developerConnection>scm:git:ssh://git@github.com:maxschuster/Vaadin-AutocompleteTextField.git</developerConnection>
-        <tag>${project.version}}</tag>
+        <tag>${project.version}</tag>
     </scm>
 
     <issueManagement>

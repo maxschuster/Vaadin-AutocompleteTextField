@@ -25,6 +25,6 @@
         "grunt-contrib-sass": "^0.8.0",
         "grunt-contrib-compress": "^0.13.0",
         "grunt-maven": "~1.2.0",
-        "javascript-auto-complete": "https://github.com/maxschuster/JavaScript-autoComplete.git#master"
+        "javascript-auto-complete": "https://github.com/maxschuster/JavaScript-autoComplete.git#prototype"
     }
 }

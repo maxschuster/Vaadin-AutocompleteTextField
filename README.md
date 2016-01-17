@@ -1,6 +1,6 @@
-# AutocompleteTextField Add-on for Vaadin 7
+# AutocompleteTextField Add-on for Vaadin 7.4+
 
-AutocompleteTextField is an UI component add-on for Vaadin 7.
+AutocompleteTextField is an UI component add-on for Vaadin 7.4 or later.
 
 ## Online demo
 
@@ -51,15 +51,13 @@ Another way of debugging client-side is superdev mode. To enable it, uncomment d
  
 ## Release notes
 
-### Version 1.0-SNAPSHOT
-- ...
-- ...
+### Version 1.0-alpha-1
+- Initial version
 
 ## Roadmap
 
 This component is developed as a hobby with no public roadmap or any guarantees of upcoming releases. That said, the following features are planned for upcoming releases:
-- ...
-- ...
+- Nothing yet
 
 ## Issue tracking
 
@@ -79,7 +77,10 @@ Contributions are welcome, but there are no guarantees that they are accepted as
 
 Add-on is distributed under Apache License 2.0. For license terms, see LICENSE.txt.
 
-AutocompleteTextField is written by <...>
+AutocompleteTextField is written by Max Schuster
+
+autoComplete was originally developed by [Simon Steinberger](https://pixabay.com/users/Simon/)
+and is released under the MIT License
 
 # Developer Guide
 
@@ -87,24 +88,50 @@ AutocompleteTextField is written by <...>
 
 Here is a simple example on how to try out the add-on component:
 
-<...>
+```java
 
-For a more comprehensive example, see src/test/java/org/vaadin/template/demo/DemoUI.java
+Collection<String> theJavas = Arrays.asList(new String[] {
+    "Java",
+    "JavaScript",
+    "Join Java",
+    "JavaFX Script"
+});
+
+AutocompleteSuggestionProvider suggestionProvider = new CollectionSuggestionProvider(theJavas, MatchMode.CONTAINS, true, Locale.US);
+
+AutocompleteTextField field = new AutocompleteTextField();
+field.setSuggestionProvider(suggestionProvider);
+field.addTextChangeListener(e -> {
+    String text = "Text changed to: " + e.getText();
+    Notification.show(text, Notification.Type.TRAY_NOTIFICATION);
+});
+field.addValueChangeListener(e -> {
+    String text = "Value changed to: " + e.getProperty().getValue();
+    Notification notification = new Notification(
+            text, Notification.Type.TRAY_NOTIFICATION);
+    notification.setPosition(Position.BOTTOM_LEFT);
+    notification.show(Page.getCurrent());
+});
+
+```
+
+For a more comprehensive example, see vaadin-autocompletetextfield-demo/src/main/java/eu/maxschuster/vaadin/autocompletetextfield/demo/DemoUI.java
 
 ## Features
 
-### Feature A
+### TextField features
 
-<...>
+You can use all the features of the normal Vaadin TextField.
+At least the ones I'm aware of ;-).
 
-### Feature B
+This includes:
+- Text change events
+- Data binding 
 
-<...>
+### Extended suggestion attributes
 
-### Feature C
-
-<...>
+Every suggestion can be extended by a description and an icon
 
 ## API
 
-AutocompleteTextField JavaDoc is available online at <...>
+AutocompleteTextField JavaDoc is currently not available online.

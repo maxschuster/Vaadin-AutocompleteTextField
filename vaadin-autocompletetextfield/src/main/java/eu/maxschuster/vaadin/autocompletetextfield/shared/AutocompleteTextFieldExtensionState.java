@@ -55,5 +55,10 @@ public class AutocompleteTextFieldExtensionState extends JavaScriptExtensionStat
      * Custom class/es that get/s added to the dropdown menu container.
      */
     public List<String> menuStyleNames;
+    
+    /**
+     * What to do when the page is scrolled by the user.
+     */
+    public ScrollBehavior scrollBehavior = ScrollBehavior.NONE;
 
 }

@@ -18,6 +18,7 @@ package eu.maxschuster.vaadin.autocompletetextfield;
 import com.vaadin.data.Property;
 import com.vaadin.server.Extension;
 import com.vaadin.ui.TextField;
+import eu.maxschuster.vaadin.autocompletetextfield.shared.ScrollBehavior;
 
 /**
  * A {@link TextField} with autocomplete (aka word completion) functionality.
@@ -26,6 +27,9 @@ import com.vaadin.ui.TextField;
  * <a href="https://goodies.pixabay.com/javascript/auto-complete/demo.html">
  * autoComplete</a> originally developed by
  * <a href="https://pixabay.com/users/Simon/">Simon Steinberger</a>
+ * </p>
+ * <p>
+ * {@code autoComplete} is released under the MIT License.
  * </p>
  *
  * @author Max Schuster
@@ -288,6 +292,26 @@ public class AutocompleteTextField extends TextField {
      */
     public void removeMenuStyleName(String styleName) {
         extension.removeMenuStyleName(styleName);
+    }
+
+    /**
+     * Gets the {@link ScrollBehavior} that is used when the user scrolls the
+     * page while the suggestion box is open.
+     *
+     * @return The {@link ScrollBehavior}.
+     */
+    public ScrollBehavior getScrollBehavior() {
+        return extension.getScrollBehavior();
+    }
+
+    /**
+     * Sets the {@link ScrollBehavior} that is used when the user scrolls the
+     * page while the suggestion box is open.
+     * 
+     * @param scrollBehavior The {@link ScrollBehavior}.
+     */
+    public void setScrollBehavior(ScrollBehavior scrollBehavior) {
+        extension.setScrollBehavior(scrollBehavior);
     }
 
 }

@@ -16,7 +16,9 @@
 package eu.maxschuster.vaadin.autocompletetextfield.demo;
 
 /**
- *
+ * Contains a list of all programming languages found at 
+ * https://en.wikipedia.org/wiki/List_of_programming_languages
+ * 
  * @author Max Schuster
  */
 public class ProgrammingLanguages {

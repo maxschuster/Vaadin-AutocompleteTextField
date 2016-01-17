@@ -18,6 +18,7 @@ package eu.maxschuster.vaadin.autocompletetextfield.demo;
 import com.vaadin.annotations.DesignRoot;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
+import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.declarative.Design;
@@ -36,8 +37,14 @@ class DemoUILayout extends VerticalLayout {
     TextField suggestionLimit;
     TextField inputPrompt;
     CheckBox cache;
+    NativeSelect scrollBehavior;
     Button apply;
     Button reset;
+    CheckBox addDescription;
+    NativeSelect addIcon;
+    NativeSelect theme;
+    CheckBox visible;
+    CheckBox enabled;
     
     DemoUILayout() {
         Design.read(this);

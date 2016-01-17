@@ -24,15 +24,17 @@ function eu_maxschuster_vaadin_autocompletetextfield_AutocompleteTextFieldExtens
     /* jshint validthis:true */
     "use strict";
 
-    var self = this;
+    var self = this,
+            fontIconPrefix = "fonticon://";
 
     this.init = function () {
         this.lastResponseId = 0;
         this.pendingResponses = {};
         this.textField = this.findTextField();
         this.popupContainer = this.findPopupContainer();
-        this.currentConfig = this.getConfig(this.getState());
-        this.autoComplete = this.createAutoComplete(this.currentConfig);
+        this.autoComplete = this.createAutoComplete(this.getConfig(this.getState()));
+        this.scrollBehavior = null;
+        this.scrollListener = false;
     };
 
     /**
@@ -46,6 +48,7 @@ function eu_maxschuster_vaadin_autocompletetextfield_AutocompleteTextFieldExtens
 
     this.createAutoComplete = function (config) {
         var autoComplete = new window.autoComplete(config);
+        this.currentConfig = config;
         return autoComplete;
     };
 
@@ -95,20 +98,65 @@ function eu_maxschuster_vaadin_autocompletetextfield_AutocompleteTextFieldExtens
             }
             this.autoComplete = this.createAutoComplete(newConfig);
         }
+        this.setScrollBehavoir(state.scrollBehavior);
+    };
+
+    this.setScrollBehavoir = function (scrollBehavior) {
+        switch (scrollBehavior) {
+            case "REFRESH":
+            case "CLOSE":
+                if (!this.scrollListener) {
+                    this.addEvent(window, "scroll", this.onScroll, true);
+                    this.scrollListener = true;
+                }
+                break;
+            default: // including "NONE"
+                if (this.scrollListener) {
+                    this.removeEvent(window, "scroll", this.onScroll, true);
+                    this.scrollListener = false;
+                }
+                break;
+        }
+        this.scrollBehavior = scrollBehavior;
+    };
+
+    this.onScroll = function (ev) {
+        var scrollBehavior = self.scrollBehavior,
+                autoComplete = self.autoComplete,
+                autoCompleteInstance = self.textField.autoCompleteInstance,
+                suggestionsContainer = autoCompleteInstance.suggestionsContainer;
+        
+        if (!autoComplete.isVisible(autoCompleteInstance)) {
+            return;
+        }
+        
+        // ignore scroll events from inside the suggestionsContainer
+        var found, el = ev.target || ev.srcElement;
+        while (el && !(found = (el === suggestionsContainer))) {
+            el = el.parentElement;
+        }
+        if (found) {
+            return;
+        }
+        
+        switch (scrollBehavior) {
+            case "REFRESH":
+                autoComplete.updateSuggestionsContainer(autoCompleteInstance, true);
+                break;
+            case "CLOSE":
+                autoComplete.hide(autoCompleteInstance);
+                break;
+            default:
+                // Do nothing
+                break;
+        }
     };
 
     this.onUnregister = function () {
         this.autoComplete.destroy();
-    };
-
-    this.getResourceUrl = function (resourceKey) {
-        var resources = this.getState().resources;
-        if (typeof resources[resourceKey] !== "object") {
-            return null;
+        if (this.scrollListener) {
+            this.removeEvent(window, "scroll", this.onScroll, true);
         }
-        var resource = resources[resourceKey],
-                resourceUrl = resource.uRL; // uRL == no typo!
-        return this.translateVaadinUri(resourceUrl);
     };
 
     this.setSuggestions = function (responseId, suggestions) {
@@ -138,32 +186,27 @@ function eu_maxschuster_vaadin_autocompletetextfield_AutocompleteTextFieldExtens
 
     /**
      * Cross browser add event.
-     * Borrowed from https://github.com/samie/Idle
      * 
      * @param {Element} ob
      * @param {string} type
      * @param {Function} fn
-     * @returns {Boolean}
+     * @param {Boolean} useCapture
+     * @returns {undefined}
      */
-    this.addEvent = function (ob, type, fn) {
+    this.addEvent = function (ob, type, fn, useCapture) {
         if (ob.addEventListener) {
-            ob.addEventListener(type, fn, false);
+            ob.addEventListener(type, fn, useCapture || false);
         } else if (ob.attachEvent) {
             ob.attachEvent('on' + type, fn);
-        } else {
-            type = 'on' + type;
-            if (typeof ob[type] === 'function') {
-                fn = (function (f1, f2) {
-                    return function () {
-                        f1.apply(this, arguments);
-                        f2.apply(this, arguments);
-                    };
-                })(ob[type], fn);
-            }
-            ob[type] = fn;
-            return true;
         }
-        return false;
+    };
+
+    this.removeEvent = function (ob, type, fn, useCapture) {
+        if (ob.removeEventListener) {
+            ob.removeEventListener(type, fn, useCapture || false);
+        } else if (ob.dettachEvent) {
+            ob.dettachEvent('on' + type, fn);
+        }
     };
 
     /**
@@ -222,10 +265,9 @@ function eu_maxschuster_vaadin_autocompletetextfield_AutocompleteTextFieldExtens
         var rendered = '<div class="' + classes.join(' ') + '" data-val="' + valueEscaped + '">';
         rendered += '<div class="' + itemClass + '-content">';
         if (icon) {
-            var iconSrc = self.getResourceUrl(icon);
-            rendered += '<div class="' + itemClass + '-icon">' +
-                    '<img src="' + iconSrc + '" alt="' + valueEscaped + '" />' +
-                    '</div>';
+            rendered += '<div class="' + itemClass + '-icon">';
+            rendered += self.getIconHtml(icon);
+            rendered += '</div>';
         }
         rendered += '<div class="' + itemClass + '-text">';
         rendered += '<div class="' + itemClass + '-value"><span>' +
@@ -241,6 +283,33 @@ function eu_maxschuster_vaadin_autocompletetextfield_AutocompleteTextFieldExtens
         rendered += '</div>'; // itemClass + '-content'
 
         return rendered;
+    };
+
+    this.getResource = function (resourceKey) {
+        var resources = this.getState().resources;
+        if (typeof resources[resourceKey] !== "object") {
+            return null;
+        }
+        return resources[resourceKey];
+    };
+
+    this.getIconHtml = function (resourceKey) {
+        var resource = this.getResource(resourceKey);
+        if (typeof resource !== "object") {
+            return false;
+        }
+        var vaadinUri = resource.uRL;
+        if (vaadinUri.substr(0, fontIconPrefix.length) === fontIconPrefix) {
+            // is fonticon
+            var parts = vaadinUri.substr(fontIconPrefix.length).split("/"),
+                    fontFamily = decodeURI(parts[0]),
+                    codepoint = String.fromCharCode(parseInt(parts[1], 16));
+            return '<span class="v-icon ' + fontFamily + '">' +
+                    codepoint +
+                    '</span>';
+        } else {
+            return '<img class="v-icon" src="' + this.translateVaadinUri(vaadinUri) + '" />';
+        }
     };
 
     /**
