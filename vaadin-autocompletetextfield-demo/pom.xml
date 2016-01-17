@@ -5,8 +5,8 @@
 	<groupId>eu.maxschuster</groupId>
 	<artifactId>vaadin-autocompletetextfield-demo</artifactId>
 	<packaging>war</packaging>
-	<version>1.0-alpha-1</version>
-	<name>AutocompleteTextField (Demo)</name>
+	<version>1.0-alpha-2</version>
+	<name>AutocompleteTextField Add-on (Demo)</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

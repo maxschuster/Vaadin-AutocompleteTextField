@@ -5,10 +5,10 @@
     <groupId>eu.maxschuster</groupId>
     <artifactId>vaadin-autocompletetextfield</artifactId>
     <packaging>bundle</packaging>
-    <version>1.0-alpha-1</version>
+    <version>1.0-alpha-2</version>
     
-    <name>AutocompleteTextField</name>
-    <description>AutocompleteTextField adds word completion to the Vaadin TextField.</description>
+    <name>AutocompleteTextField Add-on</name>
+    <description>Autocomplete TextField adds word completion to the Vaadin TextField.</description>
     <url>https://github.com/maxschuster/Vaadin-AutocompleteTextField</url>
 
     <properties>
