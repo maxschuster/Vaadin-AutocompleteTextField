@@ -31,10 +31,14 @@ import com.vaadin.server.Resource;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.shared.Position;
+import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window;
 import eu.maxschuster.vaadin.autocompletetextfield.AutocompleteQuery;
 import eu.maxschuster.vaadin.autocompletetextfield.AutocompleteSuggestion;
+import eu.maxschuster.vaadin.autocompletetextfield.AutocompleteSuggestionProvider;
 import eu.maxschuster.vaadin.autocompletetextfield.AutocompleteTextField;
 import eu.maxschuster.vaadin.autocompletetextfield.provider.CollectionSuggestionProvider;
 import eu.maxschuster.vaadin.autocompletetextfield.provider.MatchMode;
@@ -80,6 +84,39 @@ public class DemoUI extends UI {
         FONT_ICON
         
     }
+    
+    private final CollectionSuggestionProvider languageProvider
+            = new CollectionSuggestionProvider(Arrays.asList(
+                    ProgrammingLanguages.ARRAY), MatchMode.CONTAINS, true) {
+        @Override
+        public Collection<AutocompleteSuggestion> querySuggestions(AutocompleteQuery query) {
+            Collection<AutocompleteSuggestion> suggestions = super.querySuggestions(query);
+            boolean addDescription = layout.addDescription.getValue();
+            Icons addIcon = (Icons) layout.addIcon.getValue();
+            if (!addDescription && addIcon == Icons.NONE) {
+                return suggestions;
+            }
+            int i = 0;
+            for (AutocompleteSuggestion suggestion : suggestions) {
+                if (addDescription) {
+                    suggestion.setDescription("This is a description for " +
+                            suggestion.getValue() + " ...");
+                }
+                switch (addIcon) {
+                    case IMAGE:
+                        suggestion.setIcon(imageIcon);
+                        break;
+                    case FONT_ICON:
+                        suggestion.setIcon(VaadinIcons.values()[i]);
+                        break;
+                    default: break;
+                }
+                ++i;
+            } 
+            return suggestions;
+        }
+
+    };
 
     private final DemoUILayout layout = new DemoUILayout();
     
@@ -89,40 +126,7 @@ public class DemoUI extends UI {
     protected void init(VaadinRequest request) {
 
         setContent(layout);
-
-        final CollectionSuggestionProvider languageProvider
-                = new CollectionSuggestionProvider(Arrays.asList(
-                        ProgrammingLanguages.ARRAY), MatchMode.CONTAINS, true) {
-            @Override
-            public Collection<AutocompleteSuggestion> querySuggestions(AutocompleteQuery query) {
-                Collection<AutocompleteSuggestion> suggestions = super.querySuggestions(query);
-                boolean addDescription = layout.addDescription.getValue();
-                Icons addIcon = (Icons) layout.addIcon.getValue();
-                if (!addDescription && addIcon == Icons.NONE) {
-                    return suggestions;
-                }
-                int i = 0;
-                for (AutocompleteSuggestion suggestion : suggestions) {
-                    if (addDescription) {
-                        suggestion.setDescription("This is a description for " +
-                                suggestion.getValue() + " ...");
-                    }
-                    switch (addIcon) {
-                        case IMAGE:
-                            suggestion.setIcon(imageIcon);
-                            break;
-                        case FONT_ICON:
-                            suggestion.setIcon(VaadinIcons.values()[i]);
-                            break;
-                        default: break;
-                    }
-                    ++i;
-                } 
-                return suggestions;
-            }
-            
-        };
-
+        
         final AutocompleteTextField languageField = layout.languageField;
         languageField.setSuggestionProvider(languageProvider);
         languageField.setMinChars(1);
@@ -203,11 +207,24 @@ public class DemoUI extends UI {
                 Notification.show("Options applied!");
             }
         });
+        
+        layout.windowTest.addClickListener(e -> {
+            Window testWindow = new Window();
+            DemoOverlayTest test = new DemoOverlayTest();
+            test.setSuggestionProvider(languageProvider);
+            testWindow.setContent(test);
+            testWindow.setCaption("Window Demo");
+            testWindow.center();
+            getUI().addWindow(testWindow);
+        });
+        
+        layout.demoOverlayTest.setSuggestionProvider(languageProvider);
 
     }
 
     private Logger getLogger() {
         return Logger.getLogger(DemoUI.class.getName());
     }
+    
 
 }

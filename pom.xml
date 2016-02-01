@@ -5,7 +5,7 @@
     <groupId>eu.maxschuster</groupId>
     <artifactId>vaadin-autocompletetextfield-root</artifactId>
     <packaging>pom</packaging>
-    <version>1.0-alpha-2</version>
+    <version>1.0-alpha-3</version>
     <name>AutocompleteTextField Add-on (Root)</name>
 
     <modules>

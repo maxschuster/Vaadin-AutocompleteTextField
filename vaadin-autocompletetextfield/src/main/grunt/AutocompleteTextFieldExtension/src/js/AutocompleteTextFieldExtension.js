@@ -23,6 +23,39 @@ function eu_maxschuster_vaadin_autocompletetextfield_AutocompleteTextFieldExtens
 
     /* jshint validthis:true */
     "use strict";
+    
+    var AutoComplete = window.autoComplete;
+    
+    function CustomAutoComplete() {
+        AutoComplete.apply(this, arguments);
+    }
+    
+    CustomAutoComplete.prototype = Object.create(AutoComplete.prototype);
+    
+    CustomAutoComplete.prototype.updateSuggestionsContainer = function(instance, resize, next) {
+        AutoComplete.prototype.updateSuggestionsContainer.apply(this, arguments);
+        var textField = instance.textField,
+                sc = instance.suggestionsContainer,
+                scStyle = sc.style,
+                found = false,
+                zIndexParent = textField;
+        // check if the textfield is inside another overlay
+        while (zIndexParent && zIndexParent.parentElement && 
+                !(found = this.hasClass(zIndexParent.parentElement, 'v-overlay-container'))) {
+            zIndexParent = zIndexParent.parentElement;
+        }
+        if (found) {
+            var style = this.getStyle(zIndexParent),
+                    zIndex = style.zIndex || 0,
+                    newZIndex = parseInt(zIndex, 10) + 1;
+            // Adjust the suggestioncontainers z-index to be higher than
+            // the z-index of the textfield overlay parent.
+            scStyle.zIndex = newZIndex;
+        } else if (scStyle.zIndex) {
+            // Reset the ajusted z-index. Not sure if this is necessary... ^^
+            scStyle.zIndex = "";
+        }
+    };
 
     var self = this,
             fontIconPrefix = "fonticon://";
@@ -47,7 +80,7 @@ function eu_maxschuster_vaadin_autocompletetextfield_AutocompleteTextFieldExtens
     };
 
     this.createAutoComplete = function (config) {
-        var autoComplete = new window.autoComplete(config);
+        var autoComplete = new CustomAutoComplete(config);
         this.currentConfig = config;
         return autoComplete;
     };
