@@ -51,6 +51,15 @@ Another way of debugging client-side is superdev mode. To enable it, uncomment d
  
 ## Release notes
 
+### Version 1.0-alpha-4
+- Add fluent setters, following the example of [viritin](https://github.com/viritin/viritin) (#6)
+
+### Version 1.0-alpha-3
+- Fix other Vaadin overlays may overlap the suggestion container (#3)
+
+### Version 1.0-alpha-2
+- Rename to AutocompleteTextField Add-on
+
 ### Version 1.0-alpha-1
 - Initial version
 
@@ -132,6 +141,11 @@ This includes:
 
 Every suggestion can be extended by a description and an icon
 
+### Fluent API
+
+This add-on provides an API with fluent setters, following the example of
+[viritin](https://github.com/viritin/viritin).
+
 ## API
 
-AutocompleteTextField JavaDoc is currently not available online.
+http://www.javadoc.io/doc/eu.maxschuster/vaadin-autocompletetextfield/1.0-alpha-4

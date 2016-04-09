@@ -143,6 +143,22 @@ public final class AutocompleteSuggestion implements Serializable {
     }
 
     /**
+     * Sets the actual value of the suggestion.
+     * <p>
+     * A {@code null value} is not allowed!
+     * </p>
+     *
+     * @param value The value of the suggestion.
+     * @throws NullPointerException If {@code value} is {@code null}.
+     * @return this (for method chaining)
+     * @see #setValue(java.lang.String)
+     */
+    public AutocompleteSuggestion withValue(String value) throws NullPointerException {
+        setValue(value);
+        return this;
+    }
+
+    /**
      * Gets the description.
      *
      * @return The description {@link String} or {@code null}.
@@ -161,6 +177,18 @@ public final class AutocompleteSuggestion implements Serializable {
     }
 
     /**
+     * Sets the description.
+     *
+     * @param description The description {@link String} or {@code null}.
+     * @return this (for method chaining)
+     * @see #setDescription(java.lang.String)
+     */
+    public AutocompleteSuggestion withDescription(String description) {
+        setDescription(description);
+        return this;
+    }
+
+    /**
      * Gets the icon.
      *
      * @return The icon {@link Resource} or {@code null}.
@@ -176,6 +204,18 @@ public final class AutocompleteSuggestion implements Serializable {
      */
     public void setIcon(Resource icon) {
         this.icon = icon;
+    }
+
+    /**
+     * Sets the icon.
+     *
+     * @param icon The icon {@link Resource} or {@code null}.
+     * @return this (for method chaining)
+     * @see #setIcon(com.vaadin.server.Resource)
+     */
+    public AutocompleteSuggestion withIcon(Resource icon) {
+        setIcon(icon);
+        return this;
     }
 
     /**
@@ -232,6 +272,22 @@ public final class AutocompleteSuggestion implements Serializable {
             styleNames = new ArrayList<String>();
         }
         styleNames.add(styleName);
+    }
+    
+    /**
+     * Adds one or more style names to the suggestion. Multiple styles can be
+     * specified as a space-separated list of style names. The style name will
+     * be rendered as a HTML class name, which can be used in a CSS definition.
+     *
+     * @param styleNames The new styles to be added to the suggestion.
+     * @return this (for method chaining)
+     * @see #addStyleName(java.lang.String)
+     */
+    public AutocompleteSuggestion withStyleName(String... styleNames) {
+        for (String styleName : styleNames) {
+            addStyleName(styleName);
+        }
+        return this;
     }
 
     /**

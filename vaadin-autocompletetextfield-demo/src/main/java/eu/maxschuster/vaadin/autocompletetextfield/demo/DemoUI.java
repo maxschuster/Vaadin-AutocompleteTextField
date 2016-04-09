@@ -22,23 +22,22 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.annotations.Viewport;
+import com.vaadin.data.Property;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.event.FieldEvents;
 import com.vaadin.server.ClassResource;
 import com.vaadin.server.Page;
 import com.vaadin.server.Resource;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.shared.Position;
-import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import eu.maxschuster.vaadin.autocompletetextfield.AutocompleteQuery;
 import eu.maxschuster.vaadin.autocompletetextfield.AutocompleteSuggestion;
-import eu.maxschuster.vaadin.autocompletetextfield.AutocompleteSuggestionProvider;
 import eu.maxschuster.vaadin.autocompletetextfield.AutocompleteTextField;
 import eu.maxschuster.vaadin.autocompletetextfield.provider.CollectionSuggestionProvider;
 import eu.maxschuster.vaadin.autocompletetextfield.provider.MatchMode;
@@ -61,46 +60,46 @@ public class DemoUI extends UI {
     @VaadinServletConfiguration(productionMode = false, ui = DemoUI.class, widgetset = "eu.maxschuster.vaadin.autocompletetextfield.demo.DemoWidgetSet")
     public static class Servlet extends VaadinServlet {
     }
-    
+
     private enum Themes {
-        
+
         VALO,
         REINDEER,
         RUNO,
         CHAMELEON;
-        
+
         public final String themeName;
-        
+
         Themes() {
             themeName = name().toLowerCase(Locale.US).concat("-demo");
         }
-        
+
     }
-    
+
     private enum Icons {
-        
+
         NONE,
         IMAGE,
         FONT_ICON
-        
+
     }
-    
+
     private final CollectionSuggestionProvider languageProvider
             = new CollectionSuggestionProvider(Arrays.asList(
                     ProgrammingLanguages.ARRAY), MatchMode.CONTAINS, true) {
         @Override
         public Collection<AutocompleteSuggestion> querySuggestions(AutocompleteQuery query) {
             Collection<AutocompleteSuggestion> suggestions = super.querySuggestions(query);
-            boolean addDescription = layout.addDescription.getValue();
-            Icons addIcon = (Icons) layout.addIcon.getValue();
+            boolean addDescription = l.addDescription.getValue();
+            Icons addIcon = (Icons) l.addIcon.getValue();
             if (!addDescription && addIcon == Icons.NONE) {
                 return suggestions;
             }
             int i = 0;
             for (AutocompleteSuggestion suggestion : suggestions) {
                 if (addDescription) {
-                    suggestion.setDescription("This is a description for " +
-                            suggestion.getValue() + " ...");
+                    suggestion.setDescription("This is a description for "
+                            + suggestion.getValue() + " ...");
                 }
                 switch (addIcon) {
                     case IMAGE:
@@ -109,76 +108,65 @@ public class DemoUI extends UI {
                     case FONT_ICON:
                         suggestion.setIcon(VaadinIcons.values()[i]);
                         break;
-                    default: break;
+                    default:
+                        break;
                 }
                 ++i;
-            } 
+            }
             return suggestions;
         }
 
     };
 
-    private final DemoUILayout layout = new DemoUILayout();
-    
+    private final DemoUILayout l = new DemoUILayout();
+
     private final Resource imageIcon = new ClassResource(DemoUI.class, "vaadin.png");
+    
+    private final BeanFieldGroup<AutocompleteTextField> optionsGroup
+            = new BeanFieldGroup<>(AutocompleteTextField.class);
 
     @Override
     protected void init(VaadinRequest request) {
 
-        setContent(layout);
-        
-        final AutocompleteTextField languageField = layout.languageField;
-        languageField.setSuggestionProvider(languageProvider);
-        languageField.setMinChars(1);
-        languageField.setSuggestionLimit(5);
+        setContent(l);
 
-        languageField.addTextChangeListener(e -> {
-            String text = "Text changed to: " + e.getText();
-            Notification.show(text, Notification.Type.TRAY_NOTIFICATION);
-        });
+        final AutocompleteTextField languageField = l.languageField
+                .withSuggestionProvider(languageProvider)
+                .withMinChars(1)
+                .withSuggestionLimit(5)
+                .withTextChangeListener(this::onAutocompleteTextChange)
+                .withValueChangeListener(this::onAutocompleteValueChange);
 
-        languageField.addValueChangeListener(e -> {
-            String text = "Value changed to: " + e.getProperty().getValue();
-            Notification notification = new Notification(
-                    text, Notification.Type.TRAY_NOTIFICATION);
-            notification.setPosition(Position.BOTTOM_LEFT);
-            notification.show(Page.getCurrent());
-        });
-
-        layout.scrollBehavior.setContainerDataSource(
+        l.scrollBehavior.setContainerDataSource(
                 new BeanItemContainer<>(ScrollBehavior.class,
                         Arrays.asList(ScrollBehavior.values())));
-        
-        layout.theme.addItems(Arrays.asList(Themes.values()));
-        layout.theme.setValue(Themes.VALO);
-        layout.theme.addValueChangeListener(e -> {
-            setTheme(((Themes) e.getProperty().getValue()).themeName);
-        });
-        
-        layout.addIcon.addItems(Arrays.asList(Icons.values()));
-        layout.addIcon.setValue(Icons.NONE);
-        
-        layout.visible.setValue(true);
-        layout.visible.addValueChangeListener(e -> {
+
+        l.theme.addItems(Arrays.asList(Themes.values()));
+        l.theme.setValue(Themes.VALO);
+        l.theme.addValueChangeListener(this::onThemeValueChange);
+
+        l.addIcon.addItems(Arrays.asList(Icons.values()));
+        l.addIcon.setValue(Icons.NONE);
+
+        l.visible.setValue(true);
+        l.visible.addValueChangeListener(e -> {
             languageField.setVisible((boolean) e.getProperty().getValue());
         });
-        
-        layout.enabled.setValue(true);
-        layout.enabled.addValueChangeListener(e -> {
+
+        l.enabled.setValue(true);
+        l.enabled.addValueChangeListener(e -> {
             languageField.setEnabled((boolean) e.getProperty().getValue());
         });
 
-        final BeanFieldGroup<AutocompleteTextField> optionsGroup
-                = new BeanFieldGroup<>(AutocompleteTextField.class);
         optionsGroup.setItemDataSource(languageField);
-        optionsGroup.bind(layout.delay, "delay");
-        optionsGroup.bind(layout.minChars, "minChars");
-        optionsGroup.bind(layout.suggestionLimit, "suggestionLimit");
-        optionsGroup.bind(layout.inputPrompt, "inputPrompt");
-        optionsGroup.bind(layout.scrollBehavior, "scrollBehavior");
-        optionsGroup.bind(layout.cache, "cache");
+        optionsGroup.bind(l.delay, "delay");
+        optionsGroup.bind(l.minChars, "minChars");
+        optionsGroup.bind(l.suggestionLimit, "suggestionLimit");
+        optionsGroup.bind(l.inputPrompt, "inputPrompt");
+        optionsGroup.bind(l.scrollBehavior, "scrollBehavior");
+        optionsGroup.bind(l.cache, "cache");
 
-        layout.apply.addClickListener(e -> {
+        l.apply.addClickListener(e -> {
             try {
                 optionsGroup.commit();
             } catch (FieldGroup.CommitException ex) {
@@ -191,34 +179,25 @@ public class DemoUI extends UI {
             }
         });
 
-        layout.reset.addClickListener(e -> {
-            optionsGroup.discard();
-            Notification.show("Options reseted!");
-        });
+        l.reset.addClickListener(e -> reset());
 
         optionsGroup.addCommitHandler(new FieldGroup.CommitHandler() {
             @Override
-            public void preCommit(FieldGroup.CommitEvent commitEvent) throws FieldGroup.CommitException {
+            public void preCommit(FieldGroup.CommitEvent commitEvent)
+                    throws FieldGroup.CommitException {
 
             }
 
             @Override
-            public void postCommit(FieldGroup.CommitEvent commitEvent) throws FieldGroup.CommitException {
+            public void postCommit(FieldGroup.CommitEvent commitEvent)
+                    throws FieldGroup.CommitException {
                 Notification.show("Options applied!");
             }
         });
-        
-        layout.windowTest.addClickListener(e -> {
-            Window testWindow = new Window();
-            DemoOverlayTest test = new DemoOverlayTest();
-            test.setSuggestionProvider(languageProvider);
-            testWindow.setContent(test);
-            testWindow.setCaption("Window Demo");
-            testWindow.center();
-            getUI().addWindow(testWindow);
-        });
-        
-        layout.demoOverlayTest.setSuggestionProvider(languageProvider);
+
+        l.windowTest.addClickListener(e -> openTestWindow());
+
+        l.demoOverlayTest.setSuggestionProvider(languageProvider);
 
     }
 
@@ -226,5 +205,36 @@ public class DemoUI extends UI {
         return Logger.getLogger(DemoUI.class.getName());
     }
     
+    private void reset() {
+        optionsGroup.discard();
+        Notification.show("Options reseted!");
+    }
+    
+    private void openTestWindow() {
+        Window testWindow = new Window();
+        DemoOverlayTest test = new DemoOverlayTest();
+        test.setSuggestionProvider(languageProvider);
+        testWindow.setContent(test);
+        testWindow.setCaption("Window Demo");
+        testWindow.center();
+        getUI().addWindow(testWindow);
+    }
+    
+    private void onAutocompleteTextChange(FieldEvents.TextChangeEvent event) {
+        String text = "Text changed to: " + event.getText();
+        Notification.show(text, Notification.Type.TRAY_NOTIFICATION);
+    }
+    
+    private void onAutocompleteValueChange(Property.ValueChangeEvent event) {
+        String text = "Value changed to: " + event.getProperty().getValue();
+        Notification notification = new Notification(
+                text, Notification.Type.TRAY_NOTIFICATION);
+        notification.setPosition(Position.BOTTOM_LEFT);
+        notification.show(Page.getCurrent());
+    }
+    
+    private void onThemeValueChange(Property.ValueChangeEvent event) {
+        setTheme(((Themes) l.theme.getValue()).themeName);
+    }
 
 }

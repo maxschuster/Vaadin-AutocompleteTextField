@@ -27,6 +27,8 @@ import java.util.Locale;
 import java.util.Set;
 
 /**
+ * A simple {@link AutocompleteSuggestionProvider} backed by a
+ * {@link Collection}
  *
  * @author Max Schuster
  * @see AutocompleteSuggestionProvider
@@ -59,6 +61,11 @@ public class CollectionSuggestionProvider implements AutocompleteSuggestionProvi
      * Locale used for matching
      */
     private Locale locale;
+
+    @SuppressWarnings("unchecked")
+    public CollectionSuggestionProvider() {
+        this(Collections.EMPTY_LIST);
+    }
 
     public CollectionSuggestionProvider(Collection<String> values) {
         this(values, MatchMode.BEGINS);
@@ -196,25 +203,75 @@ public class CollectionSuggestionProvider implements AutocompleteSuggestionProvi
         return Collections.unmodifiableList(values);
     }
 
+    /**
+     * Sets the values used by this provider.
+     *
+     * @param values The values used by this provider.
+     */
     public void setValues(Collection<String> values) {
         validateValues(values);
         this.values = copyToList(values);
         refreshSearchList();
     }
 
+    /**
+     * Sets the values used by this provider.
+     *
+     * @param values The values used by this provider.
+     * @return this (for method chaining)
+     * @see #setValues(java.util.Collection)
+     */
+    public CollectionSuggestionProvider withValues(Collection<String> values) {
+        setValues(values);
+        return this;
+    }
+
+    /**
+     * Gets the {@link MatchMode} of this provider.
+     *
+     * @return The {@link MatchMode} of this provider.
+     */
     public MatchMode getMatchMode() {
         return matchMode;
     }
 
+    /**
+     * Sets the {@link MatchMode} of this provider.
+     *
+     * @param matchMode The {@link MatchMode} of this provider.
+     */
     public void setMatchMode(MatchMode matchMode) {
         validateMatchMode(matchMode);
         this.matchMode = matchMode;
     }
 
+    /**
+     * Sets the {@link MatchMode} of this provider.
+     *
+     * @param matchMode The {@link MatchMode} of this provider.
+     * @return this (for method chaining)
+     * @see
+     * #setMatchMode(eu.maxschuster.vaadin.autocompletetextfield.provider.MatchMode)
+     */
+    public CollectionSuggestionProvider withMatchMode(MatchMode matchMode) {
+        setMatchMode(matchMode);
+        return this;
+    }
+
+    /**
+     * Gets whether this provider is case insensitive.
+     *
+     * @return This provider is case insensitive.
+     */
     public boolean isIgnoreCase() {
         return ignoreCase;
     }
 
+    /**
+     * Sets whether this provider is case insensitive.
+     *
+     * @param ignoreCase This provider is case insensitive.
+     */
     public void setIgnoreCase(boolean ignoreCase) {
         boolean changed = this.ignoreCase != ignoreCase;
         this.ignoreCase = ignoreCase;
@@ -223,10 +280,32 @@ public class CollectionSuggestionProvider implements AutocompleteSuggestionProvi
         }
     }
 
+    /**
+     * Sets whether this provider is case insensitive.
+     *
+     * @param ignoreCase This provider is case insensitive.
+     * @return this (for method chaining)
+     * @see #setIgnoreCase(boolean)
+     */
+    public CollectionSuggestionProvider withIgnoreCase(boolean ignoreCase) {
+        setIgnoreCase(ignoreCase);
+        return this;
+    }
+
+    /**
+     * Gets the {@link Locale} of this provider.
+     *
+     * @return The {@link Locale} of this provider.
+     */
     public Locale getLocale() {
         return locale;
     }
 
+    /**
+     * Sets the {@link Locale} of this provider.
+     *
+     * @param locale The {@link Locale} of this provider.
+     */
     public void setLocale(Locale locale) {
         validateLocale(locale);
         boolean changed = !this.locale.equals(locale);
@@ -234,6 +313,18 @@ public class CollectionSuggestionProvider implements AutocompleteSuggestionProvi
         if (changed) {
             refreshSearchList();
         }
+    }
+
+    /**
+     * Sets the {@link Locale} of this provider.
+     *
+     * @param locale The {@link Locale} of this provider.
+     * @return this (for method chaining)
+     * @see #setLocale(java.util.Locale)
+     */
+    public CollectionSuggestionProvider withLocale(Locale locale) {
+        setLocale(locale);
+        return this;
     }
 
     @Override

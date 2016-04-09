@@ -330,6 +330,20 @@ public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension 
     }
 
     /**
+     * Sets the active {@link AutocompleteSuggestionProvider}.
+     *
+     * @param suggestionProvider The active
+     * {@link AutocompleteSuggestionProvider}.
+     * @return this (for method chaining)
+     * @see
+     * #setSuggestionProvider(eu.maxschuster.vaadin.autocompletetextfield.AutocompleteSuggestionProvider)
+     */
+    public AutocompleteTextFieldExtension withSuggestionProvider(AutocompleteSuggestionProvider suggestionProvider) {
+        setSuggestionProvider(suggestionProvider);
+        return this;
+    }
+
+    /**
      * Gets the maximum number of suggestions that are allowed.
      * <p>
      * If the active {@link AutocompleteSuggestionProvider} returns more
@@ -359,6 +373,25 @@ public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension 
      */
     public void setSuggestionLimit(int suggestionLimit) {
         this.suggestionLimit = suggestionLimit;
+    }
+
+    /**
+     * Sets the maximum number of suggestions that are allowed.
+     * <p>
+     * If the active {@link AutocompleteSuggestionProvider} returns more
+     * suggestions than allowed, the excess suggestions will be ignored!
+     * </p>
+     * <p>
+     * If limit &lt;= 0 the suggestions won't be limited.
+     * </p>
+     *
+     * @param suggestionLimit Maximum number of suggestions.
+     * @return this (for method chaining)
+     * @see #setSuggestionLimit(int)
+     */
+    public AutocompleteTextFieldExtension withSuggestionLimit(int suggestionLimit) {
+        setSuggestionLimit(suggestionLimit);
+        return this;
     }
 
     /**
@@ -393,6 +426,27 @@ public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension 
     }
 
     /**
+     * Sets whether the items are rendered as HTML.
+     * <p>
+     * If set to true, the items are rendered in the browser as HTML and the
+     * developer is responsible for ensuring no harmful HTML is used. If set to
+     * false, the caption is rendered in the browser as plain text.
+     * </p>
+     * <p>
+     * The default is false, i.e. to render that caption as plain text.
+     * </p>
+     *
+     * @param itemAsHtml true if the items are rendered as HTML, false if
+     * rendered as plain text.
+     * @return this (for method chaining)
+     * @see #setItemAsHtml(boolean)
+     */
+    public AutocompleteTextFieldExtension withItemAsHtml(boolean itemAsHtml) {
+        setItemAsHtml(itemAsHtml);
+        return this;
+    }
+
+    /**
      * Gets the minimum number of characters (&gt;=1) a user must type before a
      * search is performed.
      *
@@ -410,6 +464,19 @@ public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension 
      */
     public void setMinChars(int minChars) {
         getState().minChars = minChars;
+    }
+
+    /**
+     * Sets the minimum number of characters (&gt;=1) a user must type before a
+     * search is performed.
+     *
+     * @param minChars Minimum number of characters.
+     * @return this (for method chaining)
+     * @see #setMinChars(int)
+     */
+    public AutocompleteTextFieldExtension withMinChars(int minChars) {
+        getState().minChars = minChars;
+        return this;
     }
 
     /**
@@ -435,6 +502,20 @@ public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension 
     }
 
     /**
+     * Sets the delay in milliseconds between when a keystroke occurs and when a
+     * search is performed. A zero-delay is more responsive, but can produce a
+     * lot of load.
+     *
+     * @param delay Search delay in milliseconds.
+     * @return this (for method chaining)
+     * @see #setDelay(int)
+     */
+    public AutocompleteTextFieldExtension withDelay(int delay) {
+        setDelay(delay);
+        return this;
+    }
+
+    /**
      * Checks if performed searches should be cached.
      *
      * @return Cache performed searches.
@@ -450,6 +531,18 @@ public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension 
      */
     public void setCache(boolean cache) {
         getState().cache = cache;
+    }
+
+    /**
+     * Sets if performed searches should be cached.
+     *
+     * @param cache Cache performed searches.
+     * @return this (for method chaining)
+     * @see #setCache(boolean)
+     */
+    public AutocompleteTextFieldExtension withCache(boolean cache) {
+        setCache(cache);
+        return this;
     }
 
     /**
@@ -504,6 +597,24 @@ public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension 
     }
 
     /**
+     * Adds one or more style names to the dropdown menu container. Multiple
+     * styles can be specified as a space-separated list of style names. The
+     * style name will be rendered as a HTML class name, which can be used in a
+     * CSS definition.
+     *
+     * @param styleNames The new styles to be added to the dropdown menu
+     * container.
+     * @return this (for method chaining)
+     * @see #addMenuStyleName(java.lang.String)
+     */
+    public AutocompleteTextFieldExtension withMenuStyleName(String... styleNames) {
+        for (String styleName : styleNames) {
+            addMenuStyleName(styleName);
+        }
+        return this;
+    }
+
+    /**
      * Removes one or more style names from the dropdown menu container.
      * Multiple styles can be specified as a space-separated list of style
      * names.
@@ -538,11 +649,25 @@ public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension 
     /**
      * Sets the {@link ScrollBehavior} that is used when the user scrolls the
      * page while the suggestion box is open.
-     * 
+     *
      * @param scrollBehavior The {@link ScrollBehavior}.
      */
     public void setScrollBehavior(ScrollBehavior scrollBehavior) {
         getState().scrollBehavior = scrollBehavior;
+    }
+
+    /**
+     * Sets the {@link ScrollBehavior} that is used when the user scrolls the
+     * page while the suggestion box is open.
+     *
+     * @param scrollBehavior The {@link ScrollBehavior}.
+     * @return this (for method chaining)
+     * @see
+     * #setScrollBehavior(eu.maxschuster.vaadin.autocompletetextfield.shared.ScrollBehavior)
+     */
+    public AutocompleteTextFieldExtension withScrollBehavior(ScrollBehavior scrollBehavior) {
+        setScrollBehavior(scrollBehavior);
+        return this;
     }
 
 }
