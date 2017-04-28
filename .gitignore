@@ -4,3 +4,4 @@ target-grunt
 *.scss.cache
 .DS_Store
 Thumbs.db
+styles.css

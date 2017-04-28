@@ -5,12 +5,12 @@
 	<groupId>eu.maxschuster</groupId>
 	<artifactId>vaadin-autocompletetextfield-demo</artifactId>
 	<packaging>war</packaging>
-	<version>1.0-alpha-5-SNAPSHOT</version>
+	<version>2.0-SNAPSHOT</version>
 	<name>AutocompleteTextField Add-on (Demo)</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<vaadin.version>7.6.1</vaadin.version>
+		<vaadin.version>8.0.5</vaadin.version>
 		<vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
 	</properties>
 
@@ -91,15 +91,25 @@
         </dependency>
         <dependency>
             <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-push</artifactId>
+            <artifactId>vaadin-compatibility-server</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-compatibility-client</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-client-compiler</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-themes</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-compatibility-themes</artifactId>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -168,7 +178,7 @@
                 <artifactId>vaadin-maven-plugin</artifactId>
                 <version>${vaadin.plugin.version}</version>
                 <configuration>
-                    <extraJvmArgs>-Xmx512M -Xss1024k</extraJvmArgs>
+                    <extraJvmArgs>-Xmx1024M -Xss1024k</extraJvmArgs>
                     <webappDirectory>${basedir}/src/main/webapp/VAADIN/widgetsets</webappDirectory>
                     <hostedWebapp>${basedir}/src/main/webapp/VAADIN/widgetsets</hostedWebapp>
                     <noServer>true</noServer>

@@ -17,14 +17,14 @@ package eu.maxschuster.vaadin.autocompletetextfield;
 
 import com.vaadin.annotations.JavaScript;
 import com.vaadin.annotations.StyleSheet;
-import com.vaadin.event.FieldEvents;
+import com.vaadin.v7.event.FieldEvents;
 import com.vaadin.server.AbstractJavaScriptExtension;
 import com.vaadin.server.ClientConnector;
 import com.vaadin.server.JsonCodec;
 import com.vaadin.server.Resource;
-import com.vaadin.ui.AbstractTextField;
+import com.vaadin.v7.ui.AbstractTextField;
 import com.vaadin.ui.JavaScriptFunction;
-import com.vaadin.ui.TextField;
+import com.vaadin.v7.ui.TextField;
 import elemental.json.Json;
 import elemental.json.JsonArray;
 import elemental.json.JsonObject;
@@ -68,7 +68,7 @@ import java.util.logging.Logger;
 })
 public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
 
     /**
      * A dummy {@link FieldEvents.TextChangeListener} to prevent the

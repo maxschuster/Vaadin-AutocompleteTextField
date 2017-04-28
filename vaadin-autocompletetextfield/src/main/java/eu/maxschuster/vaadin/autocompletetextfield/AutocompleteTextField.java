@@ -15,15 +15,15 @@
  */
 package eu.maxschuster.vaadin.autocompletetextfield;
 
-import com.vaadin.data.Property;
-import com.vaadin.data.Validator;
-import com.vaadin.data.util.converter.Converter;
-import com.vaadin.event.FieldEvents;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.Validator;
+import com.vaadin.v7.data.util.converter.Converter;
+import com.vaadin.v7.event.FieldEvents;
 import com.vaadin.event.ShortcutListener;
 import com.vaadin.server.ErrorMessage;
 import com.vaadin.server.Extension;
 import com.vaadin.server.Resource;
-import com.vaadin.ui.TextField;
+import com.vaadin.v7.ui.TextField;
 import eu.maxschuster.vaadin.autocompletetextfield.shared.ScrollBehavior;
 import java.util.Locale;
 
@@ -48,7 +48,7 @@ import java.util.Locale;
  */
 public class AutocompleteTextField extends TextField {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
 
     /**
      * The {@link Extension} providing the autocomplete functionality
@@ -102,7 +102,7 @@ public class AutocompleteTextField extends TextField {
      * initial text contents and autocomplete (aka word completion)
      * functionality. The editor constructed this way will not be bound to a
      * {@link Property} unless
-     * {@link com.vaadin.data.Property.Viewer#setPropertyDataSource(Property)}
+     * {@link com.vaadin.v7.data.Property.Viewer#setPropertyDataSource(Property)}
      * is called to bind it.
      *
      * @param caption The caption {@link String} for the editor.
@@ -453,7 +453,7 @@ public class AutocompleteTextField extends TextField {
      * @return this (for method chaining)
      * @see #addBlurListener(com.vaadin.event.FieldEvents.BlurListener)
      */
-    public AutocompleteTextField withBlurListener(FieldEvents.BlurListener listener) {
+    public AutocompleteTextField withBlurListener(com.vaadin.event.FieldEvents.BlurListener listener) {
         addBlurListener(listener);
         return this;
     }
@@ -466,7 +466,7 @@ public class AutocompleteTextField extends TextField {
      * @return this (for method chaining)
      * @see #addFocusListener(com.vaadin.event.FieldEvents.FocusListener)
      */
-    public AutocompleteTextField withFocusListener(FieldEvents.FocusListener listener) {
+    public AutocompleteTextField withFocusListener(com.vaadin.event.FieldEvents.FocusListener listener) {
         addFocusListener(listener);
         return this;
     }
@@ -498,12 +498,12 @@ public class AutocompleteTextField extends TextField {
 
     /**
      * See:
-     * {@link #addTextChangeListener(com.vaadin.event.FieldEvents.TextChangeListener)}
+     * {@link #addTextChangeListener(com.vaadin.v7.event.FieldEvents.TextChangeListener)}
      *
      * @param listener The new text change listener
      * @return this (for method chaining)
      * @see
-     * #addTextChangeListener(com.vaadin.event.FieldEvents.TextChangeListener)
+     * #addTextChangeListener(com.vaadin.v7.event.FieldEvents.TextChangeListener)
      */
     public AutocompleteTextField withTextChangeListener(FieldEvents.TextChangeListener listener) {
         addTextChangeListener(listener);
@@ -512,12 +512,12 @@ public class AutocompleteTextField extends TextField {
 
     /**
      * See:
-     * {@link #setTextChangeEventMode(com.vaadin.ui.AbstractTextField.TextChangeEventMode)}
+     * {@link #setTextChangeEventMode(com.vaadin.v7.ui.AbstractTextField.TextChangeEventMode)}
      *
      * @param inputEventMode The new input event mode
      * @return this (for method chaining)
      * @see
-     * #setTextChangeEventMode(com.vaadin.ui.AbstractTextField.TextChangeEventMode)
+     * #setTextChangeEventMode(com.vaadin.v7.ui.AbstractTextField.TextChangeEventMode)
      */
     public AutocompleteTextField withTextChangeEventMode(TextChangeEventMode inputEventMode) {
         setTextChangeEventMode(inputEventMode);
@@ -585,11 +585,11 @@ public class AutocompleteTextField extends TextField {
     }
 
     /**
-     * See: {@link #setConverter(com.vaadin.data.util.converter.Converter)}
+     * See: {@link #setConverter(com.vaadin.v7.data.util.converter.Converter)}
      *
      * @param converter The new converter
      * @return this (for method chaining)
-     * @see #setConverter(com.vaadin.data.util.converter.Converter)
+     * @see #setConverter(com.vaadin.v7.data.util.converter.Converter)
      */
     public AutocompleteTextField withConverter(Converter<String, ?> converter) {
         setConverter(converter);
@@ -705,11 +705,11 @@ public class AutocompleteTextField extends TextField {
     }
 
     /**
-     * See: {@link #setPropertyDataSource(com.vaadin.data.Property)}
+     * See: {@link #setPropertyDataSource(com.vaadin.v7.data.Property)}
      *
      * @param newDataSource The new property data source
      * @return this (for method chaining)
-     * @see #setPropertyDataSource(com.vaadin.data.Property)
+     * @see #setPropertyDataSource(com.vaadin.v7.data.Property)
      */
     @SuppressWarnings({"rawtypes"})
     public AutocompleteTextField withPropertyDataSource(Property newDataSource) {
@@ -743,12 +743,12 @@ public class AutocompleteTextField extends TextField {
 
     /**
      * See:
-     * {@link #addReadOnlyStatusChangeListener(com.vaadin.data.Property.ReadOnlyStatusChangeListener)}
+     * {@link #addReadOnlyStatusChangeListener(com.vaadin.v7.data.Property.ReadOnlyStatusChangeListener)}
      *
      * @param listener The new read only status change listener
      * @return this (for method chaining)
      * @see
-     * #addReadOnlyStatusChangeListener(com.vaadin.data.Property.ReadOnlyStatusChangeListener)
+     * #addReadOnlyStatusChangeListener(com.vaadin.v7.data.Property.ReadOnlyStatusChangeListener)
      */
     public AutocompleteTextField withReadOnlyStatusChangeListener(ReadOnlyStatusChangeListener listener) {
         addReadOnlyStatusChangeListener(listener);
@@ -757,12 +757,12 @@ public class AutocompleteTextField extends TextField {
 
     /**
      * See:
-     * {@link #addValueChangeListener(com.vaadin.data.Property.ValueChangeListener)}
+     * {@link #addValueChangeListener(com.vaadin.v7.data.Property.ValueChangeListener)}
      *
      * @param listener The new value change listener
      * @return this (for method chaining)
      * @see
-     * #addValueChangeListener(com.vaadin.data.Property.ValueChangeListener)
+     * #addValueChangeListener(com.vaadin.v7.data.Property.ValueChangeListener)
      */
     public AutocompleteTextField withValueChangeListener(ValueChangeListener listener) {
         addValueChangeListener(listener);
@@ -770,11 +770,11 @@ public class AutocompleteTextField extends TextField {
     }
 
     /**
-     * See: {@link #addValidator(com.vaadin.data.Validator)}
+     * See: {@link #addValidator(com.vaadin.v7.data.Validator)}
      *
      * @param validator The new validator
      * @return this (for method chaining)
-     * @see #addValidator(com.vaadin.data.Validator)
+     * @see #addValidator(com.vaadin.v7.data.Validator)
      */
     public AutocompleteTextField withValidator(Validator validator) {
         addValidator(validator);

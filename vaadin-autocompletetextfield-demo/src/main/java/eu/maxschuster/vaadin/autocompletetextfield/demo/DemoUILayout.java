@@ -17,11 +17,11 @@ package eu.maxschuster.vaadin.autocompletetextfield.demo;
 
 import com.vaadin.annotations.DesignRoot;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.NativeSelect;
+import com.vaadin.v7.ui.CheckBox;
+import com.vaadin.v7.ui.NativeSelect;
 import com.vaadin.ui.PopupView;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.declarative.Design;
 import eu.maxschuster.vaadin.autocompletetextfield.AutocompleteTextField;
 
