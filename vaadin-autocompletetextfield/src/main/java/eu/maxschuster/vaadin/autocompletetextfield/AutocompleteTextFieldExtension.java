@@ -17,6 +17,7 @@ package eu.maxschuster.vaadin.autocompletetextfield;
 
 import com.vaadin.annotations.JavaScript;
 import com.vaadin.annotations.StyleSheet;
+import com.vaadin.data.HasValue;
 import com.vaadin.event.FieldEvents;
 import com.vaadin.server.AbstractJavaScriptExtension;
 import com.vaadin.server.ClientConnector;
@@ -74,13 +75,7 @@ public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension 
      * A dummy {@link FieldEvents.TextChangeListener} to prevent the
      * {@link TextField} from reseting to an old value on the client-side.
      */
-    private final FieldEvents.TextChangeListener textChangeListener
-            = new FieldEvents.TextChangeListener() {
-        @Override
-        public void textChange(FieldEvents.TextChangeEvent event) {
-
-        }
-    };
+    private final HasValue.ValueChangeListener<String> textChangeListener = e -> {};
 
     /**
      * Receives a search term from the client-side, executes the query and sends
@@ -155,7 +150,7 @@ public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension 
     public void extend(AbstractTextField target) {
         super.extend(target);
         // Add the dummy listener
-        target.addTextChangeListener(textChangeListener);
+        target.addValueChangeListener(textChangeListener);
     }
 
     @Override
@@ -235,8 +230,7 @@ public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension 
         int limit = query.getLimit();
         if (limit > 0 && limit < suggestions.size()) {
             // suggestionProvider has returned more results than allowed
-            Set<AutocompleteSuggestion> subSet
-                    = new LinkedHashSet<AutocompleteSuggestion>(limit);
+            Set<AutocompleteSuggestion> subSet = new LinkedHashSet<>(limit);
             for (AutocompleteSuggestion suggestion : suggestions) {
                 subSet.add(suggestion);
                 if (subSet.size() >= limit) {
@@ -248,7 +242,7 @@ public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension 
             return subSet;
         } else {
             // suggestionProvider has respected the query limit
-            return new LinkedHashSet<AutocompleteSuggestion>(suggestions);
+            return new LinkedHashSet<>(suggestions);
         }
     }
 
@@ -590,7 +584,7 @@ public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension 
             return;
         }
         if (styleNames == null) {
-            styleNames = new ArrayList<String>();
+            styleNames = new ArrayList<>();
             getState().menuStyleNames = styleNames;
         }
         styleNames.add(styleName);

@@ -15,14 +15,12 @@
  */
 package eu.maxschuster.vaadin.autocompletetextfield;
 
-import com.vaadin.data.Property;
-import com.vaadin.data.Validator;
-import com.vaadin.data.util.converter.Converter;
 import com.vaadin.event.FieldEvents;
 import com.vaadin.event.ShortcutListener;
 import com.vaadin.server.ErrorMessage;
 import com.vaadin.server.Extension;
 import com.vaadin.server.Resource;
+import com.vaadin.shared.ui.ValueChangeMode;
 import com.vaadin.ui.TextField;
 import eu.maxschuster.vaadin.autocompletetextfield.shared.ScrollBehavior;
 import java.util.Locale;
@@ -72,29 +70,6 @@ public class AutocompleteTextField extends TextField {
      */
     public AutocompleteTextField(String caption) {
         super(caption);
-    }
-
-    /**
-     * Constructs a new {@link AutocompleteTextField} that's bound to the
-     * specified {@link Property}, has no caption and autocomplete (aka word
-     * completion) functionality.
-     *
-     * @param dataSource The {@link Property} to be edited with this editor.
-     */
-    public AutocompleteTextField(Property<?> dataSource) {
-        super(dataSource);
-    }
-
-    /**
-     * Constructs a new {@link AutocompleteTextField} that's bound to the
-     * specified {@link Property}, has the given caption {@link String} and
-     * autocomplete (aka word completion) functionality.
-     *
-     * @param caption The caption {@link String} for the editor.
-     * @param dataSource The {@link Property} to be edited with this editor.
-     */
-    public AutocompleteTextField(String caption, Property<?> dataSource) {
-        super(caption, dataSource);
     }
 
     /**
@@ -472,79 +447,65 @@ public class AutocompleteTextField extends TextField {
     }
 
     /**
-     * See: {@link #setSelectionRange(int, int)}
+     * See: {@link #setSelection(int, int)}
      *
-     * @param pos Start position
+     * @param start Start position
      * @param length Selection length
      * @return this (for method chaining)
-     * @see #setSelectionRange(int, int)
+     * @see #setSelection(int, int)
      */
-    public AutocompleteTextField withSelectionRange(int pos, int length) {
-        setSelectionRange(pos, length);
+    public AutocompleteTextField withSelection(int start, int length) {
+        setSelection(start, length);
         return this;
     }
 
     /**
-     * See: {@link #setTextChangeTimeout(int)}
+     * See: {@link #setValueChangeTimeout(int)}
      *
-     * @param timeout The new text change timeout
+     * @param timeout The new value change timeout
      * @return this (for method chaining)
-     * @see #setTextChangeTimeout(int)
+     * @see #setValueChangeTimeout(int)
      */
-    public AutocompleteTextField withTextChangeTimeout(int timeout) {
-        setTextChangeTimeout(timeout);
-        return this;
-    }
-
-    /**
-     * See:
-     * {@link #addTextChangeListener(com.vaadin.event.FieldEvents.TextChangeListener)}
-     *
-     * @param listener The new text change listener
-     * @return this (for method chaining)
-     * @see
-     * #addTextChangeListener(com.vaadin.event.FieldEvents.TextChangeListener)
-     */
-    public AutocompleteTextField withTextChangeListener(FieldEvents.TextChangeListener listener) {
-        addTextChangeListener(listener);
+    public AutocompleteTextField withValueChangeTimeout(int timeout) {
+        setValueChangeTimeout(timeout);
         return this;
     }
 
     /**
      * See:
-     * {@link #setTextChangeEventMode(com.vaadin.ui.AbstractTextField.TextChangeEventMode)}
+     * {@link #withTextChangeEventMode(com.vaadin.shared.ui.ValueChangeMode)}
      *
-     * @param inputEventMode The new input event mode
+     * @param mode The new input event mode
      * @return this (for method chaining)
-     * @see
-     * #setTextChangeEventMode(com.vaadin.ui.AbstractTextField.TextChangeEventMode)
+     * @see #withTextChangeEventMode(com.vaadin.shared.ui.ValueChangeMode)
      */
-    public AutocompleteTextField withTextChangeEventMode(TextChangeEventMode inputEventMode) {
-        setTextChangeEventMode(inputEventMode);
+    public AutocompleteTextField withTextChangeEventMode(ValueChangeMode mode) {
+        setValueChangeMode(mode);
         return this;
     }
 
     /**
      * See: {@link #setValue(java.lang.String)}
      *
-     * @param newValue The new value
+     * @param value The new value
      * @return this (for method chaining)
      * @see #setValue(java.lang.String)
+     * @throws NullPointerException If value is {@code null}
      */
-    public AutocompleteTextField withValue(String newValue) throws ReadOnlyException {
-        setValue(newValue);
+    public AutocompleteTextField withValue(String value) throws NullPointerException {
+        setValue(value);
         return this;
     }
 
     /**
-     * See: {@link #setInputPrompt(java.lang.String)}
+     * See: {@link #setPlaceholder(java.lang.String)}
      *
-     * @param inputPrompt The new input prompt
+     * @param placeholder The new placeholder
      * @return this (for method chaining)
-     * @see #setInputPrompt(java.lang.String)
+     * @see #setPlaceholder(java.lang.String)
      */
-    public AutocompleteTextField withInputPrompt(String inputPrompt) {
-        setInputPrompt(inputPrompt);
+    public AutocompleteTextField withPlaceholder(String placeholder) {
+        setPlaceholder(placeholder);
         return this;
     }
 
@@ -559,88 +520,16 @@ public class AutocompleteTextField extends TextField {
         setMaxLength(maxLength);
         return this;
     }
-
+    
     /**
-     * See: {@link #setNullSettingAllowed(boolean)}
-     *
-     * @param nullSettingAllowed Is null setting allowed
+     * See: {@link #setRequiredIndicatorVisible(boolean)}
+     * @param visible Set {@code true} to make required indicator visible,
+     * {@code false} to not show it.
      * @return this (for method chaining)
-     * @see #setNullSettingAllowed(boolean)
+     * @see #setRequiredIndicatorVisible(boolean) 
      */
-    public AutocompleteTextField withNullSettingAllowed(boolean nullSettingAllowed) {
-        setNullSettingAllowed(nullSettingAllowed);
-        return this;
-    }
-
-    /**
-     * See: {@link #setNullRepresentation(java.lang.String)}
-     *
-     * @param nullRepresentation The new null representation
-     * @return this (for method chaining)
-     * @see #setNullRepresentation(java.lang.String)
-     */
-    public AutocompleteTextField withNullRepresentation(String nullRepresentation) {
-        setNullRepresentation(nullRepresentation);
-        return this;
-    }
-
-    /**
-     * See: {@link #setConverter(com.vaadin.data.util.converter.Converter)}
-     *
-     * @param converter The new converter
-     * @return this (for method chaining)
-     * @see #setConverter(com.vaadin.data.util.converter.Converter)
-     */
-    public AutocompleteTextField withConverter(Converter<String, ?> converter) {
-        setConverter(converter);
-        return this;
-    }
-
-    /**
-     * See: {@link #setValidationVisible(boolean)}
-     *
-     * @param validateAutomatically Is automatic validation enabled
-     * @return this (for method chaining)
-     * @see #setValidationVisible(boolean)
-     */
-    public AutocompleteTextField withValidationVisible(boolean validateAutomatically) {
-        setValidationVisible(validateAutomatically);
-        return this;
-    }
-
-    /**
-     * See: {@link #setConversionError(java.lang.String)}
-     *
-     * @param valueConversionError The new conversion error message
-     * @return this (for method chaining)
-     * @see #setConversionError(java.lang.String)
-     */
-    public AutocompleteTextField withConversionError(String valueConversionError) {
-        setConversionError(valueConversionError);
-        return this;
-    }
-
-    /**
-     * See: {@link #setRequired(boolean)}
-     *
-     * @param requiredMessage The new required error message
-     * @return this (for method chaining)
-     * @see #setRequired(boolean)
-     */
-    public AutocompleteTextField withRequiredError(String requiredMessage) {
-        setRequiredError(requiredMessage);
-        return this;
-    }
-
-    /**
-     * See: {@link #setRequired(boolean)}
-     *
-     * @param required Is required
-     * @return this (for method chaining)
-     * @see #setRequired(boolean)
-     */
-    public AutocompleteTextField withRequired(boolean required) {
-        setRequired(required);
+    public AutocompleteTextField withRequiredIndicatorVisible(boolean visible) {
+        setRequiredIndicatorVisible(visible);
         return this;
     }
 
@@ -669,67 +558,6 @@ public class AutocompleteTextField extends TextField {
     }
 
     /**
-     * See: {@link #setInvalidAllowed(boolean)}
-     *
-     * @param invalidAllowed Are invalid values allowed
-     * @return this (for method chaining)
-     * @see #setInvalidAllowed(boolean)
-     */
-    public AutocompleteTextField withInvalidAllowed(boolean invalidAllowed) throws UnsupportedOperationException {
-        setInvalidAllowed(invalidAllowed);
-        return this;
-    }
-
-    /**
-     * See: {@link #setConvertedValue(java.lang.Object)}
-     *
-     * @param value The new converted value
-     * @return this (for method chaining)
-     * @see #setConvertedValue(java.lang.Object)
-     */
-    public AutocompleteTextField withConvertedValue(Object value) {
-        setConvertedValue(value);
-        return this;
-    }
-
-    /**
-     * See: {@link #setConverter(java.lang.Class)}
-     *
-     * @param datamodelType The type of the data model
-     * @return this (for method chaining)
-     * @see #setConverter(java.lang.Class)
-     */
-    public AutocompleteTextField withConverter(Class<?> datamodelType) {
-        setConverter(datamodelType);
-        return this;
-    }
-
-    /**
-     * See: {@link #setPropertyDataSource(com.vaadin.data.Property)}
-     *
-     * @param newDataSource The new property data source
-     * @return this (for method chaining)
-     * @see #setPropertyDataSource(com.vaadin.data.Property)
-     */
-    @SuppressWarnings({"rawtypes"})
-    public AutocompleteTextField withPropertyDataSource(Property newDataSource) {
-        setPropertyDataSource(newDataSource);
-        return this;
-    }
-
-    /**
-     * See: {@link #setReadOnly(boolean)}
-     *
-     * @param buffered Is buffered
-     * @return this (for method chaining)
-     * @see #setBuffered(boolean)
-     */
-    public AutocompleteTextField withBuffered(boolean buffered) {
-        setBuffered(buffered);
-        return this;
-    }
-
-    /**
      * See: {@link #setReadOnly(boolean)}
      *
      * @param readOnly Is read only
@@ -743,20 +571,6 @@ public class AutocompleteTextField extends TextField {
 
     /**
      * See:
-     * {@link #addReadOnlyStatusChangeListener(com.vaadin.data.Property.ReadOnlyStatusChangeListener)}
-     *
-     * @param listener The new read only status change listener
-     * @return this (for method chaining)
-     * @see
-     * #addReadOnlyStatusChangeListener(com.vaadin.data.Property.ReadOnlyStatusChangeListener)
-     */
-    public AutocompleteTextField withReadOnlyStatusChangeListener(ReadOnlyStatusChangeListener listener) {
-        addReadOnlyStatusChangeListener(listener);
-        return this;
-    }
-
-    /**
-     * See:
      * {@link #addValueChangeListener(com.vaadin.data.Property.ValueChangeListener)}
      *
      * @param listener The new value change listener
@@ -764,20 +578,8 @@ public class AutocompleteTextField extends TextField {
      * @see
      * #addValueChangeListener(com.vaadin.data.Property.ValueChangeListener)
      */
-    public AutocompleteTextField withValueChangeListener(ValueChangeListener listener) {
+    public AutocompleteTextField withValueChangeListener(ValueChangeListener<String> listener) {
         addValueChangeListener(listener);
-        return this;
-    }
-
-    /**
-     * See: {@link #addValidator(com.vaadin.data.Validator)}
-     *
-     * @param validator The new validator
-     * @return this (for method chaining)
-     * @see #addValidator(com.vaadin.data.Validator)
-     */
-    public AutocompleteTextField withValidator(Validator validator) {
-        addValidator(validator);
         return this;
     }
 
@@ -952,18 +754,6 @@ public class AutocompleteTextField extends TextField {
      */
     public AutocompleteTextField withVisible(boolean visible) {
         setVisible(visible);
-        return this;
-    }
-
-    /**
-     * See: {@link #setImmediate(boolean)}
-     *
-     * @param immediate Is immediate
-     * @return this (for method chaining)
-     * @see #setImmediate(boolean)
-     */
-    public AutocompleteTextField withImmediate(boolean immediate) {
-        setImmediate(immediate);
         return this;
     }
 
