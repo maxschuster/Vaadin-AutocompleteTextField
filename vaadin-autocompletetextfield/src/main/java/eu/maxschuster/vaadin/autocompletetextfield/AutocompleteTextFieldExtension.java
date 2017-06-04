@@ -17,15 +17,12 @@ package eu.maxschuster.vaadin.autocompletetextfield;
 
 import com.vaadin.annotations.JavaScript;
 import com.vaadin.annotations.StyleSheet;
-import com.vaadin.data.HasValue;
-import com.vaadin.event.FieldEvents;
 import com.vaadin.server.AbstractJavaScriptExtension;
 import com.vaadin.server.ClientConnector;
 import com.vaadin.server.JsonCodec;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.AbstractTextField;
 import com.vaadin.ui.JavaScriptFunction;
-import com.vaadin.ui.TextField;
 import elemental.json.Json;
 import elemental.json.JsonArray;
 import elemental.json.JsonObject;
@@ -40,7 +37,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
-import java.util.logging.Logger;
 
 /**
  * Extends an {@link AbstractTextField} with autocomplete (aka word completion)
@@ -70,38 +66,6 @@ import java.util.logging.Logger;
 public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension {
 
     private static final long serialVersionUID = 1L;
-
-    /**
-     * A dummy {@link FieldEvents.TextChangeListener} to prevent the
-     * {@link TextField} from reseting to an old value on the client-side.
-     */
-    private final HasValue.ValueChangeListener<String> textChangeListener = e -> {};
-
-    /**
-     * Receives a search term from the client-side, executes the query and sends
-     * the results to the JavaScript method "setSuggestions".
-     * <p>
-     * <b>Parameters:</b>
-     * <ul>
-     * <li>{@link JsonValue} {@code requestId} - Request id to send back to the
-     * client-side.</li>
-     * <li>{@link String} {@code term} - The search term.</li>
-     * </ul>
-     */
-    private final JavaScriptFunction querySuggestions = new JavaScriptFunction() {
-
-        private static final long serialVersionUID = 1L;
-
-        @Override
-        public void call(JsonArray arguments) {
-            JsonValue requestId = arguments.get(0);
-            String term = arguments.getString(1);
-            Set<AutocompleteSuggestion> suggestions = querySuggestions(term);
-            JsonValue suggestionsAsJson = suggestionsToJson(suggestions);
-            callFunction("setSuggestions", requestId, suggestionsAsJson);
-        }
-
-    };
 
     /**
      * The max amount of suggestions send to the client-side
@@ -149,8 +113,6 @@ public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension 
      */
     public void extend(AbstractTextField target) {
         super.extend(target);
-        // Add the dummy listener
-        target.addValueChangeListener(textChangeListener);
     }
 
     @Override
@@ -182,8 +144,27 @@ public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension 
      * Adds all {@link JavaScriptFunction}s
      */
     private void addFunctions() {
-        addFunction("serverQuerySuggestions", querySuggestions);
+        addFunction("serverQuerySuggestions", this::jsQuerySuggestions);
     }
+
+    /**
+     * Receives a search term from the client-side, executes the query and sends
+     * the results to the JavaScript method "setSuggestions".
+     * <p>
+     * <b>Parameters:</b>
+     * <ul>
+     * <li>{@link JsonValue} {@code requestId} - Request id to send back to the
+     * client-side.</li>
+     * <li>{@link String} {@code term} - The search term.</li>
+     * </ul>
+     */
+    private void jsQuerySuggestions(JsonArray arguments) {
+        JsonValue requestId = arguments.get(0);
+        String term = arguments.getString(1);
+        Set<AutocompleteSuggestion> suggestions = querySuggestions(term);
+        JsonValue suggestionsAsJson = suggestionsToJson(suggestions);
+        callFunction("setSuggestions", requestId, suggestionsAsJson);
+    };
 
     /**
      * Creates an {@link AutocompleteQuery} from the given search term and the
@@ -293,15 +274,6 @@ public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension 
             array.set(i++, object);
         }
         return array;
-    }
-
-    /**
-     * Gets a {@link Logger} instance for this class.
-     *
-     * @return {@link Logger} instance for this class.
-     */
-    private Logger getLogger() {
-        return Logger.getLogger(AutocompleteTextFieldExtension.class.getName());
     }
 
     /**
@@ -661,6 +633,38 @@ public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension 
      */
     public AutocompleteTextFieldExtension withScrollBehavior(ScrollBehavior scrollBehavior) {
         setScrollBehavior(scrollBehavior);
+        return this;
+    }
+    
+    /**
+     * Gets if the fields type is {@code "search"}.
+     * 
+     * @return {@code true} the fields type is {@code "search"}.
+     */
+    public boolean isTypeSearch() {
+        return getState(false).typeSearch;
+    }
+    
+    /**
+     * Sets if the fields type is {@code "search"}.
+     * 
+     * @param typeSearch {@code true} will change this fields type to
+     * {@code "search"}.
+     */
+    public void setTypeSearch(boolean typeSearch) {
+        getState().typeSearch = typeSearch;
+    }
+    
+    /**
+     * Sets if the fields type is {@code "search"}.
+     * 
+     * @param typeSearch {@code true} will change this fields type to
+     * {@code "search"}.
+     * @return this (for method chaining)
+     * @see #setTypeSearch(boolean)
+     */
+    public AutocompleteTextFieldExtension withSearch(boolean typeSearch) {
+        setTypeSearch(typeSearch);
         return this;
     }
 

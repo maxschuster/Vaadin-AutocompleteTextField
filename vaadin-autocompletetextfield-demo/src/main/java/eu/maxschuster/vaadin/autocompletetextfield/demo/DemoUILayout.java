@@ -19,33 +19,32 @@ import com.vaadin.annotations.DesignRoot;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.NativeSelect;
-import com.vaadin.ui.PopupView;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.declarative.Design;
 import eu.maxschuster.vaadin.autocompletetextfield.AutocompleteTextField;
+import eu.maxschuster.vaadin.autocompletetextfield.shared.ScrollBehavior;
 
 /**
  *
  * @author Max Schuster
  */
 @DesignRoot
-class DemoUILayout extends VerticalLayout {
+abstract class DemoUILayout extends UI {
     
     AutocompleteTextField languageField;
     TextField delay;
     TextField minChars;
     TextField suggestionLimit;
-    TextField inputPrompt;
+    TextField placeholder;
     CheckBox cache;
-    NativeSelect scrollBehavior;
-    Button apply;
-    Button reset;
+    NativeSelect<ScrollBehavior> scrollBehavior;
     CheckBox addDescription;
-    NativeSelect addIcon;
-    NativeSelect theme;
+    NativeSelect<Icons> addIcon;
+    NativeSelect<Themes> theme;
     CheckBox visible;
     CheckBox enabled;
+    CheckBox typeSearch;
     Button windowTest;
     DemoOverlayTest demoOverlayTest;
     

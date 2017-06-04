@@ -31,7 +31,7 @@ public enum ScrollBehavior {
     NONE,
 
     /**
-     * Scrolling the page closees the suggestion box.
+     * Scrolling the page closes the suggestion box.
      */
     CLOSE,
 

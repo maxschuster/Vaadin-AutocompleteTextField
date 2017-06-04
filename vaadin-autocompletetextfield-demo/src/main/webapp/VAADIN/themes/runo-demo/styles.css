@@ -29,7 +29,7 @@
 	}
 
 .v-vaadin-version:after {
-	content: "7.6.1";
+	content: "8.0.6";
 }
 
 .v-generated-body {
@@ -1005,6 +1005,10 @@ body .runo-demo.v-app .v-app-loading {
 	overflow: auto;
 }
 
+.runo-demo .v-tooltip-text pre {
+	margin: 0px;
+}
+
 .runo-demo .v-tooltip .v-errormessage {
 	overflow: auto;
 }
@@ -1491,7 +1495,7 @@ body .runo-demo.v-app .v-app-loading {
 	background: #fff;
 }
 
-.v-ie9 .runo-demo .v-datefield-popup, .v-ie10 .runo-demo .v-datefield-popup, .v-ie11 .runo-demo .v-datefield-popup {
+.v-ie11 .runo-demo .v-datefield-popup {
 	box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.5);
 }
 
@@ -1607,7 +1611,7 @@ body .runo-demo.v-app .v-app-loading {
 	background: #fff;
 }
 
-.v-ie9 .runo-demo .v-inline-datefield-popup, .v-ie10 .runo-demo .v-inline-datefield-popup, .v-ie11 .runo-demo .v-inline-datefield-popup {
+.v-ie11 .runo-demo .v-inline-datefield-popup {
 	box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.5);
 }
 
@@ -1847,6 +1851,8 @@ body .runo-demo.v-app .v-app-loading {
 }
 
 .runo-demo .v-escalator-body {
+	-ms-touch-action: none;
+	touch-action: none;
 	z-index: 0;
 	top: 0;
 }
@@ -1859,12 +1865,6 @@ body .runo-demo.v-app .v-app-loading {
 
 .runo-demo .v-escalator-row {
 	display: block;
-}
-
-.v-ie8 .runo-demo .v-escalator-row, .v-ie9 .runo-demo .v-escalator-row {
-	float: left;
-	clear: left;
-	margin-top: 0;
 }
 
 .runo-demo .v-escalator-row  > td, .runo-demo .v-escalator-row  > th {
@@ -1904,10 +1904,6 @@ body .runo-demo.v-app .v-app-loading {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
-}
-
-.v-ie8 .runo-demo .v-escalator-spacer, .v-ie9 .runo-demo .v-escalator-spacer {
-	margin-top: 0;
 }
 
 .runo-demo .v-formlayout.v-has-width > table {
@@ -2046,6 +2042,8 @@ body .runo-demo.v-app .v-app-loading {
 }
 
 .runo-demo .v-grid-body {
+	-ms-touch-action: none;
+	touch-action: none;
 	z-index: 0;
 	top: 0;
 }
@@ -2058,12 +2056,6 @@ body .runo-demo.v-app .v-app-loading {
 
 .runo-demo .v-grid-row {
 	display: block;
-}
-
-.v-ie8 .runo-demo .v-grid-row, .v-ie9 .runo-demo .v-grid-row {
-	float: left;
-	clear: left;
-	margin-top: 0;
 }
 
 .runo-demo .v-grid-row  > td, .runo-demo .v-grid-row  > th {
@@ -2103,10 +2095,6 @@ body .runo-demo.v-app .v-app-loading {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
-}
-
-.v-ie8 .runo-demo .v-grid-spacer, .v-ie9 .runo-demo .v-grid-spacer {
-	margin-top: 0;
 }
 
 .runo-demo .v-grid {
@@ -2216,14 +2204,10 @@ body .runo-demo.v-app .v-app-loading {
 	vertical-align: middle;
 }
 
-.v-ie8 .runo-demo .v-grid-sidebar.v-contextmenu.open .v-grid-sidebar-button:after {
-	vertical-align: middle;
-	text-align: center;
-	display: inline;
-}
-
 .runo-demo .v-grid-sidebar.v-contextmenu .v-grid-sidebar-content {
 	padding: 4px 0;
+	overflow-y: auto;
+	overflow-x: hidden;
 }
 
 .runo-demo .v-grid-sidebar.v-contextmenu .v-grid-sidebar-content .gwt-MenuBar .gwt-MenuItem .column-hiding-toggle {
@@ -2332,6 +2316,21 @@ body .runo-demo.v-app .v-app-loading {
 	user-select: none;
 }
 
+.runo-demo .v-grid-column-resize-simple-indicator {
+	position: absolute;
+	width: 3px;
+	top: 0px;
+	left: 10px;
+	z-index: 9001;
+	background: #fff;
+	box-shadow: 0px 0px 5px #000;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
 .runo-demo .v-grid-footer td {
 	background-color: #e7e9ea;
 	font-size: 15px;
@@ -2390,10 +2389,6 @@ body .runo-demo.v-app .v-app-loading {
 	border: 1px solid #57a7ed;
 	display: none;
 	pointer-events: none;
-}
-
-.ie8 .runo-demo .v-grid-cell-focused:before, .ie9 .runo-demo .v-grid-cell-focused:before, .ie10 .runo-demo .v-grid-cell-focused:before {
-	content: url(data:image/svg+xml;charset=utf-8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjwvc3ZnPg==);
 }
 
 .runo-demo .v-grid:focus .v-grid-cell-focused:before {
@@ -2471,14 +2466,6 @@ body .runo-demo.v-app .v-app-loading {
 	max-width: 100%;
 	min-height: 100%;
 	max-height: 100%;
-}
-
-.v-ie8 .runo-demo .v-grid-editor-cells  > div .v-datefield-button {
-	margin-left: -30px;
-}
-
-.v-ie8 .runo-demo .v-grid-editor-cells  > div .v-filterselect-button {
-	margin-left: -27px;
 }
 
 .runo-demo .v-grid-editor-cells  > div .v-select, .runo-demo .v-grid-editor-cells  > div .v-select-select {
@@ -2582,10 +2569,6 @@ body .runo-demo.v-app .v-app-loading {
 	position: absolute;
 	height: 100%;
 	pointer-events: none;
-}
-
-.ie8 .runo-demo .v-grid-spacer-deco:before, .ie9 .runo-demo .v-grid-spacer-deco:before, .ie10 .runo-demo .v-grid-spacer-deco:before {
-	content: url(data:image/svg+xml;charset=utf-8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjwvc3ZnPg==);
 }
 
 .runo-demo .v-grid-cell > .v-progressbar {
@@ -2731,15 +2714,6 @@ body .runo-demo.v-app .v-app-loading {
 
 .runo-demo .v-menubar-menuitem-disabled, .runo-demo .v-menubar span.v-menubar-menuitem-disabled:hover, .runo-demo .v-menubar span.v-menubar-menuitem-disabled:focus, .runo-demo .v-menubar span.v-menubar-menuitem-disabled:active {
 	opacity: 0.5;
-	filter: alpha(opacity=50);
-}
-
-.v-ie8 .runo-demo .v-menubar-menuitem-disabled, .v-ie8 .runo-demo .v-menubar span.v-menubar-menuitem-disabled:hover, .v-ie8 .runo-demo .v-menubar span.v-menubar-menuitem-disabled:focus, .v-ie8 .runo-demo .v-menubar span.v-menubar-menuitem-disabled:active {
-	filter: none;
-	color: #999;
-}
-
-.v-ie8 .runo-demo .v-menubar-menuitem-disabled img, .v-ie8 .runo-demo .v-menubar span.v-menubar-menuitem-disabled:hover img, .v-ie8 .runo-demo .v-menubar span.v-menubar-menuitem-disabled:focus img, .v-ie8 .runo-demo .v-menubar span.v-menubar-menuitem-disabled:active img {
 	filter: alpha(opacity=50);
 }
 
@@ -3125,10 +3099,29 @@ body .runo-demo.v-app .v-app-loading {
 	border-collapse: collapse;
 	border: none;
 	vertical-align: top;
+	display: block;
+	width: 100%;
+	float: left;
+	clear: both;
+}
+
+.runo-demo .v-filterselect-suggestmenu table > tbody, .runo-demo .v-filterselect-suggestmenu table > tbody > tr, .runo-demo .v-filterselect-suggestmenu table > tbody > tr > td {
+	display: block;
+	width: 100%;
+	float: left;
+	clear: both;
+	overflow-y: hidden;
 }
 
 .runo-demo .v-filterselect-suggestmenu .gwt-MenuItem {
 	white-space: nowrap;
+	padding-left: 1px;
+	padding-right: 0;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	overflow-x: hidden;
+	text-overflow: ellipsis;
 }
 
 .runo-demo .v-filterselect-suggestmenu .gwt-MenuItem .v-icon {
@@ -3171,106 +3164,6 @@ body .runo-demo.v-app .v-app-loading {
 
 .runo-demo .v-filterselect-no-input .v-filterselect-input {
 	cursor: default;
-}
-
-.runo-demo .v-shadow {
-	position: absolute;
-	display: none;
-	pointer-events: none;
-}
-
-.v-ie8 .runo-demo .v-shadow {
-	display: block;
-}
-
-.runo-demo .v-shadow .top-left {
-	position: absolute;
-	overflow: hidden;
-	top: -3px;
-	left: -5px;
-	width: 10px;
-	height: 10px;
-	background: transparent url(../base/shadow/img/top-left.png);
-}
-
-.runo-demo .v-shadow .top {
-	position: absolute;
-	overflow: hidden;
-	top: -3px;
-	left: 5px;
-	height: 10px;
-	right: 5px;
-	background: transparent url(../base/shadow/img/top.png);
-}
-
-.runo-demo .v-shadow .top-right {
-	position: absolute;
-	overflow: hidden;
-	top: -3px;
-	right: -5px;
-	width: 10px;
-	height: 10px;
-	background: transparent url(../base/shadow/img/top-right.png);
-}
-
-.runo-demo .v-shadow .left {
-	position: absolute;
-	overflow: hidden;
-	top: 7px;
-	left: -5px;
-	width: 10px;
-	bottom: 3px;
-	background: transparent url(../base/shadow/img/left.png);
-}
-
-.runo-demo .v-shadow .center {
-	position: absolute;
-	overflow: hidden;
-	top: 7px;
-	left: 5px;
-	bottom: 3px;
-	right: 5px;
-	background: transparent url(../base/shadow/img/center.png);
-}
-
-.runo-demo .v-shadow .right {
-	position: absolute;
-	overflow: hidden;
-	top: 7px;
-	right: -5px;
-	width: 10px;
-	bottom: 3px;
-	background: transparent url(../base/shadow/img/right.png);
-}
-
-.runo-demo .v-shadow .bottom-left {
-	position: absolute;
-	overflow: hidden;
-	bottom: -7px;
-	left: -5px;
-	width: 10px;
-	height: 10px;
-	background: transparent url(../base/shadow/img/bottom-left.png);
-}
-
-.runo-demo .v-shadow .bottom {
-	position: absolute;
-	overflow: hidden;
-	bottom: -7px;
-	left: 5px;
-	right: 5px;
-	height: 10px;
-	background: transparent url(../base/shadow/img/bottom.png);
-}
-
-.runo-demo .v-shadow .bottom-right {
-	position: absolute;
-	overflow: hidden;
-	bottom: -7px;
-	right: -5px;
-	width: 10px;
-	height: 10px;
-	background: transparent url(../base/shadow/img/bottom-right.png);
 }
 
 .runo-demo .v-slider {
@@ -3898,7 +3791,7 @@ body .runo-demo.v-app .v-app-loading {
 	margin-right: 2px;
 }
 
-.runo-demo .v-richtextarea-readonly {
+.runo-demo .v-richtextarea.v-readonly {
 	border: none;
 }
 
@@ -4132,7 +4025,7 @@ body .runo-demo.v-app .v-app-loading {
 .runo-demo .v-upload-immediate input {
 	opacity: 0;
 	filter: alpha(opacity=0);
-	z-index: 2;
+	z-index: -1;
 	position: absolute;
 	right: 0;
 	height: 21px;
@@ -4269,106 +4162,6 @@ body .runo-demo.v-app .v-app-loading {
 	width: 100%;
 	height: 100%;
 	filter: alpha(opacity=50);
-}
-
-.runo-demo .v-shadow-window {
-	position: absolute;
-	display: none;
-	pointer-events: none;
-}
-
-.v-ie8 .runo-demo .v-shadow-window {
-	display: block;
-}
-
-.runo-demo .v-shadow-window .top-left {
-	position: absolute;
-	overflow: hidden;
-	top: -10px;
-	left: -15px;
-	width: 28px;
-	height: 28px;
-	background: transparent url(../base/window/img/shadow/top-left.png);
-}
-
-.runo-demo .v-shadow-window .top {
-	position: absolute;
-	overflow: hidden;
-	top: -10px;
-	left: 13px;
-	height: 28px;
-	right: 13px;
-	background: transparent url(../base/window/img/shadow/top.png);
-}
-
-.runo-demo .v-shadow-window .top-right {
-	position: absolute;
-	overflow: hidden;
-	top: -10px;
-	right: -15px;
-	width: 28px;
-	height: 28px;
-	background: transparent url(../base/window/img/shadow/top-right.png);
-}
-
-.runo-demo .v-shadow-window .left {
-	position: absolute;
-	overflow: hidden;
-	top: 18px;
-	left: -15px;
-	width: 28px;
-	bottom: 10px;
-	background: transparent url(../base/window/img/shadow/left.png);
-}
-
-.runo-demo .v-shadow-window .center {
-	position: absolute;
-	overflow: hidden;
-	top: 18px;
-	left: 13px;
-	bottom: 10px;
-	right: 13px;
-	background: transparent url(../base/window/img/shadow/center.png);
-}
-
-.runo-demo .v-shadow-window .right {
-	position: absolute;
-	overflow: hidden;
-	top: 18px;
-	right: -15px;
-	width: 28px;
-	bottom: 10px;
-	background: transparent url(../base/window/img/shadow/right.png);
-}
-
-.runo-demo .v-shadow-window .bottom-left {
-	position: absolute;
-	overflow: hidden;
-	bottom: -18px;
-	left: -15px;
-	width: 28px;
-	height: 28px;
-	background: transparent url(../base/window/img/shadow/bottom-left.png);
-}
-
-.runo-demo .v-shadow-window .bottom {
-	position: absolute;
-	overflow: hidden;
-	bottom: -18px;
-	left: 13px;
-	right: 13px;
-	height: 28px;
-	background: transparent url(../base/window/img/shadow/bottom.png);
-}
-
-.runo-demo .v-shadow-window .bottom-right {
-	position: absolute;
-	overflow: hidden;
-	bottom: -18px;
-	right: -15px;
-	width: 28px;
-	height: 28px;
-	background: transparent url(../base/window/img/shadow/bottom-right.png);
 }
 
 .runo-demo .v-absolutelayout-wrapper {
@@ -4653,7 +4446,7 @@ body .runo-demo.v-app .v-app-loading {
 }
 
 .runo-demo .v-contextmenu {
-	background: #e9eced url(../runo/tabsheet/img/tab-bg.png);
+	background: #e9eced url(../runo/tabsheet/img/tab-bg.png) content-box;
 	font-family: "Trebuchet MS", geneva, helvetica, arial, tahoma, verdana, sans-serif;
 	background-color: #f6f7f7;
 	color: #464f52;
@@ -5234,7 +5027,7 @@ body .runo-demo.v-app .v-app-loading {
 	height: 1px;
 }
 
-.v-sa .runo-demo .v-label hr, .v-ie8 .runo-demo .v-label hr {
+.v-sa .runo-demo .v-label hr {
 	height: 1px;
 }
 
@@ -5528,19 +5321,6 @@ body .runo-demo.v-app .v-app-loading {
 	overflow: hidden;
 }
 
-.v-ie8 .runo-demo .v-panel-content {
-	border-bottom: 1px solid #babfc0;
-}
-
-.v-ie8 .runo-demo .v-panel-content-light {
-	border-bottom: none;
-}
-
-.v-ie8 .runo-demo .v-panel-deco {
-	height: 0;
-	overflow: hidden;
-}
-
 .runo-demo .v-popupview {
 	background: transparent;
 }
@@ -5688,7 +5468,7 @@ body .runo-demo.v-app .v-app-loading {
 .runo-demo .v-filterselect-suggestmenu .gwt-MenuItem {
 	padding: 1px 6px;
 	cursor: pointer;
-	height: 18px;
+	min-height: 21px;
 }
 
 .runo-demo .v-filterselect-suggestmenu .gwt-MenuItem .v-icon {
@@ -5741,100 +5521,6 @@ body .runo-demo.v-app .v-app-loading {
 	padding: 4px 0px;
 	height: 11px;
 	border-top: 1px solid #b6bbbc;
-}
-
-.runo-demo .v-shadow {
-	position: absolute;
-}
-
-.runo-demo .v-shadow .top-left {
-	position: absolute;
-	overflow: hidden;
-	top: -3px;
-	left: -4px;
-	width: 8px;
-	height: 8px;
-	background: transparent url(../runo/shadow/img/top-left.png);
-}
-
-.runo-demo .v-shadow .top {
-	position: absolute;
-	overflow: hidden;
-	top: -3px;
-	left: 4px;
-	height: 8px;
-	right: 4px;
-	background: transparent url(../runo/shadow/img/top.png);
-}
-
-.runo-demo .v-shadow .top-right {
-	position: absolute;
-	overflow: hidden;
-	top: -3px;
-	right: -4px;
-	width: 8px;
-	height: 8px;
-	background: transparent url(../runo/shadow/img/top-right.png);
-}
-
-.runo-demo .v-shadow .left {
-	position: absolute;
-	overflow: hidden;
-	top: 5px;
-	left: -4px;
-	width: 8px;
-	bottom: 3px;
-	background: transparent url(../runo/shadow/img/left.png);
-}
-
-.runo-demo .v-shadow .center {
-	position: absolute;
-	overflow: hidden;
-	top: 5px;
-	left: 4px;
-	bottom: 3px;
-	right: 4px;
-	background: transparent url(../runo/shadow/img/center.png);
-}
-
-.runo-demo .v-shadow .right {
-	position: absolute;
-	overflow: hidden;
-	top: 5px;
-	right: -4px;
-	width: 8px;
-	bottom: 3px;
-	background: transparent url(../runo/shadow/img/right.png);
-}
-
-.runo-demo .v-shadow .bottom-left {
-	position: absolute;
-	overflow: hidden;
-	bottom: -5px;
-	left: -4px;
-	width: 8px;
-	height: 8px;
-	background: transparent url(../runo/shadow/img/bottom-left.png);
-}
-
-.runo-demo .v-shadow .bottom {
-	position: absolute;
-	overflow: hidden;
-	bottom: -5px;
-	left: 4px;
-	right: 4px;
-	height: 8px;
-	background: transparent url(../runo/shadow/img/bottom.png);
-}
-
-.runo-demo .v-shadow .bottom-right {
-	position: absolute;
-	overflow: hidden;
-	bottom: -5px;
-	right: -4px;
-	width: 8px;
-	height: 8px;
-	background: transparent url(../runo/shadow/img/bottom-right.png);
 }
 
 .runo-demo .v-slider {
@@ -6724,78 +6410,6 @@ body .runo-demo.v-app .v-app-loading {
 
 .runo-demo .v-window-dialog .v-window-maximizebox:hover {
 	background-position: 0 -10px;
-}
-
-.runo-demo .v-shadow-window .top-left {
-	top: -13px;
-	left: -20px;
-	width: 39px;
-	height: 39px;
-	background: transparent url(../runo/window/img/shadow/top-left.png);
-}
-
-.runo-demo .v-shadow-window .top {
-	top: -13px;
-	left: 19px;
-	height: 39px;
-	right: 19px;
-	background: transparent url(../runo/window/img/shadow/top.png);
-}
-
-.runo-demo .v-shadow-window .top-right {
-	top: -13px;
-	right: -20px;
-	width: 39px;
-	height: 39px;
-	background: transparent url(../runo/window/img/shadow/top-right.png);
-}
-
-.runo-demo .v-shadow-window .left {
-	top: 26px;
-	left: -20px;
-	width: 39px;
-	bottom: 12px;
-	background: transparent url(../runo/window/img/shadow/left.png);
-}
-
-.runo-demo .v-shadow-window .center {
-	top: 26px;
-	left: 19px;
-	bottom: 12px;
-	right: 19px;
-	background: transparent url(../runo/window/img/shadow/center.png);
-}
-
-.runo-demo .v-shadow-window .right {
-	top: 26px;
-	right: -20px;
-	width: 39px;
-	bottom: 12px;
-	background: transparent url(../runo/window/img/shadow/right.png);
-}
-
-.runo-demo .v-shadow-window .bottom-left {
-	bottom: -27px;
-	left: -20px;
-	width: 39px;
-	height: 39px;
-	background: transparent url(../runo/window/img/shadow/bottom-left.png);
-}
-
-.runo-demo .v-shadow-window .bottom {
-	bottom: -27px;
-	left: 19px;
-	right: 19px;
-	height: 39px;
-	background: transparent url(../runo/window/img/shadow/bottom.png);
-}
-
-.runo-demo .v-shadow-window .bottom-right {
-	bottom: -27px;
-	right: -20px;
-	width: 39px;
-	height: 39px;
-	background: transparent url(../runo/window/img/shadow/bottom-right.png);
 }
 
 .runo-demo .demo-ui-layout {

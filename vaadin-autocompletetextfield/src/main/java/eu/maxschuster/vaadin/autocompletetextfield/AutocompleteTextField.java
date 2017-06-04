@@ -75,9 +75,7 @@ public class AutocompleteTextField extends TextField {
     /**
      * Constructs a new {@link AutocompleteTextField} with the given caption,
      * initial text contents and autocomplete (aka word completion)
-     * functionality. The editor constructed this way will not be bound to a
-     * {@link Property} unless
-     * {@link com.vaadin.data.Property.Viewer#setPropertyDataSource(Property)}
+     * functionality.
      * is called to bind it.
      *
      * @param caption The caption {@link String} for the editor.
@@ -840,6 +838,38 @@ public class AutocompleteTextField extends TextField {
      */
     public AutocompleteTextField withId(String id) {
         setId(id);
+        return this;
+    }
+    
+    /**
+     * Gets if the fields type is {@code "search"}.
+     * 
+     * @return {@code true} the fields type is {@code "search"}.
+     */
+    public boolean isTypeSearch() {
+        return extension.isTypeSearch();
+    }
+    
+    /**
+     * Sets if the fields type is {@code "search"}.
+     * 
+     * @param typeSearch {@code true} will change this fields type to
+     * {@code "search"}.
+     */
+    public void setTypeSearch(boolean typeSearch) {
+        extension.setTypeSearch(typeSearch);
+    }
+    
+    /**
+     * Sets if the fields type is {@code "search"}.
+     * 
+     * @param typeSearch {@code true} will change this fields type to
+     * {@code "search"}.
+     * @return this (for method chaining)
+     * @see #setTypeSearch(boolean)
+     */
+    public AutocompleteTextField withTypeSearch(boolean typeSearch) {
+        extension.setTypeSearch(typeSearch);
         return this;
     }
 
