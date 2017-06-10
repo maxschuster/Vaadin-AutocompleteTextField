@@ -132,6 +132,18 @@ function eu_maxschuster_vaadin_autocompletetextfield_AutocompleteTextFieldExtens
             this.autoComplete = this.createAutoComplete(newConfig);
         }
         this.setScrollBehavoir(state.scrollBehavior);
+        this.setTypeSearch(state.typeSearch);
+    };
+    
+    this.setTypeSearch = function (typeSearch) {
+        var textField = this.textField,
+            type = typeSearch ? "search" : "text";
+        if (textField.tagName.toLowerCase() !== "input") {
+            return;
+        }
+        if (textField.getAttribute("type") !== type) {
+            textField.setAttribute("type", type);
+        }
     };
 
     this.setScrollBehavoir = function (scrollBehavior) {

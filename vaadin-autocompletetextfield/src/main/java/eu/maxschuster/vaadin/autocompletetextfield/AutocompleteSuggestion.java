@@ -269,7 +269,7 @@ public final class AutocompleteSuggestion implements Serializable {
             return;
         }
         if (styleNames == null) {
-            styleNames = new ArrayList<String>();
+            styleNames = new ArrayList<>();
         }
         styleNames.add(styleName);
     }
@@ -333,10 +333,7 @@ public final class AutocompleteSuggestion implements Serializable {
             return false;
         }
         final AutocompleteSuggestion other = (AutocompleteSuggestion) obj;
-        if ((this.value == null) ? (other.value != null) : !this.value.equals(other.value)) {
-            return false;
-        }
-        return true;
+        return !((this.value == null) ? (other.value != null) : !this.value.equals(other.value));
     }
 
 }

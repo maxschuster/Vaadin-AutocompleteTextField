@@ -27,6 +27,8 @@ import java.util.List;
  * @see AutocompleteTextFieldExtension
  */
 public class AutocompleteTextFieldExtensionState extends JavaScriptExtensionState {
+    
+    private static final long serialVersionUID = 1L;
 
     /**
      * Item contains safe html.
@@ -60,5 +62,10 @@ public class AutocompleteTextFieldExtensionState extends JavaScriptExtensionStat
      * What to do when the page is scrolled by the user.
      */
     public ScrollBehavior scrollBehavior = ScrollBehavior.NONE;
+    
+    /**
+     * Is input type is {@code "search"}.
+     */
+    public boolean typeSearch = false;
 
 }

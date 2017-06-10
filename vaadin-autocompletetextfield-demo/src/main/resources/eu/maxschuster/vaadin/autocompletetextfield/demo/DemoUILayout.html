@@ -22,94 +22,89 @@ limitations under the License.
         <meta name="package-mapping" content="demo:eu.maxschuster.vaadin.autocompletetextfield.demo" />
     </head>
     <body>
-    <vaadin-css-layout style-name="demo-ui-layout" width-full responsive>
-        <vaadin-css-layout style-name="title-wrapper" width-full>
-            <vaadin7-label style-name="title page-responsive" width-full>
-                AutocompleteTextField
-            </vaadin7-label>
+    <vaadin-ui>
+        <vaadin-css-layout style-name="demo-ui-layout" width-full responsive>
+            <vaadin-css-layout style-name="title-wrapper" width-full>
+                <vaadin-label style-name="title page-responsive" width-full>
+                    AutocompleteTextField
+                </vaadin-label>
+            </vaadin-css-layout>
+            <vaadin-label style-name="sub-title page-responsive" width-full>
+                A Vaadin TextField with word completion based on a
+                <a href="https://github.com/maxschuster/JavaScript-autoComplete">modified&nbsp;version</a>
+                of Pixabay's
+                <a href="https://goodies.pixabay.com/javascript/auto-complete/demo.html">autoComplete</a>
+                javascript library.
+            </vaadin-label>
+            <vaadin-css-layout style-name="content page-responsive" width-full>
+                <vaadin-panel caption="Component Demo" width-full>
+                    <vaadin-vertical-layout spacing width-full margin>
+                        <actf-autocomplete-text-field _id="languageField" width-full
+                                                      caption="Programming language:"
+                                                      style-name="demo-field"
+                                                      placeholder="Search programming languages..." />
+                        <vaadin-horizontal-layout caption="Inside overlay components:" spacing :center :middl>
+                            <vaadin-button _id="windowTest" :middle>
+                                Inside a Window
+                            </vaadin-button>
+                            <vaadin-popup-view hide-on-mouse-out="false" :middle>
+                                Inside a PopupView
+                                <popup-content>
+                                    <vaadin-panel caption="PopupView Demo">
+                                        <demo-demo-overlay-test
+                                            _id="demoOverlayTest"
+                                            caption="Popup Test" />
+                                    </vaadin-panel>
+                                </popup-content>
+                            </vaadin-popup-view>
+                        </vaadin-horizontal-layout>
+                    </vaadin-vertical-layout>
+                </vaadin-panel>
+                <vaadin-panel caption="Demo Options" style-name="options" width-full>
+                    <vaadin-vertical-layout spacing margin width-full>
+                        <vaadin-form-layout margin="false" width-full>
+                            <vaadin-native-select _id="theme" caption="Theme:" null-selection-allowed="false" width-full />
+                            <vaadin-check-box _id="visible" caption="Visible (Test detach/attach)" />
+                            <vaadin-check-box _id="enabled" caption="Enabled" />
+                            <vaadin-check-box _id="addDescription" caption="Add description" />
+                            <vaadin-native-select _id="addIcon" caption="Add icons:" null-selection-allowed="false" width-full />
+                        </vaadin-form-layout>
+                    </vaadin-vertical-layout>
+                </vaadin-panel>
+                <vaadin-panel caption="Add-on Options" style-name="options" width-full>
+                    <vaadin-vertical-layout spacing margin width-full>
+                        <vaadin-form-layout margin="false" width-full>
+                            <vaadin-text-field _id="delay" caption="Delay:" null-representation="" width-full required />
+                            <vaadin-text-field _id="minChars" caption="Min chars:" null-representation="" width-full required />
+                            <vaadin-text-field _id="suggestionLimit" caption="Suggestion limit:" null-representation="" width-full required />
+                            <vaadin-text-field _id="placeholder" caption="Placeholder:" null-representation="" width-full required />
+                            <vaadin-native-select _id="scrollBehavior" caption="Scroll behavior:" null-selection-allowed="false" width-full />
+                            <vaadin-check-box _id="cache" caption="Cache enabled" />
+                            <vaadin-check-box _id="typeSearch" caption="Is type=&quot;search&quot;" />
+                        </vaadin-form-layout>
+                    </vaadin-vertical-layout>
+                </vaadin-panel>
+                <vaadin-vertical-layout width-full margin spacing>
+                    <vaadin-label style-name="h1">
+                        Links
+                    </vaadin-label>
+                    <vaadin-link href="https://goodies.pixabay.com/javascript/auto-complete/demo.html"
+                            caption="https://goodies.pixabay.com/javascript/auto-complete/demo.html" :center :middle />
+                    <vaadin-link href="https://github.com/maxschuster/Vaadin-AutocompleteTextField"
+                            caption="https://github.com/maxschuster/Vaadin-AutocompleteTextField" :center :middle />
+                    <vaadin-link href="https://github.com/maxschuster/JavaScript-autoComplete"
+                            caption="https://github.com/maxschuster/JavaScript-autoComplete" :center :middle />
+                </vaadin-vertical-layout>
+                <vaadin-vertical-layout width-full margin>
+                    <vaadin-label width-auto :center :middle>
+                        &copy; 2016 Max Schuster
+                    </vaadin-label>
+                </vaadin-vertical-layout>
+                <vaadin-label height="1000px">
+                    * Bottom padding to test scrolling behavior
+                </label>
+            </vaadin-css-layout>
         </vaadin-css-layout>
-        <vaadin7-label style-name="sub-title page-responsive" width-full>
-            A Vaadin TextField with word completion based on a
-            <a href="https://github.com/maxschuster/JavaScript-autoComplete">modified&nbsp;version</a>
-            of Pixabay's
-            <a href="https://goodies.pixabay.com/javascript/auto-complete/demo.html">autoComplete</a>
-            javascript library.
-        </vaadin7-label>
-        <vaadin-css-layout style-name="content page-responsive" width-full>
-            <vaadin-panel caption="Component Demo" width-full>
-                <vaadin7-vertical-layout spacing width-full margin>
-                    <actf-autocomplete-text-field _id="languageField" width-full
-                                                  caption="Programming language:"
-                                                  style-name="demo-field"
-                                                  input-prompt="Search programming languages..." />
-                    <vaadin7-horizontal-layout caption="Inside overlay components:" spacing :center :middl>
-                        <vaadin-button _id="windowTest" :middle>
-                            Inside a Window
-                        </vaadin-button>
-                        <vaadin-popup-view hide-on-mouse-out="false" :middle>
-                            Inside a PopupView
-                            <popup-content>
-                                <vaadin-panel caption="PopupView Demo">
-                                    <demo-demo-overlay-test
-                                        _id="demoOverlayTest"
-                                        caption="Popup Test" />
-                                </vaadin-panel>
-                            </popup-content>
-                        </vaadin-popup-view>
-                    </vaadin7-horizontal-layout>
-                </vaadin7-vertical-layout>
-            </vaadin-panel>
-            <vaadin-panel caption="Demo Options" style-name="options" width-full>
-                <vaadin7-vertical-layout spacing margin width-full>
-                    <vaadin-form-layout margin="false" width-full>
-                        <vaadin7-native-select _id="theme" caption="Theme:" null-selection-allowed="false" width-full />
-                        <vaadin7-check-box _id="visible" caption="Visible (Test detach/attach)" />
-                        <vaadin7-check-box _id="enabled" caption="Enabled" />
-                        <vaadin7-check-box _id="addDescription" caption="Add description" />
-                        <vaadin7-native-select _id="addIcon" caption="Add icons:" null-selection-allowed="false" width-full />
-                    </vaadin-form-layout>
-                </vaadin7-vertical-layout>
-            </vaadin-panel>
-            <vaadin-panel caption="Add-on Options" style-name="options" width-full>
-                <vaadin7-vertical-layout spacing margin width-full>
-                    <vaadin-form-layout margin="false" width-full>
-                        <vaadin7-text-field _id="delay" caption="Delay:" null-representation="" width-full required />
-                        <vaadin7-text-field _id="minChars" caption="Min chars:" null-representation="" width-full required />
-                        <vaadin7-text-field _id="suggestionLimit" caption="Suggestion limit:" null-representation="" width-full required />
-                        <vaadin7-text-field _id="inputPrompt" caption="Input prompt:" null-representation="" width-full required />
-                        <vaadin7-native-select _id="scrollBehavior" caption="Scroll behavior:" null-selection-allowed="false" width-full />
-                        <vaadin7-check-box _id="cache" caption="Cache enabled" />
-                    </vaadin-form-layout>
-                    <vaadin7-horizontal-layout style-name="option-button-bar" width-full spacing>
-                        <vaadin-button _id="apply" style-name="primary">
-                            Apply
-                        </vaadin-button>
-                        <vaadin-button _id="reset" style-name="danger">
-                            Reset
-                        </vaadin-button>
-                    </vaadin7-horizontal-layout>
-                </vaadin7-vertical-layout>
-            </vaadin-panel>
-            <vaadin7-vertical-layout width-full margin spacing>
-                <vaadin7-label style-name="h1">
-                    Links
-                </vaadin7-label>
-                <vaadin-link href="https://goodies.pixabay.com/javascript/auto-complete/demo.html"
-                        caption="https://goodies.pixabay.com/javascript/auto-complete/demo.html" :center :middle />
-                <vaadin-link href="https://github.com/maxschuster/Vaadin-AutocompleteTextField"
-                        caption="https://github.com/maxschuster/Vaadin-AutocompleteTextField" :center :middle />
-                <vaadin-link href="https://github.com/maxschuster/JavaScript-autoComplete"
-                        caption="https://github.com/maxschuster/JavaScript-autoComplete" :center :middle />
-            </vaadin7-vertical-layout>
-            <vaadin7-vertical-layout width-full margin>
-                <vaadin7-label width-auto :center :middle>
-                    &copy; 2016 Max Schuster
-                </vaadin7-label>
-            </vaadin7-vertical-layout>
-            <vaadin7-label height="1000px">
-                * Bottom padding to test scrolling behavior
-            </label>
-        </vaadin-css-layout>
-    </vaadin-css-layout>
+    </vaadin-ui>
 </body>
 </html>

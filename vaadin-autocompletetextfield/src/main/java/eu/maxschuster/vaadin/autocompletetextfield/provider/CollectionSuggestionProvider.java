@@ -118,7 +118,7 @@ public class CollectionSuggestionProvider implements AutocompleteSuggestionProvi
         if (values == null) {
             throw new NullPointerException("collection is null!");
         }
-        return new ArrayList<String>(values);
+        return new ArrayList<>(values);
     }
 
     /**
@@ -129,7 +129,7 @@ public class CollectionSuggestionProvider implements AutocompleteSuggestionProvi
      * @return {@link List} containing only lower case {@link String}s
      */
     private static List<String> listToLowerCase(List<String> list, Locale locale) {
-        List<String> lowerCase = new ArrayList<String>(list);
+        List<String> lowerCase = new ArrayList<>(list);
         int length = lowerCase.size();
         for (int i = 0; i < length; ++i) {
             String normalCase = lowerCase.get(i);
@@ -155,9 +155,9 @@ public class CollectionSuggestionProvider implements AutocompleteSuggestionProvi
 
         Set<AutocompleteSuggestion> suggestions;
         if (hasLimit) {
-            suggestions = new LinkedHashSet<AutocompleteSuggestion>(limit);
+            suggestions = new LinkedHashSet<>(limit);
         } else {
-            suggestions = new LinkedHashSet<AutocompleteSuggestion>();
+            suggestions = new LinkedHashSet<>();
         }
 
         int added = 0;

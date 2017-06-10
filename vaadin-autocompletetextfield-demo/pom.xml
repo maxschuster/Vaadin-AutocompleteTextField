@@ -5,12 +5,12 @@
 	<groupId>eu.maxschuster</groupId>
 	<artifactId>vaadin-autocompletetextfield-demo</artifactId>
 	<packaging>war</packaging>
-	<version>2.0.0</version>
+	<version>3.0-SNAPSHOT</version>
 	<name>AutocompleteTextField Add-on (Demo)</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<vaadin.version>8.0.5</vaadin.version>
+		<vaadin.version>8.0.6</vaadin.version>
 		<vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
 	</properties>
 
@@ -91,11 +91,11 @@
         </dependency>
         <dependency>
             <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-compatibility-server</artifactId>
+            <artifactId>vaadin-server</artifactId>
         </dependency>
         <dependency>
             <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-compatibility-client</artifactId>
+            <artifactId>vaadin-client</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -116,11 +116,6 @@
             <artifactId>javax.servlet-api</artifactId>
             <version>3.0.1</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.vaadin.icons</groupId>
-            <artifactId>vaadin-icons</artifactId>
-            <version>1.0.1</version>
         </dependency>
     </dependencies>
 

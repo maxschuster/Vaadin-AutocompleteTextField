@@ -15,7 +15,7 @@
  */
 package eu.maxschuster.vaadin.autocompletetextfield.demo;
 
-import com.vaadin.v7.ui.VerticalLayout;
+import com.vaadin.ui.VerticalLayout;
 import eu.maxschuster.vaadin.autocompletetextfield.AutocompleteSuggestionProvider;
 import eu.maxschuster.vaadin.autocompletetextfield.AutocompleteTextField;
 

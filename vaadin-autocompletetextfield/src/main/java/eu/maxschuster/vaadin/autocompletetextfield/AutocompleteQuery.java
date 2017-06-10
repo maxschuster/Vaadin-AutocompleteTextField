@@ -16,6 +16,7 @@
 package eu.maxschuster.vaadin.autocompletetextfield;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * A search query created by {@link AutocompleteTextFieldExtension} and passed
@@ -61,11 +62,8 @@ public final class AutocompleteQuery implements Serializable {
      * @param limit Max result limit.
      */
     public AutocompleteQuery(AutocompleteTextFieldExtension extension, String term, int limit) {
-        if (extension == null) {
-            throw new NullPointerException("The extension is null!");
-        } else if (term == null) {
-            throw new NullPointerException("The term is null!");
-        }
+        Objects.requireNonNull(extension, "The extension is null!");
+        Objects.requireNonNull(term, "The term is null!");
         this.extension = extension;
         this.term = term;
         this.limit = limit;
