@@ -51,6 +51,12 @@ Another way of debugging client-side is superdev mode. To enable it, uncomment d
  
 ## Release notes
 
+### Version 3.0-alpha-1
+- Native Vaadin 8 support
+
+### Version 2.0.0
+- Vaadin 8 support using the compatibility package
+
 ### Version 1.0-alpha-4
 - Add fluent setters, following the example of [viritin](https://github.com/viritin/viritin) (#6)
 
