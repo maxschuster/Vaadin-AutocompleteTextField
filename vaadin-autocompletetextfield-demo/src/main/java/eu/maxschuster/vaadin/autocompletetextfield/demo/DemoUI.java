@@ -33,7 +33,6 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.Window;
 import eu.maxschuster.vaadin.autocompletetextfield.AutocompleteTextField;
 import eu.maxschuster.vaadin.autocompletetextfield.shared.ScrollBehavior;
-import java.util.logging.Logger;
 
 @Theme("valo-demo")
 @Title("AutocompleteTextField Add-on Demo")
@@ -43,7 +42,7 @@ import java.util.logging.Logger;
 public class DemoUI extends DemoUILayout {
 
     @WebServlet(value = "/*", asyncSupported = true)
-    @VaadinServletConfiguration(productionMode = false, ui = DemoUI.class, widgetset = "eu.maxschuster.vaadin.autocompletetextfield.demo.DemoWidgetSet")
+    @VaadinServletConfiguration(productionMode = true, ui = DemoUI.class, widgetset = "eu.maxschuster.vaadin.autocompletetextfield.demo.DemoWidgetSet")
     public static class Servlet extends VaadinServlet {
     }
 
@@ -62,6 +61,8 @@ public class DemoUI extends DemoUILayout {
                 .bind(CustomSuggestionProvider::getAddIcon, CustomSuggestionProvider::setAddIcon);
         suggestionProviderBinder.forField(addDescription)
                 .bind(CustomSuggestionProvider::isAddDescription, CustomSuggestionProvider::setAddDescription);
+        suggestionProviderBinder.forField(addStyleName)
+                .bind(CustomSuggestionProvider::getAddStyleNames, CustomSuggestionProvider::setAddStyleNames);
         suggestionProviderBinder.setBean(suggestionProvider);
 
         languageField
@@ -77,24 +78,18 @@ public class DemoUI extends DemoUILayout {
 
         theme.setItems(Themes.values());
         theme.setValue(Themes.VALO);
-        theme.setEmptySelectionAllowed(false);
         theme.setItemCaptionGenerator(item -> item.caption);
         theme.addValueChangeListener(this::onThemeValueChange);
 
         addIcon.setItems(Icons.values());
         addIcon.setValue(Icons.NONE);
-        addIcon.setEmptySelectionAllowed(false);
         addIcon.setItemCaptionGenerator(item -> item.caption);
 
         visible.setValue(true);
-        visible.addValueChangeListener(e -> {
-            languageField.setVisible(e.getValue());
-        });
+        visible.addValueChangeListener(e -> languageField.setVisible(e.getValue()));
 
         enabled.setValue(true);
-        enabled.addValueChangeListener(e -> {
-            languageField.setEnabled(e.getValue());
-        });
+        enabled.addValueChangeListener(e -> languageField.setEnabled(e.getValue()));
         
         binder.forField(delay)
                 .asRequired("This value is required")
@@ -124,10 +119,6 @@ public class DemoUI extends DemoUILayout {
 
         demoOverlayTest.setSuggestionProvider(suggestionProvider);
 
-    }
-
-    private Logger getLogger() {
-        return Logger.getLogger(DemoUI.class.getName());
     }
     
     private void openTestWindow() {

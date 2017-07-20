@@ -13,7 +13,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <vaadin.version>8.0.6</vaadin.version>
+        <vaadin.version>8.0.7</vaadin.version>
         <vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
 
         <!-- grunt settings -->
@@ -151,7 +151,6 @@
                             <!-- Package format version - do not change -->
                             <Vaadin-Package-Version>1</Vaadin-Package-Version>
                             <Vaadin-License-Title>${Vaadin-License-Title}</Vaadin-License-Title>
-                            <Vaadin-Widgetsets></Vaadin-Widgetsets>
                         </manifestEntries>
                     </archive>
                 </configuration>

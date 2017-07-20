@@ -32,11 +32,13 @@ import java.util.Collection;
 public class CustomSuggestionProvider extends CollectionSuggestionProvider {
     
     private final Resource imageIcon
-            = new ClassResource(CollectionSuggestionProvider.class, "vaadin.png");
+            = new ClassResource(DemoUI.class, "vaadin.png");
     
     private boolean addDescription;
     
     private Icons addIcon;
+    
+    private String addStyleNames;
 
     public CustomSuggestionProvider() {
         super(Arrays.asList(ProgrammingLanguages.ARRAY), MatchMode.CONTAINS, true);
@@ -45,9 +47,6 @@ public class CustomSuggestionProvider extends CollectionSuggestionProvider {
     @Override
     public Collection<AutocompleteSuggestion> querySuggestions(AutocompleteQuery query) {
         Collection<AutocompleteSuggestion> suggestions = super.querySuggestions(query);
-        if (!addDescription && addIcon == Icons.NONE) {
-            return suggestions;
-        }
         int i = 0;
         for (AutocompleteSuggestion suggestion : suggestions) {
             if (addDescription) {
@@ -63,6 +62,9 @@ public class CustomSuggestionProvider extends CollectionSuggestionProvider {
                     break;
                 default:
                     break;
+            }
+            if (addStyleNames != null) {
+                suggestion.addStyleName(addStyleNames);
             }
             ++i;
         }
@@ -83,6 +85,14 @@ public class CustomSuggestionProvider extends CollectionSuggestionProvider {
 
     public void setAddIcon(Icons addIcon) {
         this.addIcon = addIcon;
+    }
+
+    public String getAddStyleNames() {
+        return addStyleNames;
+    }
+
+    public void setAddStyleNames(String addStyleNames) {
+        this.addStyleNames = addStyleNames;
     }
     
 }

@@ -63,11 +63,12 @@ limitations under the License.
                 <vaadin-panel caption="Demo Options" style-name="options" width-full>
                     <vaadin-vertical-layout spacing margin width-full>
                         <vaadin-form-layout margin="false" width-full>
-                            <vaadin-native-select _id="theme" caption="Theme:" null-selection-allowed="false" width-full />
+                            <vaadin-native-select _id="theme" caption="Theme:" empty-selection-allowed="false" width-full />
                             <vaadin-check-box _id="visible" caption="Visible (Test detach/attach)" />
                             <vaadin-check-box _id="enabled" caption="Enabled" />
                             <vaadin-check-box _id="addDescription" caption="Add description" />
-                            <vaadin-native-select _id="addIcon" caption="Add icons:" null-selection-allowed="false" width-full />
+                            <vaadin-native-select _id="addIcon" caption="Add icons:" empty-selection-allowed="false" width-full />
+                            <vaadin-text-field _id="addStyleName" caption="Item style name:" width-full />
                         </vaadin-form-layout>
                     </vaadin-vertical-layout>
                 </vaadin-panel>

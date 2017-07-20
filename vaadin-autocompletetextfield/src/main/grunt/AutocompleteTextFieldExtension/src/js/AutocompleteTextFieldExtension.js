@@ -90,7 +90,7 @@ function eu_maxschuster_vaadin_autocompletetextfield_AutocompleteTextFieldExtens
     };
 
     this.getConfig = function (state) {
-        var menuClass = this.isArray(state.menuStyleNames) ?
+        var menuClass = Array.isArray(state.menuStyleNames) ?
                 state.menuStyleNames.join(" ") : "";
         return {
             selector: this.textField,
@@ -151,13 +151,13 @@ function eu_maxschuster_vaadin_autocompletetextfield_AutocompleteTextFieldExtens
             case "REFRESH":
             case "CLOSE":
                 if (!this.scrollListener) {
-                    this.addEvent(window, "scroll", this.onScroll, true);
+                    window.addEventListener("scroll", this.onScroll, true);
                     this.scrollListener = true;
                 }
                 break;
             default: // including "NONE"
                 if (this.scrollListener) {
-                    this.removeEvent(window, "scroll", this.onScroll, true);
+                    window.removeEventListener("scroll", this.onScroll, true);
                     this.scrollListener = false;
                 }
                 break;
@@ -230,31 +230,6 @@ function eu_maxschuster_vaadin_autocompletetextfield_AutocompleteTextFieldExtens
     };
 
     /**
-     * Cross browser add event.
-     * 
-     * @param {Element} ob
-     * @param {string} type
-     * @param {Function} fn
-     * @param {Boolean} useCapture
-     * @returns {undefined}
-     */
-    this.addEvent = function (ob, type, fn, useCapture) {
-        if (ob.addEventListener) {
-            ob.addEventListener(type, fn, useCapture || false);
-        } else if (ob.attachEvent) {
-            ob.attachEvent('on' + type, fn);
-        }
-    };
-
-    this.removeEvent = function (ob, type, fn, useCapture) {
-        if (ob.removeEventListener) {
-            ob.removeEventListener(type, fn, useCapture || false);
-        } else if (ob.dettachEvent) {
-            ob.dettachEvent('on' + type, fn);
-        }
-    };
-
-    /**
      * Trigger an Event
      * 
      * @param {Element} element
@@ -263,13 +238,9 @@ function eu_maxschuster_vaadin_autocompletetextfield_AutocompleteTextFieldExtens
      * @see http://stackoverflow.com/a/2856602
      */
     this.triggerEvent = function (element, event) {
-        if ("createEvent" in document) {
-            var evt = document.createEvent("HTMLEvents");
-            evt.initEvent(event, false, true);
-            element.dispatchEvent(evt);
-        } else {
-            element.fireEvent("on" + event);
-        }
+        var evt = document.createEvent("HTMLEvents");
+        evt.initEvent(event, false, true);
+        element.dispatchEvent(evt);
     };
 
     this.source = function (term, response) {
@@ -303,7 +274,7 @@ function eu_maxschuster_vaadin_autocompletetextfield_AutocompleteTextFieldExtens
         }
 
         //  Add the item styles
-        if (self.isArray(styleNames)) {
+        if (Array.isArray(styleNames)) {
             classes.push.apply(classes, styleNames);
         }
 
@@ -355,18 +326,6 @@ function eu_maxschuster_vaadin_autocompletetextfield_AutocompleteTextFieldExtens
         } else {
             return '<img class="v-icon" src="' + this.translateVaadinUri(vaadinUri) + '" />';
         }
-    };
-
-    /**
-     * Checks if the given object is an array.
-     * @param {Object} object
-     * @returns {Boolean}
-     */
-    this.isArray = function (object) {
-        if (Array.isArray) {
-            return Array.isArray(object);
-        }
-        return Object.prototype.toString.call(object) === '[object Array]';
     };
 
     this.init();

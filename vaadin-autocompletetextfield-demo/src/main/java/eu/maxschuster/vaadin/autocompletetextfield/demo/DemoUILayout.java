@@ -32,23 +32,24 @@ import eu.maxschuster.vaadin.autocompletetextfield.shared.ScrollBehavior;
 @DesignRoot
 abstract class DemoUILayout extends UI {
     
-    AutocompleteTextField languageField;
-    TextField delay;
-    TextField minChars;
-    TextField suggestionLimit;
-    TextField placeholder;
-    CheckBox cache;
-    NativeSelect<ScrollBehavior> scrollBehavior;
-    CheckBox addDescription;
-    NativeSelect<Icons> addIcon;
-    NativeSelect<Themes> theme;
-    CheckBox visible;
-    CheckBox enabled;
-    CheckBox typeSearch;
-    Button windowTest;
-    DemoOverlayTest demoOverlayTest;
+    protected AutocompleteTextField languageField;
+    protected TextField delay;
+    protected TextField minChars;
+    protected TextField suggestionLimit;
+    protected TextField placeholder;
+    protected CheckBox cache;
+    protected NativeSelect<ScrollBehavior> scrollBehavior;
+    protected CheckBox addDescription;
+    protected NativeSelect<Icons> addIcon;
+    protected TextField addStyleName;
+    protected NativeSelect<Themes> theme;
+    protected CheckBox visible;
+    protected CheckBox enabled;
+    protected CheckBox typeSearch;
+    protected Button windowTest;
+    protected DemoOverlayTest demoOverlayTest;
     
-    DemoUILayout() {
+    public DemoUILayout() {
         Design.read(this);
     }
     
