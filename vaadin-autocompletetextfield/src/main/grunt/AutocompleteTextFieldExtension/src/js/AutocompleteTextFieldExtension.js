@@ -116,8 +116,7 @@ function eu_maxschuster_vaadin_autocompletetextfield_AutocompleteTextFieldExtens
 
     this.onSelect = function (event, value, item) {
         var textField = self.textField;
-        // Fake keydown to force a text change event
-        self.triggerEvent(textField, "keydown");
+        self.triggerEvent(textField, "change");
     };
 
     this.onStateChange = function () {
