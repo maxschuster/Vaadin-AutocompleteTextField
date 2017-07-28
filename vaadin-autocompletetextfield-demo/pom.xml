@@ -5,7 +5,7 @@
 	<groupId>eu.maxschuster</groupId>
 	<artifactId>vaadin-autocompletetextfield-demo</artifactId>
 	<packaging>war</packaging>
-	<version>3.0-alpha-1</version>
+	<version>3.0-SNAPSHOT</version>
 	<name>AutocompleteTextField Add-on (Demo)</name>
 
 	<properties>
