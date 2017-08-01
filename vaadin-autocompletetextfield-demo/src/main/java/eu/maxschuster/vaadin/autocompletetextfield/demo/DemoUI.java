@@ -124,6 +124,9 @@ public class DemoUI extends DemoUILayout {
         windowTest.addClickListener(e -> openTestWindow());
 
         demoOverlayTest.setSuggestionProvider(suggestionProvider);
+
+        getValueTest.addClickListener(e -> Notification.show(
+                "getValue() = \"" + languageField.getValue() + "\""));
     }
     
     private void openTestWindow() {
