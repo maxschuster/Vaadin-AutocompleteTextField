@@ -29,8 +29,11 @@ import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.shared.Position;
+import com.vaadin.shared.Registration;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Window;
+import eu.maxschuster.vaadin.autocompletetextfield.AutocompleteEvents;
+import eu.maxschuster.vaadin.autocompletetextfield.AutocompleteSuggestion;
 import eu.maxschuster.vaadin.autocompletetextfield.AutocompleteTextField;
 import eu.maxschuster.vaadin.autocompletetextfield.shared.ScrollBehavior;
 
@@ -54,6 +57,8 @@ public class DemoUI extends DemoUILayout {
 
     private final Binder<AutocompleteTextField> binder
             = new Binder<>(AutocompleteTextField.class);
+    
+    private Registration selectRegistration;
     
     @Override
     protected void init(VaadinRequest request) {
@@ -91,6 +96,9 @@ public class DemoUI extends DemoUILayout {
         enabled.setValue(true);
         enabled.addValueChangeListener(e -> languageField.setEnabled(e.getValue()));
         
+        addSelectListeners.setValue(false);
+        addSelectListeners.addValueChangeListener(this::onAddSelectListenersValueChange);
+        
         binder.forField(delay)
                 .asRequired("This value is required")
                 .withConverter(new StringToIntegerConverter("Please enter a valid integer"))
@@ -109,8 +117,6 @@ public class DemoUI extends DemoUILayout {
                 .bind(AutocompleteTextField::getPlaceholder, AutocompleteTextField::setPlaceholder);
         binder.forField(scrollBehavior)
                 .bind(AutocompleteTextField::getScrollBehavior, AutocompleteTextField::setScrollBehavior);
-        binder.forField(cache)
-                .bind(AutocompleteTextField::isCache, AutocompleteTextField::setCache);
         binder.forField(typeSearch)
                 .bind(AutocompleteTextField::isTypeSearch, AutocompleteTextField::setTypeSearch);
         binder.setBean(languageField);
@@ -118,7 +124,6 @@ public class DemoUI extends DemoUILayout {
         windowTest.addClickListener(e -> openTestWindow());
 
         demoOverlayTest.setSuggestionProvider(suggestionProvider);
-
     }
     
     private void openTestWindow() {
@@ -142,5 +147,26 @@ public class DemoUI extends DemoUILayout {
     private void onThemeValueChange(HasValue.ValueChangeEvent<Themes> event) {
         setTheme(event.getValue().themeName);
     }
-
+    
+    private void onAutocompleteSelect(AutocompleteEvents.SelectEvent event) {
+        AutocompleteSuggestion suggestion = event.getSuggestion();
+        String caption = "Suggestion selected: " + suggestion.getValue();
+        Notification notification = new Notification(
+                caption, Notification.Type.TRAY_NOTIFICATION);
+        notification.setDescription(suggestion.getData().toString());
+        notification.setPosition(Position.BOTTOM_RIGHT);
+        notification.show(Page.getCurrent());
+    }
+    
+    private void onAddSelectListenersValueChange(HasValue.ValueChangeEvent<Boolean> event) {
+        Boolean value = event.getValue();
+        if (!value && selectRegistration != null) {
+            selectRegistration.remove();
+            selectRegistration = null;
+            languageField.markAsDirty();
+        } else if (value && selectRegistration == null) {
+            selectRegistration = languageField
+                    .addSelectListener(this::onAutocompleteSelect);
+        }
+    }
 }

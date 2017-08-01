@@ -19,6 +19,7 @@ import com.vaadin.event.ShortcutListener;
 import com.vaadin.server.ErrorMessage;
 import com.vaadin.server.Extension;
 import com.vaadin.server.Resource;
+import com.vaadin.shared.Registration;
 import com.vaadin.shared.ui.ValueChangeMode;
 import com.vaadin.ui.TextField;
 import eu.maxschuster.vaadin.autocompletetextfield.shared.ScrollBehavior;
@@ -43,9 +44,10 @@ import java.util.Locale;
  * @see <a href="https://github.com/maxschuster/JavaScript-autoComplete">
  * https://github.com/maxschuster/JavaScript-autoComplete</a>
  */
-public class AutocompleteTextField extends TextField {
+public class AutocompleteTextField extends TextField 
+        implements AutocompleteEvents.SelectNotifier {
 
-    private static final long serialVersionUID = 2L;
+    private static final long serialVersionUID = 3L;
 
     /**
      * The {@link Extension} providing the autocomplete functionality
@@ -297,36 +299,6 @@ public class AutocompleteTextField extends TextField {
      */
     public AutocompleteTextField withDelay(int delay) {
         setDelay(delay);
-        return this;
-    }
-
-    /**
-     * Checks if performed searches should be cached.
-     *
-     * @return Cache performed searches.
-     */
-    public boolean isCache() {
-        return extension.isCache();
-    }
-
-    /**
-     * Sets if performed searches should be cached.
-     *
-     * @param cache Cache performed searches.
-     */
-    public void setCache(boolean cache) {
-        extension.setCache(cache);
-    }
-
-    /**
-     * Sets if performed searches should be cached.
-     *
-     * @param cache Cache performed searches.
-     * @return this (for method chaining)
-     * @see #setCache(boolean)
-     */
-    public AutocompleteTextField withCache(boolean cache) {
-        setCache(cache);
         return this;
     }
 
@@ -872,4 +844,15 @@ public class AutocompleteTextField extends TextField {
         return this;
     }
 
+    @Override
+    public Registration addSelectListener(AutocompleteEvents.SelectListener listener) {
+        return extension.addSelectListener(listener);
+    }
+
+    @Override
+    public AutocompleteTextField withSelectListener(AutocompleteEvents.SelectListener listener) {
+        addSelectListener(listener);
+        return this;
+    }
+    
 }

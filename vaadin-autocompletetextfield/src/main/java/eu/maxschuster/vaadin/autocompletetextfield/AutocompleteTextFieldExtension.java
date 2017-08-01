@@ -18,9 +18,9 @@ package eu.maxschuster.vaadin.autocompletetextfield;
 import com.vaadin.annotations.JavaScript;
 import com.vaadin.annotations.StyleSheet;
 import com.vaadin.server.AbstractJavaScriptExtension;
-import com.vaadin.server.ClientConnector;
 import com.vaadin.server.JsonCodec;
 import com.vaadin.server.Resource;
+import com.vaadin.shared.Registration;
 import com.vaadin.ui.AbstractTextField;
 import com.vaadin.ui.JavaScriptFunction;
 import elemental.json.Json;
@@ -35,8 +35,11 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.StringTokenizer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Extends an {@link AbstractTextField} with autocomplete (aka word completion)
@@ -63,17 +66,24 @@ import java.util.StringTokenizer;
 @StyleSheet({
     "vaadin://addons/autocompletetextfield/dist/AutocompleteTextFieldExtension.css"
 })
-public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension {
+public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension
+        implements AutocompleteEvents.SelectNotifier {
 
-    private static final long serialVersionUID = 2L;
+    private static final long serialVersionUID = 3L;
+    
+    /**
+     * An object that keeps track of all visible suggestions.
+     */
+    private final AutocompleteSuggestionTracker suggestionTracker
+            = new AutocompleteSuggestionTracker();
 
     /**
-     * The max amount of suggestions send to the client-side
+     * The max amount of suggestions send to the client-side.
      */
     private int suggestionLimit = 0;
 
     /**
-     * The suggestion provider queried for suggesions
+     * The suggestion provider queried for suggestions.
      */
     protected AutocompleteSuggestionProvider suggestionProvider = null;
 
@@ -81,7 +91,7 @@ public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension 
      * Construct a new {@link AutocompleteTextFieldExtension}.
      */
     public AutocompleteTextFieldExtension() {
-        init(null);
+        this(null);
     }
 
     /**
@@ -91,15 +101,6 @@ public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension 
      * @param target The textfield to extend.
      */
     public AutocompleteTextFieldExtension(AbstractTextField target) {
-        init(target);
-    }
-
-    /**
-     * Init stuff
-     *
-     * @param target The textfield to extend.
-     */
-    private void init(AbstractTextField target) {
         addFunctions();
         if (target != null) {
             extend(target);
@@ -121,7 +122,7 @@ public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension 
     }
 
     @Override
-    protected Class<? extends ClientConnector> getSupportedParentType() {
+    protected Class<? extends AbstractTextField> getSupportedParentType() {
         return AbstractTextField.class;
     }
 
@@ -145,11 +146,15 @@ public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension 
      */
     private void addFunctions() {
         addFunction("serverQuerySuggestions", this::jsQuerySuggestions);
+        addFunction("serverOnSelect", this::jsOnSelect);
+        addFunction("serverOnCloseSuggestionContainer",
+                this::jsOnCloseSuggestionContainer);
     }
 
     /**
      * Receives a search term from the client-side, executes the query and sends
      * the results to the JavaScript method "setSuggestions".
+     * 
      * <p>
      * <b>Parameters:</b>
      * <ul>
@@ -157,6 +162,8 @@ public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension 
      * client-side.</li>
      * <li>{@link String} {@code term} - The search term.</li>
      * </ul>
+     * 
+     * @param arguments Parameters from the client-side.
      */
     private void jsQuerySuggestions(JsonArray arguments) {
         JsonValue requestId = arguments.get(0);
@@ -165,6 +172,39 @@ public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension 
         JsonValue suggestionsAsJson = suggestionsToJson(suggestions);
         callFunction("setSuggestions", requestId, suggestionsAsJson);
     };
+    
+    /**
+     * Called when the user selects a suggestion.
+     * 
+     * <p>
+     * <b>Parameters:</b>
+     * <ul>
+     * <li>{@link String} {@code key} - The suggestion key.</li>
+     * </ul>
+     * 
+     * @param arguments Parameters from the client-side.
+     */
+    private void jsOnSelect(JsonArray arguments) {
+        if (!hasListeners(AutocompleteEvents.SelectEvent.class)) {
+            return; // ignore call
+        }
+        String key = arguments.getString(0);
+        try {
+            fireSelectEvent(key);
+        } catch (NoSuchElementException ex) {
+            Logger.getLogger(AutocompleteTextFieldExtension.class.getName())
+                    .log(Level.SEVERE, "Missing suggestion key '{0}'", key);
+        }
+    }
+    
+    /**
+     * Called when hiding the suggestion container.
+     * 
+     * @param arguments Parameters from the client-side.
+     */
+    private void jsOnCloseSuggestionContainer(JsonArray arguments) {
+        suggestionTracker.clear();
+    } 
 
     /**
      * Creates an {@link AutocompleteQuery} from the given search term and the
@@ -236,24 +276,32 @@ public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension 
      * @return {@link JsonValue} representation.
      */
     protected JsonValue suggestionsToJson(Set<AutocompleteSuggestion> suggestions) {
+        final boolean hasSelectListeners
+                = hasListeners(AutocompleteEvents.SelectEvent.class);
+        suggestionTracker.clear();
         JsonArray array = Json.createArray();
         int i = 0;
         for (AutocompleteSuggestion suggestion : suggestions) {
             JsonObject object = Json.createObject();
 
+            // only track suggestion if someone is listening for select events.
+            if (hasSelectListeners) {
+                String key = suggestionTracker.addSuggestion(suggestion);
+                object.put("key", key);
+            }
+            
             String value = suggestion.getValue();
             String description = suggestion.getDescription();
             Resource icon = suggestion.getIcon();
             List<String> styleNames = suggestion.getStyleNames();
-
             object.put("value", value != null
                     ? Json.create(value) : Json.createNull());
             object.put("description", description != null
                     ? Json.create(description) : Json.createNull());
             if (icon != null) {
-                String key = "icon-" + i;
-                setResource(key, icon);
-                object.put("icon", key);
+                String resourceKey = "icon-" + i;
+                setResource(resourceKey, icon);
+                object.put("icon", resourceKey);
             } else {
                 object.put("icon", Json.createNull());
             }
@@ -482,36 +530,6 @@ public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension 
     }
 
     /**
-     * Checks if performed searches should be cached.
-     *
-     * @return Cache performed searches.
-     */
-    public boolean isCache() {
-        return getState(false).cache;
-    }
-
-    /**
-     * Sets if performed searches should be cached.
-     *
-     * @param cache Cache performed searches.
-     */
-    public void setCache(boolean cache) {
-        getState().cache = cache;
-    }
-
-    /**
-     * Sets if performed searches should be cached.
-     *
-     * @param cache Cache performed searches.
-     * @return this (for method chaining)
-     * @see #setCache(boolean)
-     */
-    public AutocompleteTextFieldExtension withCache(boolean cache) {
-        setCache(cache);
-        return this;
-    }
-
-    /**
      * Gets all user-defined CSS style names of the dropdown menu container. If
      * the component has multiple style names defined, the return string is a
      * space-separated list of style names.
@@ -665,6 +683,29 @@ public class AutocompleteTextFieldExtension extends AbstractJavaScriptExtension 
      */
     public AutocompleteTextFieldExtension withSearch(boolean typeSearch) {
         setTypeSearch(typeSearch);
+        return this;
+    }
+    
+    protected void fireSelectEvent(String key) throws NoSuchElementException {
+        fireSelectEvent(suggestionTracker.getSuggestion(key).orElseThrow(() ->
+                new NoSuchElementException("Suggestion key '" + key +
+                        "' does not exist!")));
+    }
+    
+    protected void fireSelectEvent(AutocompleteSuggestion suggestion) {
+        fireEvent(new AutocompleteEvents.SelectEvent(getParent(), suggestion));
+    }
+
+    @Override
+    public Registration addSelectListener(AutocompleteEvents.SelectListener listener) {
+        return addListener(AutocompleteEvents.SelectEvent.EVENT_ID,
+                AutocompleteEvents.SelectEvent.class, listener,
+                AutocompleteEvents.SelectListener.METHOD);
+    }
+
+    @Override
+    public AutocompleteEvents.SelectNotifier withSelectListener(AutocompleteEvents.SelectListener listener) {
+        addSelectListener(listener);
         return this;
     }
 

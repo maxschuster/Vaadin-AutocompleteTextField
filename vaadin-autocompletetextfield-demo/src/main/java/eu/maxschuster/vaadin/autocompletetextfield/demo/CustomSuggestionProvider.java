@@ -66,6 +66,8 @@ public class CustomSuggestionProvider extends CollectionSuggestionProvider {
             if (addStyleNames != null) {
                 suggestion.addStyleName(addStyleNames);
             }
+            suggestion.setData(new DemoSuggestionData(
+                    "Data of '" + suggestion.getValue() + "'"));
             ++i;
         }
         return suggestions;

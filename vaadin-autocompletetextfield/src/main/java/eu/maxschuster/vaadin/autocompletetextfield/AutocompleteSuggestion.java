@@ -46,12 +46,17 @@ import java.util.StringTokenizer;
  */
 public final class AutocompleteSuggestion implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 3L;
 
     /**
      * The actual value of the suggestion.
      */
     private String value;
+    
+    /**
+     * Optional data associated with this suggestion
+     */
+    private Object data;
 
     /**
      * Optional description of the suggestion.
@@ -118,11 +123,44 @@ public final class AutocompleteSuggestion implements Serializable {
             throw new NullPointerException("value mustn't be null!");
         }
     }
+    
+    /**
+     * Gets the data of the suggestion.
+     * 
+     * @return The data of the suggestion or {@code null}.
+     * @since 3.0
+     */
+    public Object getData() {
+        return data;
+    }
+
+    /**
+     * Sets the data of the suggestion.
+     * 
+     * @param data The data of the suggestion or {@code null}.
+     * @since 3.0
+     */
+    public void setData(Object data) {
+        this.data = data;
+    }
+    
+    /**
+     * Sets the data of the suggestion.
+     * 
+     * @param data The data of the suggestion or {@code null}.
+     * @return this (for method chaining)
+     * @since 3.0
+     * @see #setData(java.lang.Object) 
+     */
+    public AutocompleteSuggestion withData(Object data) {
+        setData(data);
+        return this;
+    }
 
     /**
      * Gets the actual {@code value} of the suggestion.
      *
-     * @return The actual {@code value} of the suggestion.
+     * @return The actual {@code value} of the suggestion or {@code null}.
      */
     public String getValue() {
         return value;
@@ -314,26 +352,6 @@ public final class AutocompleteSuggestion implements Serializable {
     public String toString() {
         return "AutocompleteSuggestion{" + "value=" + value + ", description="
                 + description + '}';
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 17 * hash + (this.value != null ? this.value.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        } else if (obj == null) {
-            return false;
-        } else if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final AutocompleteSuggestion other = (AutocompleteSuggestion) obj;
-        return !((this.value == null) ? (other.value != null) : !this.value.equals(other.value));
     }
 
 }

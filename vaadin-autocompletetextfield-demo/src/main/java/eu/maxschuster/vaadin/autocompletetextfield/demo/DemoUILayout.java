@@ -37,7 +37,7 @@ abstract class DemoUILayout extends UI {
     protected TextField minChars;
     protected TextField suggestionLimit;
     protected TextField placeholder;
-    protected CheckBox cache;
+    protected CheckBox addSelectListeners;
     protected NativeSelect<ScrollBehavior> scrollBehavior;
     protected CheckBox addDescription;
     protected NativeSelect<Icons> addIcon;

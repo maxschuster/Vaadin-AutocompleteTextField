@@ -24,7 +24,10 @@ function eu_maxschuster_vaadin_autocompletetextfield_AutocompleteTextFieldExtens
     /* jshint validthis:true */
     "use strict";
     
-    var AutoComplete = window.autoComplete;
+    var AutoComplete = window.autoComplete,
+            self = this,
+            fontIconPrefix = "fonticon://",
+            EVENT_SELECT = "autocompletefield-select";
     
     function CustomAutoComplete() {
         AutoComplete.apply(this, arguments);
@@ -56,9 +59,14 @@ function eu_maxschuster_vaadin_autocompletetextfield_AutocompleteTextFieldExtens
             scStyle.zIndex = "";
         }
     };
-
-    var self = this,
-            fontIconPrefix = "fonticon://";
+    
+    CustomAutoComplete.prototype.hide = function(instance) {
+        var visible = this.isVisible(instance);
+        AutoComplete.prototype.hide.apply(this, arguments);
+        if (visible) { // only trigger if the box was actually hidden by this call.
+            self.serverOnCloseSuggestionContainer();
+        }
+    };
 
     this.init = function () {
         this.lastResponseId = 0;
@@ -97,7 +105,7 @@ function eu_maxschuster_vaadin_autocompletetextfield_AutocompleteTextFieldExtens
             source: this.source,
             minChars: state.minChars,
             delay: state.delay,
-            cache: state.cache,
+            cache: false, // state.cache,
             menuClass: menuClass,
             renderItem: this.renderItem,
             onSelect: this.onSelect,
@@ -115,8 +123,19 @@ function eu_maxschuster_vaadin_autocompletetextfield_AutocompleteTextFieldExtens
     };
 
     this.onSelect = function (event, value, item) {
-        var textField = self.textField;
+        var textField = self.textField,
+                key = item.getAttribute('data-key');
         self.triggerEvent(textField, "change");
+        // Also check if key is set, because for some reason the event name does
+        // not get removed once it has been added
+        if (self.hasServerSideListener(EVENT_SELECT) && key) {
+            self.serverOnSelect(key);
+        }
+    };
+    
+    this.hasServerSideListener = function (event) {
+        var listeners = self.getState().registeredEventListeners;
+        return listeners && listeners.indexOf(event) > -1;
     };
 
     this.onStateChange = function () {
@@ -253,6 +272,7 @@ function eu_maxschuster_vaadin_autocompletetextfield_AutocompleteTextFieldExtens
         var escape = self.getState().itemsAsHtml,
                 valueEscaped = self.escapeHtml(item.value),
                 value = item.value,
+                key = item.key,
                 description = item.description,
                 icon = item.icon,
                 itemClass = 'autocomplete-suggestion',
@@ -277,7 +297,9 @@ function eu_maxschuster_vaadin_autocompletetextfield_AutocompleteTextFieldExtens
             classes.push.apply(classes, styleNames);
         }
 
-        var rendered = '<div class="' + classes.join(' ') + '" data-val="' + valueEscaped + '">';
+        var rendered = '<div class="' + classes.join(' ') + // classes
+                '" data-val="' + valueEscaped + '"' + // value
+                (key ? ' data-key="' + self.escapeHtml(key) + '"' : '') + '>'; // id
         rendered += '<div class="' + itemClass + '-content">';
         if (icon) {
             rendered += '<div class="' + itemClass + '-icon">';

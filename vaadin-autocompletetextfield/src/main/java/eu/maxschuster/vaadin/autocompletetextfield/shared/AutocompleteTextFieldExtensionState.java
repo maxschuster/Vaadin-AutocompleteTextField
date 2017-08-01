@@ -28,7 +28,7 @@ import java.util.List;
  */
 public class AutocompleteTextFieldExtensionState extends JavaScriptExtensionState {
     
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 3L;
 
     /**
      * Item contains safe html.
@@ -47,11 +47,6 @@ public class AutocompleteTextFieldExtensionState extends JavaScriptExtensionStat
      * lot of load.
      */
     public int delay = 150;
-
-    /**
-     * Determines if performed searches should be cached.
-     */
-    public boolean cache = true;
 
     /**
      * Custom class/es that get/s added to the dropdown menu container.
