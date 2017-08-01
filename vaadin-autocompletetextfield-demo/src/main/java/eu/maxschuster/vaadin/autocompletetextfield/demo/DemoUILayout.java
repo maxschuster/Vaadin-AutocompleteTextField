@@ -48,6 +48,7 @@ abstract class DemoUILayout extends UI {
     protected CheckBox typeSearch;
     protected Button windowTest;
     protected DemoOverlayTest demoOverlayTest;
+    protected Button getValueTest;
     
     public DemoUILayout() {
         Design.read(this);

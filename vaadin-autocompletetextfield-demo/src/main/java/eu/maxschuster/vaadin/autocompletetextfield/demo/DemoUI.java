@@ -119,6 +119,8 @@ public class DemoUI extends DemoUILayout {
 
         demoOverlayTest.setSuggestionProvider(suggestionProvider);
 
+        getValueTest.addClickListener(e -> Notification.show(
+                "getValue() = \"" + languageField.getValue() + "\""));
     }
     
     private void openTestWindow() {
