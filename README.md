@@ -51,6 +51,10 @@ Another way of debugging client-side is superdev mode. To enable it, uncomment d
  
 ## Release notes
 
+### Version 3.0-alpha-2
+- Fixed #16 getValue() on the field is not returning the selected value
+- Added #8 Ability to add suggestion select listener
+
 ### Version 3.0-alpha-1
 - Native Vaadin 8 support
 
