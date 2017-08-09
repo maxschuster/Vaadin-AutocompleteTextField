@@ -4,7 +4,7 @@ AutocompleteTextField is an UI component add-on for Vaadin 7.4 or later.
 
 ## Online demo
 
-Try the add-on demo at https://maxschuster.jelastic.servint.net/AutocompleteTextField/
+Try the add-on demo at https://vaadin.maxschuster.eu/AutocompleteTextField/
 
 ## Download release
 
