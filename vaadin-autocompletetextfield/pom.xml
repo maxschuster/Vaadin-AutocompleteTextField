@@ -5,7 +5,7 @@
     <groupId>eu.maxschuster</groupId>
     <artifactId>vaadin-autocompletetextfield</artifactId>
     <packaging>bundle</packaging>
-    <version>3.0-alpha-2</version>
+    <version>3.0-SNAPSHOT</version>
     
     <name>AutocompleteTextField Add-on</name>
     <description>Autocomplete TextField adds word completion to the Vaadin TextField.</description>
@@ -13,7 +13,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <vaadin.version>8.0.7</vaadin.version>
+        <vaadin.version>8.1.3</vaadin.version>
         <vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
 
         <!-- grunt settings -->

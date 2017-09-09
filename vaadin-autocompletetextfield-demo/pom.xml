@@ -5,12 +5,12 @@
 	<groupId>eu.maxschuster</groupId>
 	<artifactId>vaadin-autocompletetextfield-demo</artifactId>
 	<packaging>war</packaging>
-	<version>3.0-alpha-2</version>
+	<version>3.0-SNAPSHOT</version>
 	<name>AutocompleteTextField Add-on (Demo)</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<vaadin.version>8.0.7</vaadin.version>
+		<vaadin.version>8.1.3</vaadin.version>
 		<vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
 	</properties>
 
