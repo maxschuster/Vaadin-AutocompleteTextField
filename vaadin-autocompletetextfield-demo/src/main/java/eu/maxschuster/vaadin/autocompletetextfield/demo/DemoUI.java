@@ -25,6 +25,8 @@ import com.vaadin.annotations.Viewport;
 import com.vaadin.data.Binder;
 import com.vaadin.data.HasValue;
 import com.vaadin.data.converter.StringToIntegerConverter;
+import com.vaadin.event.ShortcutAction;
+import com.vaadin.event.ShortcutListener;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
@@ -75,6 +77,17 @@ public class DemoUI extends DemoUILayout {
                 .withMinChars(1)
                 .withSuggestionLimit(5)
                 .withValueChangeListener(this::onAutocompleteValueChange);
+        
+        languageField.addShortcutListener(new ShortcutListener(
+                "Test enter shortcut", ShortcutAction.KeyCode.ENTER, new int[0]) {
+            @Override
+            public void handleAction(Object sender, Object target) {
+                Notification n = new Notification(
+                        "Enter shortcut action", Notification.Type.TRAY_NOTIFICATION);
+                n.setPosition(Position.TOP_RIGHT);
+                n.show(Page.getCurrent());
+            }
+        });
 
         scrollBehavior.setItems(ScrollBehavior.values());
         scrollBehavior.setEmptySelectionAllowed(false);
