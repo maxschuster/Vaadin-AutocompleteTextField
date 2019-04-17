@@ -218,7 +218,8 @@ function eu_maxschuster_vaadin_autocompletetextfield_AutocompleteTextFieldExtens
     this.onUnregister = function () {
         this.autoComplete.destroy();
         if (this.scrollListener) {
-            this.removeEvent(window, "scroll", this.onScroll, true);
+            window.removeEventListener("scroll", this.onScroll, true);
+            this.scrollListener = false;
         }
     };
 
